@@ -1,0 +1,23 @@
+{
+  "run_id": "sweep_VP_muon_lr0.02",
+  "optimizer": "muon",
+  "lr": 0.02,
+  "dataset": "cifar10n20",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "batch": 128,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "ctl_mode": null,
+  "ctl_signals": null,
+  "steps": 2000,
+  "n_params": 4753152,
+  "task": "vision",
+  "final_val": 1.5585582733154297,
+  "best_val": 1.4984745025634765,
+  "retain_val": null,
+  "final_acc": 0.462890625,
+  "best_acc": 0.480078125,
+  "wall_s": 56.72371864318848,
+  "tok_per_s": 1155354.4366906509
+}

@@ -1,0 +1,17 @@
+{
+  "run_id": "ft_sweep_F2_adamw_lr0.001",
+  "optimizer": "adamw",
+  "lr": 0.001,
+  "dataset": "shakespeare_bytes",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "batch": 8,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "steps": 1500,
+  "final_val": 1.390702921152115,
+  "best_val": 1.3708771407604217,
+  "retain_val": 3.1729175567626955,
+  "wall_s": 15.017226219177246,
+  "tok_per_s": 204565.07447940056
+}

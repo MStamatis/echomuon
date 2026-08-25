@@ -1,0 +1,20 @@
+{
+  "run_id": "final_B_spectralmuon_s4",
+  "optimizer": "muon",
+  "lr": 0.08,
+  "dataset": "enwik8",
+  "seed": 4,
+  "grad_noise": 1.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "srank",
+  "ctl_signals": "rank,conf,valve",
+  "steps": 4000,
+  "n_params": 10916736,
+  "final_val": 1.1992188036441802,
+  "best_val": 1.1992188036441802,
+  "retain_val": null,
+  "wall_s": 226.41072845458984,
+  "tok_per_s": 289456.2481527648
+}

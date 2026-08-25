@@ -1,0 +1,17 @@
+{
+  "run_id": "ft_final_F1_adamw_s1",
+  "optimizer": "adamw",
+  "lr": 0.0001,
+  "dataset": "shakespeare_bytes",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "steps": 3000,
+  "final_val": 1.5237497687339783,
+  "best_val": 1.3365461945533752,
+  "retain_val": 2.2274983644485475,
+  "wall_s": 97.78615593910217,
+  "tok_per_s": 502647.83933842496
+}

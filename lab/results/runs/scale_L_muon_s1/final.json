@@ -1,0 +1,19 @@
+{
+  "run_id": "scale_L_muon_s1",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "enwik8",
+  "seed": 1,
+  "grad_noise": 1.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "ctl_mode": null,
+  "steps": 4000,
+  "n_params": 113861376,
+  "final_val": 1.0724033415317535,
+  "best_val": 1.0724033415317535,
+  "retain_val": null,
+  "wall_s": 1139.8820292949677,
+  "tok_per_s": 57493.668919874886
+}

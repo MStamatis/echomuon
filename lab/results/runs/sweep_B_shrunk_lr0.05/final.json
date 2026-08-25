@@ -1,0 +1,14 @@
+{
+  "run_id": "sweep_B_shrunk_lr0.05",
+  "optimizer": "shrunk",
+  "lr": 0.05,
+  "dataset": "enwik8",
+  "seed": 1,
+  "grad_noise": 1.0,
+  "spectral_lr": false,
+  "steps": 1500,
+  "final_val": 1.5335180103778838,
+  "best_val": 1.5335180103778838,
+  "wall_s": 497.19519543647766,
+  "tok_per_s": 49429.27893425282
+}

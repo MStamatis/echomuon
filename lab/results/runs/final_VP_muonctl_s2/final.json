@@ -1,0 +1,23 @@
+{
+  "run_id": "final_VP_muonctl_s2",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "cifar10n20",
+  "seed": 2,
+  "grad_noise": 0.0,
+  "batch": 128,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "srank",
+  "ctl_signals": "rank",
+  "steps": 6000,
+  "n_params": 4753152,
+  "task": "vision",
+  "final_val": 0.7839267253875732,
+  "best_val": 0.7839267253875732,
+  "retain_val": null,
+  "final_acc": 0.76796875,
+  "best_acc": 0.76796875,
+  "wall_s": 235.82901120185852,
+  "tok_per_s": 833688.777296839
+}

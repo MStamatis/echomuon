@@ -1,0 +1,18 @@
+{
+  "run_id": "final_B_muonctlshuf_s3",
+  "optimizer": "muon",
+  "lr": 0.02,
+  "dataset": "enwik8",
+  "seed": 3,
+  "grad_noise": 1.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "shuffled",
+  "steps": 4000,
+  "final_val": 1.1720448970794677,
+  "best_val": 1.1720448970794677,
+  "retain_val": null,
+  "wall_s": 211.77264952659607,
+  "tok_per_s": 309463.94705124316
+}

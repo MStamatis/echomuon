@@ -1,0 +1,14 @@
+{
+  "run_id": "sweep_B_muon_lr0.05",
+  "optimizer": "muon",
+  "lr": 0.05,
+  "dataset": "enwik8",
+  "seed": 1,
+  "grad_noise": 1.0,
+  "spectral_lr": false,
+  "steps": 1500,
+  "final_val": 2.711754870414734,
+  "best_val": 2.08429536819458,
+  "wall_s": 58.75647330284119,
+  "tok_per_s": 418268.8071377426
+}

@@ -1,0 +1,20 @@
+{
+  "run_id": "final_C2_muon_s6",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "enwik8",
+  "seed": 6,
+  "grad_noise": 0.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "ctl_mode": null,
+  "ctl_signals": null,
+  "steps": 4000,
+  "n_params": 10916736,
+  "final_val": 1.199886256456375,
+  "best_val": 1.1624287784099578,
+  "retain_val": null,
+  "wall_s": 175.26743578910828,
+  "tok_per_s": 373920.00233777956
+}

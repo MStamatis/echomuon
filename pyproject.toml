@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "echomuon"
+version = "0.1.0"
+description = "EchoMuon: Muon with a per-direction temporal trust gate and a memorization-gap controller. Better than scheduled Muon wherever data are imperfect."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Stamatis Mastromichalakis", email = "stamatis@tmnetworks.gr" }]
+keywords = ["optimizer", "muon", "deep-learning", "pytorch", "label-noise", "orthogonalization"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = ["torch>=2.0"]
+
+[project.urls]
+Homepage = "https://github.com/MStamatis/echomuon"
+Paper = "https://arxiv.org/abs/ARXIV-PLACEHOLDER"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,14 @@
+{
+  "run_id": "final_A_shrunk_s2",
+  "optimizer": "shrunk",
+  "lr": 0.02,
+  "dataset": "enwik8",
+  "seed": 2,
+  "grad_noise": 0.0,
+  "spectral_lr": false,
+  "steps": 4000,
+  "final_val": 1.1160415232181549,
+  "best_val": 1.1160415232181549,
+  "wall_s": 1697.3654053211212,
+  "tok_per_s": 38610.425188677254
+}

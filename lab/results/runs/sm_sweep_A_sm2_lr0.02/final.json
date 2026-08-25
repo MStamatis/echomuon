@@ -1,0 +1,23 @@
+{
+  "run_id": "sm_sweep_A_sm2_lr0.02",
+  "optimizer": "muon",
+  "lr": 0.02,
+  "dataset": "enwik8",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "srank",
+  "ctl_signals": "rank,conf2,valve",
+  "steps": 1500,
+  "n_params": 10916736,
+  "task": "lm",
+  "final_val": 1.1642543077468872,
+  "best_val": 1.1642543077468872,
+  "retain_val": null,
+  "final_acc": null,
+  "best_acc": null,
+  "wall_s": 75.6893105506897,
+  "tok_per_s": 324695.78360792797
+}

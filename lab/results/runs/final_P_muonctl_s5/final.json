@@ -1,0 +1,20 @@
+{
+  "run_id": "final_P_muonctl_s5",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "enwik8p10",
+  "seed": 5,
+  "grad_noise": 0.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "srank",
+  "ctl_signals": "rank",
+  "steps": 4000,
+  "n_params": 10916736,
+  "final_val": 1.2321686446666718,
+  "best_val": 1.2321686446666718,
+  "retain_val": null,
+  "wall_s": 192.4346261024475,
+  "tok_per_s": 340562.409829041
+}

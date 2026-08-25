@@ -1,0 +1,20 @@
+{
+  "run_id": "final_C_muon_s4",
+  "optimizer": "muon",
+  "lr": 0.03,
+  "dataset": "enwik8",
+  "seed": 4,
+  "grad_noise": 0.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "ctl_mode": null,
+  "ctl_signals": null,
+  "steps": 4000,
+  "n_params": 10916736,
+  "final_val": 1.090184086561203,
+  "best_val": 1.090184086561203,
+  "retain_val": null,
+  "wall_s": 178.16135787963867,
+  "tok_per_s": 367846.3207732985
+}

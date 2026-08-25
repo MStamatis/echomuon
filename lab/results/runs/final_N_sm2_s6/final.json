@@ -1,0 +1,20 @@
+{
+  "run_id": "final_N_sm2_s6",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "enwik8",
+  "seed": 6,
+  "grad_noise": 0.0,
+  "batch": 8,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "srank",
+  "ctl_signals": "rank,conf2,valve",
+  "steps": 8000,
+  "n_params": 10916736,
+  "final_val": 1.1862643927335739,
+  "best_val": 1.185670053958893,
+  "retain_val": null,
+  "wall_s": 340.98691725730896,
+  "tok_per_s": 48048.76425108305
+}

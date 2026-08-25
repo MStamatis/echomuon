@@ -1,0 +1,17 @@
+{
+  "run_id": "pretrain_base",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "enwik8",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "steps": 6000,
+  "final_val": 1.0467138558626174,
+  "best_val": 1.0467138558626174,
+  "retain_val": null,
+  "wall_s": 178.08648371696472,
+  "tok_per_s": 552001.4655140021
+}

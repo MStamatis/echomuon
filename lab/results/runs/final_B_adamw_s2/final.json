@@ -1,0 +1,14 @@
+{
+  "run_id": "final_B_adamw_s2",
+  "optimizer": "adamw",
+  "lr": 0.002,
+  "dataset": "enwik8",
+  "seed": 2,
+  "grad_noise": 1.0,
+  "spectral_lr": false,
+  "steps": 4000,
+  "final_val": 1.2181776583194732,
+  "best_val": 1.2181776583194732,
+  "wall_s": 161.91799473762512,
+  "tok_per_s": 404748.0955170902
+}

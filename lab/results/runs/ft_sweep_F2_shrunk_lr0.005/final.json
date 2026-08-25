@@ -1,0 +1,17 @@
+{
+  "run_id": "ft_sweep_F2_shrunk_lr0.005",
+  "optimizer": "shrunk",
+  "lr": 0.005,
+  "dataset": "shakespeare_bytes",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "batch": 8,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "steps": 1500,
+  "final_val": 1.3590429902076722,
+  "best_val": 1.3543837428092957,
+  "retain_val": 3.00420458316803,
+  "wall_s": 547.7336752414703,
+  "tok_per_s": 5608.56514554395
+}

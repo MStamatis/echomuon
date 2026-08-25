@@ -1,0 +1,17 @@
+{
+  "run_id": "ft_sweep_F2_muon_lr0.005",
+  "optimizer": "muon",
+  "lr": 0.005,
+  "dataset": "shakespeare_bytes",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "batch": 8,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "steps": 1500,
+  "final_val": 1.4296999096870422,
+  "best_val": 1.3568433940410614,
+  "retain_val": 3.3823500633239747,
+  "wall_s": 42.22014045715332,
+  "tok_per_s": 72761.48223897048
+}

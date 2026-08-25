@@ -1,0 +1,20 @@
+{
+  "run_id": "ft_final_F2_muonlow_s4",
+  "optimizer": "muon",
+  "lr": 0.001,
+  "dataset": "shakespeare_bytes",
+  "seed": 4,
+  "grad_noise": 0.0,
+  "batch": 8,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "ctl_mode": null,
+  "ctl_signals": null,
+  "steps": 3000,
+  "n_params": 10916736,
+  "final_val": 1.385212504863739,
+  "best_val": 1.3376156091690063,
+  "retain_val": 3.0460267186164858,
+  "wall_s": 118.83287930488586,
+  "tok_per_s": 51702.86233860015
+}

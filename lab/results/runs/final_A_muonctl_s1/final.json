@@ -1,0 +1,14 @@
+{
+  "run_id": "final_A_muonctl_s1",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "enwik8",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "spectral_lr": true,
+  "steps": 4000,
+  "final_val": 1.07600656747818,
+  "best_val": 1.07600656747818,
+  "wall_s": 189.45715165138245,
+  "tok_per_s": 345914.62728518114
+}

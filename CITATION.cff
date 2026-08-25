@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use EchoMuon, please cite the preprint."
+title: "EchoMuon: Better Than Scheduled Muon Wherever Data Are Imperfect"
+authors:
+  - family-names: Mastromichalakis
+    given-names: Stamatis
+    orcid: "https://orcid.org/0000-0003-1713-5078"
+year: 2026
+url: "https://github.com/MStamatis/echomuon"

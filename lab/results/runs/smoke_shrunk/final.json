@@ -1,0 +1,14 @@
+{
+  "run_id": "smoke_shrunk",
+  "optimizer": "shrunk",
+  "lr": 0.02,
+  "dataset": "shakespeare",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "spectral_lr": false,
+  "steps": 200,
+  "final_val": 1.6801897168159485,
+  "best_val": 1.6801897168159485,
+  "wall_s": 84.50470733642578,
+  "tok_per_s": 38776.538056685684
+}

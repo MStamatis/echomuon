@@ -1,0 +1,14 @@
+{
+  "run_id": "smoke_adamw",
+  "optimizer": "adamw",
+  "lr": 0.002,
+  "dataset": "shakespeare",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "spectral_lr": false,
+  "steps": 200,
+  "final_val": 2.520490264892578,
+  "best_val": 2.520490264892578,
+  "wall_s": 5.781449794769287,
+  "tok_per_s": 566778.2504943059
+}

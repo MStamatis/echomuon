@@ -1,0 +1,20 @@
+{
+  "run_id": "sm_sweep_B_spectralmuon_lr0.16",
+  "optimizer": "muon",
+  "lr": 0.16,
+  "dataset": "enwik8",
+  "seed": 1,
+  "grad_noise": 1.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "srank",
+  "ctl_signals": "rank,conf,valve",
+  "steps": 2000,
+  "n_params": 10916736,
+  "final_val": 1.5490432560443879,
+  "best_val": 1.5490432560443879,
+  "retain_val": null,
+  "wall_s": 100.55275177955627,
+  "tok_per_s": 325878.6996882782
+}

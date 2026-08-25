@@ -1,0 +1,19 @@
+{
+  "run_id": "scale_M_muon_s3",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "enwik8",
+  "seed": 3,
+  "grad_noise": 1.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "ctl_mode": null,
+  "steps": 4000,
+  "n_params": 38154752,
+  "final_val": 1.1042440831661224,
+  "best_val": 1.1042440831661224,
+  "retain_val": null,
+  "wall_s": 510.72110962867737,
+  "tok_per_s": 128320.52320619431
+}

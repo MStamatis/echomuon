@@ -1,0 +1,23 @@
+{
+  "run_id": "final_VA_muon_s7",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "cifar10",
+  "seed": 7,
+  "grad_noise": 0.0,
+  "batch": 128,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "ctl_mode": null,
+  "ctl_signals": null,
+  "steps": 6000,
+  "n_params": 4753152,
+  "task": "vision",
+  "final_val": 0.6156241357326507,
+  "best_val": 0.5298059314489365,
+  "retain_val": null,
+  "final_acc": 0.79375,
+  "best_acc": 0.81328125,
+  "wall_s": 240.40495228767395,
+  "tok_per_s": 817820.0911798791
+}

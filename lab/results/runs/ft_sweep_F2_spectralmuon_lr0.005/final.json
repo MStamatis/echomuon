@@ -1,0 +1,20 @@
+{
+  "run_id": "ft_sweep_F2_spectralmuon_lr0.005",
+  "optimizer": "muon",
+  "lr": 0.005,
+  "dataset": "shakespeare_bytes",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "batch": 8,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "srank",
+  "ctl_signals": "rank,conf,valve",
+  "steps": 1500,
+  "n_params": 10916736,
+  "final_val": 1.3443561136722564,
+  "best_val": 1.3443561136722564,
+  "retain_val": 2.6063148260116575,
+  "wall_s": 68.66615915298462,
+  "tok_per_s": 44738.194736591344
+}

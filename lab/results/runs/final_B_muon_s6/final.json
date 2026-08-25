@@ -1,0 +1,18 @@
+{
+  "run_id": "final_B_muon_s6",
+  "optimizer": "muon",
+  "lr": 0.02,
+  "dataset": "enwik8",
+  "seed": 6,
+  "grad_noise": 1.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "ctl_mode": null,
+  "steps": 4000,
+  "final_val": 1.1713823199272155,
+  "best_val": 1.1713823199272155,
+  "retain_val": null,
+  "wall_s": 215.68642568588257,
+  "tok_per_s": 303848.5143030935
+}

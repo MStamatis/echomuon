@@ -1,0 +1,20 @@
+{
+  "run_id": "ft_final_F2_muon_s6",
+  "optimizer": "muon",
+  "lr": 0.002,
+  "dataset": "shakespeare_bytes",
+  "seed": 6,
+  "grad_noise": 0.0,
+  "batch": 8,
+  "muon_wd": 0.0,
+  "spectral_lr": false,
+  "ctl_mode": null,
+  "ctl_signals": null,
+  "steps": 3000,
+  "n_params": 10916736,
+  "final_val": 1.5069134473800658,
+  "best_val": 1.340006136894226,
+  "retain_val": 3.592234969139099,
+  "wall_s": 113.43881440162659,
+  "tok_per_s": 54161.35590281612
+}

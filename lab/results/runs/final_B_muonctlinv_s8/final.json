@@ -1,0 +1,18 @@
+{
+  "run_id": "final_B_muonctlinv_s8",
+  "optimizer": "muon",
+  "lr": 0.02,
+  "dataset": "enwik8",
+  "seed": 8,
+  "grad_noise": 1.0,
+  "batch": 64,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "inverse",
+  "steps": 4000,
+  "final_val": 1.1804214715957642,
+  "best_val": 1.1804214715957642,
+  "retain_val": null,
+  "wall_s": 214.42675876617432,
+  "tok_per_s": 305633.4963840262
+}

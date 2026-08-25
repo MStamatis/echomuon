@@ -1,0 +1,20 @@
+{
+  "run_id": "ft_final_F2_sm2low_s2",
+  "optimizer": "muon",
+  "lr": 0.001,
+  "dataset": "shakespeare_bytes",
+  "seed": 2,
+  "grad_noise": 0.0,
+  "batch": 8,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "srank",
+  "ctl_signals": "rank,conf2,valve",
+  "steps": 3000,
+  "n_params": 10916736,
+  "final_val": 1.3787925481796264,
+  "best_val": 1.340256816148758,
+  "retain_val": 3.128216254711151,
+  "wall_s": 112.2464485168457,
+  "tok_per_s": 54736.698409463905
+}

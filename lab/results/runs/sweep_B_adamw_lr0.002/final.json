@@ -1,0 +1,14 @@
+{
+  "run_id": "sweep_B_adamw_lr0.002",
+  "optimizer": "adamw",
+  "lr": 0.002,
+  "dataset": "enwik8",
+  "seed": 1,
+  "grad_noise": 1.0,
+  "spectral_lr": false,
+  "steps": 1500,
+  "final_val": 1.4122732281684875,
+  "best_val": 1.4122732281684875,
+  "wall_s": 36.28837728500366,
+  "tok_per_s": 677241.6359922532
+}

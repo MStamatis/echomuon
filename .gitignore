@@ -1,0 +1,15 @@
+paper/
+__pycache__/
+*.pyc
+dist/
+build/
+*.egg-info/
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+lab/data/
+lab/paper_figs/
+lab/results/runs/*/ckpt.pt
+lab/results/runs/*/monitor*

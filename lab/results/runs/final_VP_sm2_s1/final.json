@@ -1,0 +1,23 @@
+{
+  "run_id": "final_VP_sm2_s1",
+  "optimizer": "muon",
+  "lr": 0.01,
+  "dataset": "cifar10n20",
+  "seed": 1,
+  "grad_noise": 0.0,
+  "batch": 128,
+  "muon_wd": 0.0,
+  "spectral_lr": true,
+  "ctl_mode": "srank",
+  "ctl_signals": "rank,conf2,valve",
+  "steps": 6000,
+  "n_params": 4753152,
+  "task": "vision",
+  "final_val": 0.7746199131011963,
+  "best_val": 0.7746199131011963,
+  "retain_val": null,
+  "final_acc": 0.75390625,
+  "best_acc": 0.76171875,
+  "wall_s": 244.87254118919373,
+  "tok_per_s": 802899.3330374943
+}

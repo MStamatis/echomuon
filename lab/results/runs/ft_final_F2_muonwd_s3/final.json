@@ -1,0 +1,17 @@
+{
+  "run_id": "ft_final_F2_muonwd_s3",
+  "optimizer": "muon",
+  "lr": 0.002,
+  "dataset": "shakespeare_bytes",
+  "seed": 3,
+  "grad_noise": 0.0,
+  "batch": 8,
+  "muon_wd": 0.1,
+  "spectral_lr": false,
+  "steps": 3000,
+  "final_val": 1.5051285922527313,
+  "best_val": 1.3464211463928222,
+  "retain_val": 3.634093475341797,
+  "wall_s": 122.46011805534363,
+  "tok_per_s": 50171.436199525226
+}
