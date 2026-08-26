@@ -172,13 +172,15 @@ class EchoMuon(torch.optim.Optimizer):
 
 
 class MemorizationGapController:
-    """Drives ``EchoMuon.gate_lambda`` from a measured memorization gap.
+    """Drives ``EchoMuon.gate_lambda`` from a measured short-horizon retention gap.
 
-    The signal: re-evaluate, under the CURRENT weights, batches the model
-    trained on a few hundred steps ago, alongside fresh batches. The gap
-    (fresh loss - re-seen loss) is memorization, measured on the model itself;
-    lambda = clip(gap / (target_frac * fresh_loss), 0, 1), EMA-smoothed. On
-    clean data the gap vanishes and EchoMuon relaxes to exactly plain Muon.
+    The signal: re-evaluate, under the CURRENT weights, the oldest of the last
+    few training batches (with the example below, batches trained on 4-7 steps
+    earlier), alongside fresh batches. The gap (fresh loss - re-seen loss) is a
+    short-horizon retention signal -- how much of the last handful of updates
+    has not yet spread to the rest of the data distribution;
+    lambda = clip(gap / (target_frac * fresh_loss), 0, 1), EMA-smoothed. When
+    the gap vanishes EchoMuon relaxes to exactly plain Muon.
 
     The controller does not run the forward passes itself -- your training
     loop supplies the two loss values (this keeps the package framework-free).
