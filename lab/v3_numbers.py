@@ -301,7 +301,7 @@ R["selection_noise"] = dict(
         test_at_0005=(lambda s: sum(v["final_acc"] for v in s.values()) / len(s) * 100
                       if s else None)(seeds_of("final_V100Av_auto2")),
         test_at_001=(lambda s: sum(v["final_acc"] for v in s.values()) / len(s) * 100
-                     if s else None)(seeds_of("final_V100Am_auto2"))),
+                     if s else None)(seeds_of("final_V100Aw_auto2"))),
     gaps=[dict(cell=g["cell"], arm=g["arm"],
                val_gap=g["val_selected"]["gap"] if g["val_selected"] else None,
                recheck_gap=g["split_recheck"]["gap"] if g["split_recheck"] else None)
