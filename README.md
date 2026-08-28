@@ -7,7 +7,7 @@
 > **This is a research prototype at an experimental stage, not a production optimizer.**
 >
 > The claims in earlier versions of this package were substantially overstated. A
-> systematic audit of our own results (1,700+ runs, all released) found that a large
+> systematic audit of our own results (1,815 runs, all released) found that a large
 > part of the originally reported advantage was an artifact of **learning-rate
 > selection**, and cut the vision numbers by 42–80%. The mechanism is real and
 > survives norm-matched controls on one benchmark; its useful regime is narrow, and
@@ -29,23 +29,35 @@ proportion to a measured retention gap λ ∈ [0, 1].
 
 ### What the gate actually does to the step
 
-Earlier documentation claimed the gate was mean-1 and therefore "cannot act as a
-disguised learning-rate schedule". **That was wrong, and our own logs show it.** The
-multiplier is clipped at 1.0 and never exceeds it (0 of 5,760 logged layer-steps),
-with mean ≈ 0.957. It is a **contraction**, not a reallocation.
+Earlier documentation described the gate as mean-1, and therefore unable to act as a
+disguised learning-rate schedule. The logs say otherwise: the multiplier is clipped at
+1.0 and never exceeds it (0 of 5,760 logged layer-steps), with mean ≈ 0.957. It is a
+**contraction**, not a reallocation.
 
-The measurable consequence: **EchoMuon's optimal learning rate is consistently 2×
-Muon's** — observed in five independent settings (byte-LM at 38M and 114M, CIFAR-10
-at 24k steps, CIFAR-100, FineWeb at 3× budget). Sweep its learning rate separately
-from Muon's. A grid centred on Muon's optimum will mis-set it, and a grid that sits
-too high for *both* arms will flatter EchoMuon.
+The measurable consequence is that **EchoMuon sits higher on the learning-rate axis than
+Muon**. Normalising each arm to its own optimum, across four cells with 3-seed sweeps:
+
+| learning rate | Muon penalty | EchoMuon penalty | |
+|---|---|---|---|
+| **half** the optimum | +0.072 | **+0.113** | EchoMuon 1.6× worse |
+| **double** the optimum | +0.063 | **+0.017** | EchoMuon 3.7× better |
+
+This holds in all four cells and in both directions. The window has **shifted up, not
+widened**. Sweep EchoMuon's learning rate separately from Muon's: a grid that sits too
+high for *both* arms flatters EchoMuon by roughly 0.046 in validation loss, which is
+comparable to the margins being measured.
+
+(An earlier version of this file claimed the optimum was consistently exactly 2×
+Muon's. Our learning-rate grids are geometric with ratio 2, so any difference in the
+discrete pick is necessarily "2×"; that number measured grid resolution rather than
+the shift. The table above is the continuous measurement.)
 
 ## What the audit established
 
 | Setting | Result | Status |
 |---|---|---|
-| Tiny ImageNet (clean + 20% label noise) | **+1.65 pp** vs lr-matched Muon (t=+7.4, n=8 paired) | Verified: the lr optimum is interior, and a norm-matched scalar control reproduces only **9%** of the gain — the effect is **directional**, not step-size |
-| CIFAR-10 / CIFAR-100 | +0.3 to +0.7 pp | **Not individually resolved** — below the noise of single-seed lr selection |
+| Tiny ImageNet (clean + 20% label noise) | **+1.65 pp** vs lr-matched Muon (t=+7.4, n=8 paired) | Verified: the lr optimum is interior, and a norm-matched scalar control carrying the same average contraction reproduces only **30%** of the gain (EchoMuon beats it at t=+4.1), so the effect is **directional**, not step-size |
+| CIFAR-10 / CIFAR-100 (4 cells) | +0.26 to +0.57 pp per cell; pooled **+0.35 pp** (95% CI +0.12 to +0.58) | **No single cell reaches significance**; the family-level effect does. Single-seed lr selection flipped one pick with a 1.45 pp consequence on test accuracy, which 3-seed selection corrected |
 | FineWeb LM, 0.3 tok/param | −0.031 nats (t=−6.3) | Holds at this budget |
 | FineWeb LM, 0.9 tok/param | −0.003 nats (t=−0.9) | **The LM advantage vanishes with token budget** |
 | enwik8 bytes, clean, 38M | −0.0030 nats (t=−10.1) | Holds |
@@ -86,7 +98,7 @@ hidden = [p for n, p in model.named_parameters()
 others = [p for n, p in model.named_parameters()
           if not any(p is h for h in hidden)]
 
-opt = EchoMuon(hidden, lr=0.02)   # sweep separately - expect ~2x Muon's optimum
+opt = EchoMuon(hidden, lr=0.02)   # sweep separately from Muon's; see note above
 aux = torch.optim.AdamW(others, lr=3e-4, betas=(0.9, 0.95), weight_decay=0.1)
 ```
 
@@ -154,21 +166,6 @@ learning rate — separately from Muon's.
 - **Largest model tested: 162M parameters.** Nothing here has been tested at
   production scale.
 
-## Citation
-
-```bibtex
-@misc{mastromichalakis2026echomuon,
-  title  = {EchoMuon: Cross-Timescale Gating of Muon's Singular Directions},
-  author = {Mastromichalakis, Stamatis},
-  year   = {2026},
-  note   = {Preprint; experimental research code}
-}
-```
-
-## License
-
-MIT
-
 ## Paper
 
 Not currently on arXiv. The paper's figures and tables are generated directly from
@@ -181,7 +178,7 @@ the report scripts under `lab/`.
 src/echomuon/   the pip package: EchoMuon optimizer + MemorizationGapController
 tests/          CPU test suite (python tests/test_echomuon.py)
 lab/            the full experiment pipeline (single RTX 5090, Docker, step-resumable)
-lab/results/    final.json + config.json for all 1,763 runs, including the audit
+lab/results/    final.json + config.json for all 1,815 runs, including the audit
 ```
 
 ## The audit is part of the artifact
@@ -219,3 +216,18 @@ docker run --gpus all -v $PWD:/lab optlab <stage>   # stages listed in run_exper
 
 Runs are step-level resumable; sweeps, finals, controls and audits are separate
 stages with pre-registered predictions recorded in their docstrings.
+
+## Citation
+
+```bibtex
+@misc{mastromichalakis2026echomuon,
+  title  = {EchoMuon: Cross-Timescale Gating of Muon's Singular Directions},
+  author = {Mastromichalakis, Stamatis},
+  year   = {2026},
+  note   = {Preprint; experimental research code}
+}
+```
+
+## License
+
+MIT
