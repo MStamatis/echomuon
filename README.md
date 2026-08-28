@@ -1,44 +1,81 @@
 # EchoMuon
 
-**Muon with a per-direction temporal trust gate and a memorization-gap controller.
-Better than scheduled Muon wherever data are imperfect; ties it everywhere else.**
+**Muon with a per-direction cross-timescale trust gate.**
 
-[Muon](https://kellerjordan.github.io/posts/muon/) orthogonalizes the momentum of
-2-D hidden weight matrices, giving every singular direction of the update exactly
-equal trust. EchoMuon prices that trust by each direction's *echo* — its support in
-a second, slower momentum buffer (β=0.99 next to Muon's 0.95). Persistent signal
-appears in both buffers; noise flickers in the fast one and leaves no trace in the
-slow one. The gate:
+> ## Experimental status — read this first
+>
+> **This is a research prototype at an experimental stage, not a production optimizer.**
+>
+> The claims in earlier versions of this package were substantially overstated. A
+> systematic audit of our own results (1,700+ runs, all released) found that a large
+> part of the originally reported advantage was an artifact of **learning-rate
+> selection**, and cut the vision numbers by 42–80%. The mechanism is real and
+> survives norm-matched controls on one benchmark; its useful regime is narrow, and
+> both facts are documented below. **Do not adopt this in place of a properly tuned
+> Muon or AdamW baseline without measuring it on your own task.** It is also
+> **single-GPU only**.
 
-- scores each singular direction by cross-timescale **agreement**
-  `c_i = uᵢᵀ M₂M₁ᵀ uᵢ / σᵢ²` — *not* by magnitude, so a large direction sustained by
-  a few noisy batches is damped while a small persistent one is trusted;
-- is **median-normalized per layer** (mean ≈ 1): trust is reallocated across
-  directions at constant total step, so the gate cannot act as a disguised
-  learning-rate schedule;
-- is engaged in proportion to a **measured memorization gap** λ ∈ [0, 1]: the loss
-  on fresh batches minus the loss on batches seen a few hundred steps ago, under
-  the same current weights. At λ=0 EchoMuon *is* Muon, structurally — never worse
-  by construction on clean data.
+[Muon](https://kellerjordan.github.io/posts/muon/) orthogonalizes the momentum of 2-D
+hidden weight matrices, giving every singular direction of the update equal trust.
+EchoMuon prices that trust by each direction's *echo* — its support in a second,
+slower momentum buffer (β=0.99 next to Muon's 0.95). Persistent signal appears in
+both buffers; noise flickers in the fast one and leaves little trace in the slow one.
 
-Headline results (paired seeds, schedule parity, per-arm lr sweeps): **+0.9 to
-+1.8pp** over scheduled Muon on six vision cells (CIFAR-10/100, Tiny ImageNet,
-clean and 20% label noise), **−0.031 nats (t=−6.3)** on a LLaMA-style 162M
-transformer on FineWeb-Edu, Muon-tier quality in 80–85% of Muon's steps in every
-seed, ~13% step overhead at 162M with the fast profile. See the paper for the
-boundaries (byte-level LMs, SSMs, strong augmentation recipes) — they are reported,
-measured, and part of the result.
+The gate scores each singular direction by cross-timescale **agreement**,
+`c_i = uᵢᵀ M₂M₁ᵀ uᵢ / σᵢ²` — *not* by magnitude, so a large direction sustained by a
+few noisy batches is damped while a small persistent one is trusted. Scores are
+referenced to the layer median and clipped to `[0.1, 1.0]`, then engaged in
+proportion to a measured retention gap λ ∈ [0, 1].
+
+### What the gate actually does to the step
+
+Earlier documentation claimed the gate was mean-1 and therefore "cannot act as a
+disguised learning-rate schedule". **That was wrong, and our own logs show it.** The
+multiplier is clipped at 1.0 and never exceeds it (0 of 5,760 logged layer-steps),
+with mean ≈ 0.957. It is a **contraction**, not a reallocation.
+
+The measurable consequence: **EchoMuon's optimal learning rate is consistently 2×
+Muon's** — observed in five independent settings (byte-LM at 38M and 114M, CIFAR-10
+at 24k steps, CIFAR-100, FineWeb at 3× budget). Sweep its learning rate separately
+from Muon's. A grid centred on Muon's optimum will mis-set it, and a grid that sits
+too high for *both* arms will flatter EchoMuon.
+
+## What the audit established
+
+| Setting | Result | Status |
+|---|---|---|
+| Tiny ImageNet (clean + 20% label noise) | **+1.65 pp** vs lr-matched Muon (t=+7.4, n=8 paired) | Verified: the lr optimum is interior, and a norm-matched scalar control reproduces only **9%** of the gain — the effect is **directional**, not step-size |
+| CIFAR-10 / CIFAR-100 | +0.3 to +0.7 pp | **Not individually resolved** — below the noise of single-seed lr selection |
+| FineWeb LM, 0.3 tok/param | −0.031 nats (t=−6.3) | Holds at this budget |
+| FineWeb LM, 0.9 tok/param | −0.003 nats (t=−0.9) | **The LM advantage vanishes with token budget** |
+| enwik8 bytes, clean, 38M | −0.0030 nats (t=−10.1) | Holds |
+| enwik8 bytes, 10% corrupted | loses | Input-stream corruption is a separate, adverse regime |
+| Mamba-2 SSM | ties Muon; AdamW beats the whole Muon family | Adverse |
+
+**The margin follows a measured law.** Across ten vision cells spanning three
+datasets, four label-noise levels, two budgets and two profiles, the advantage
+scales with how far the model is from the quality it can reach:
+
+```
+margin (pp)  ~  0.027 x (baseline error rate %)  -  0.28
+```
+
+It crosses zero at roughly **90% accuracy**. Above that, expect nothing. The LM
+budget ladder points the same way. This is the single most useful thing to know
+before trying it.
 
 ## Install
 
 ```bash
-pip install echomuon
+pip install echomuon          # released package
+# or, for the full experiment pipeline:
+git clone https://github.com/MStamatis/echomuon && cd echomuon
 ```
 
 ## Usage
 
-EchoMuon handles only the 2-D hidden matrices, exactly like Muon; route
-embeddings, heads, gains and biases to AdamW:
+EchoMuon handles only the 2-D hidden matrices, exactly like Muon; route embeddings,
+heads, gains and biases to AdamW:
 
 ```python
 import torch
@@ -49,12 +86,12 @@ hidden = [p for n, p in model.named_parameters()
 others = [p for n, p in model.named_parameters()
           if not any(p is h for h in hidden)]
 
-opt = EchoMuon(hidden, lr=0.02)                      # sweep lr as you would for Muon
+opt = EchoMuon(hidden, lr=0.02)   # sweep separately - expect ~2x Muon's optimum
 aux = torch.optim.AdamW(others, lr=3e-4, betas=(0.9, 0.95), weight_decay=0.1)
 ```
 
-Training loop with the memorization-gap controller (optional but recommended —
-without it, set `gate_lambda` yourself; `gate_lambda=0` is plain Muon):
+Training loop with the retention-gap controller (optional; without it, set
+`gate_lambda` yourself — `gate_lambda=0` is plain Muon):
 
 ```python
 import collections
@@ -71,32 +108,60 @@ for step, batch in enumerate(loader):
 
     if ctl.due(step):
         with torch.no_grad():
-            reseen = mean_loss(model, list(ring)[:4])   # oldest ~400-800 steps ago
+            reseen = mean_loss(model, list(ring)[:4])   # ~4-8 steps old, see note
             fresh  = mean_loss(model, take_fresh(4))    # 4 held-back fresh batches
         ctl.update(fresh_loss=fresh, reseen_loss=reseen)
 ```
 
-All constants (slow β=0.99, floor 0.1, median reference, the 2% normalizer, the
-0.7 EMA) were fixed once and used unchanged in every experiment of the paper —
-the only knob you tune is Muon's own learning rate.
+> **Note on the retention horizon.** Appending every step, as above, makes the
+> re-seen batches only ~4–8 steps old — not the few hundred that earlier
+> documentation claimed. We tested the intended long horizon (append once per probe,
+> giving 400–700 steps) on five cells: **it changes nothing.** The controller is
+> insensitive to this horizon over two orders of magnitude, so the short ring is fine
+> — but the "memorization over hundreds of steps" story that motivated it is not
+> supported.
 
-## When to use it
+All constants (slow β=0.99, floor 0.1, median reference, the 2% normalizer, the 0.7
+EMA) were fixed once and used unchanged throughout. The knob you tune is the
+learning rate — separately from Muon's.
+
+## When it might help
 
 | Your setting | Recommendation |
 |---|---|
-| Web-scale corpora, label noise, ambiguous labels, light augmentation | **EchoMuon** — this is where the margins live |
-| Clean data / strong augmentation (RandAugment + mixup) | Tie with Muon; λ backs the gate off automatically |
-| Byte-level LMs at scale | Scheduled Muon (measured boundary; EchoMuon concedes ≤0.5%) |
-| Mamba-style SSMs | AdamW beats the whole Muon family there (measured boundary) |
+| Baseline accuracy well below ~90%, fixed step budget | Worth measuring — this is where any margin lives |
+| Baseline near its ceiling, or strong augmentation | Expect a tie; the margin is gone by ~90% accuracy |
+| LM pretraining at realistic token budgets | **Not recommended** — the advantage was gone by 0.9 tok/param, still only ~4.5% of compute-optimal |
+| Byte-level LMs on corrupted input streams | **Scheduled Muon** — measured loss |
+| Mamba-style SSMs | **AdamW** — beats the whole Muon family there |
+| Multi-GPU / FSDP / tensor-parallel | **Not supported** — see Limitations |
+
+## Limitations
+
+- **Single-GPU only.** The gate needs the unsharded matrix to form its Gram product.
+  FSDP or tensor-parallel execution would need an all-gather per refresh, or
+  per-shard gates with different semantics. Untested.
+- **Memory:** 9–12 B per 2-D parameter (M₁, M₂, cached basis U, gate g, all fp32),
+  versus 4 B for Muon and 8 B for AdamW.
+- **Wall-clock:** +21–27% at LM scale. The vision overhead figures are unreliable —
+  those models are small enough to be CPU-launch-bound rather than GPU-bound.
+- **No head-to-head comparison** against other gated-Muon variants (DynMuon, Pion,
+  MGUP, MAGMA, Bi-Maxwell). Everything here is measured against Muon and AdamW only.
+  Any claim of superiority over those methods would be unsupported.
+- **Learning-rate selection here is single-seed.** We demonstrated one case where
+  that flipped a pick with a 1.45 pp consequence on the test metric. Report your own
+  selection margins.
+- **Largest model tested: 162M parameters.** Nothing here has been tested at
+  production scale.
 
 ## Citation
 
 ```bibtex
-@article{mastromichalakis2026echomuon,
-  title  = {EchoMuon: Better Than Scheduled Muon Wherever Data Are Imperfect},
+@misc{mastromichalakis2026echomuon,
+  title  = {EchoMuon: Cross-Timescale Gating of Muon's Singular Directions},
   author = {Mastromichalakis, Stamatis},
   year   = {2026},
-  note   = {arXiv preprint}
+  note   = {Preprint; experimental research code}
 }
 ```
 
@@ -106,8 +171,9 @@ MIT
 
 ## Paper
 
-arXiv link to follow. The paper's figures are generated directly from the run logs in
-this repository by [`lab/make_figures.py`](lab/make_figures.py).
+Not currently on arXiv. The paper's figures and tables are generated directly from
+the run logs in this repository by [`lab/make_figures.py`](lab/make_figures.py) and
+the report scripts under `lab/`.
 
 ## Repository layout
 
@@ -115,15 +181,35 @@ this repository by [`lab/make_figures.py`](lab/make_figures.py).
 src/echomuon/   the pip package: EchoMuon optimizer + MemorizationGapController
 tests/          CPU test suite (python tests/test_echomuon.py)
 lab/            the full experiment pipeline (single RTX 5090, Docker, step-resumable)
-lab/results/    final.json + config.json for all 1250 runs behind the paper's numbers
+lab/results/    final.json + config.json for all 1,763 runs, including the audit
 ```
 
-## Reproducing the paper
+## The audit is part of the artifact
 
-Every number in the paper is a function of `lab/results/runs/*/final.json` — the report
-scripts (`lab/ablation_report.py`, `lab/tiny_report.py`, `lab/phase2_report.py`,
-`lab/time_to_target.py`, `lab/fastprof_report.py`) and `lab/make_figures.py` recompute
-tables and figures from those logs directly. To re-run training from scratch:
+This repository contains not only the runs that support the method, but the runs that
+attacked it — and won, in several places. Anyone re-examining a gated optimizer can
+reuse the same harness:
+
+| Check | Stage | What it caught here |
+|---|---|---|
+| Norm-matched scalar control | `v2-controls` | Separates directional signal from step-size contraction (9% vs 91% on Tiny ImageNet) |
+| Widened lr grids | `v2-byte-grid`, `v2-valsplit` | 8/8 CIFAR arm-cells sat on a grid edge; correcting cut margins 42–80% |
+| Held-out-val lr selection | `v2-valsplit` | Selection had been touching the test set |
+| Split-robustness re-selection | `v2-resweep-cifar` | One pick flipped, with a 1.45 pp test consequence |
+| Multi-seed lr selection | `v2-multiseed` | Quantifies selection noise against effect size |
+| True-horizon retention ring | `v2-horizon` | The controller is horizon-insensitive; the original story was wrong |
+| Budget-matched control | `v2-budget-match` | The margin tracks budget, not recipe |
+| Token-budget ladder | `v2-fa3x` | The LM advantage vanishes by 0.9 tok/param |
+
+If you maintain a gated-Muon variant, the first two rows are the cheapest way to find
+out whether your reported margin is a mechanism or a learning-rate artifact.
+
+## Reproducing
+
+Every number is a function of `lab/results/runs/*/final.json` — the report scripts
+(`lab/ablation_report.py`, `lab/v2_analysis.py`, `lab/fastprof_report.py`,
+`lab/time_to_target.py`) and `lab/make_figures.py` recompute tables and figures from
+those logs directly. To re-run training from scratch:
 
 ```bash
 cd lab
@@ -131,5 +217,5 @@ docker build -t optlab .
 docker run --gpus all -v $PWD:/lab optlab <stage>   # stages listed in run_experiments.py
 ```
 
-Runs are step-level resumable; sweeps, finals, and ablations are separate stages with
-pre-registered predictions recorded in their docstrings.
+Runs are step-level resumable; sweeps, finals, controls and audits are separate
+stages with pre-registered predictions recorded in their docstrings.

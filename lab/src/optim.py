@@ -80,7 +80,7 @@ class HybridOptimizer:
         self.gate_stage = "post"
         assert mode in ("adamw", "muon", "shrunk", "tcg")
         assert gate_mode in ("normal", "inverse", "shuffled", "novelty", "coherence",
-                             "amplify", "magnitude", "cosgate", "cautious", "mix")
+                             "amplify", "magnitude", "cosgate", "cautious", "mix", "scalar")
         self.gate_mode = gate_mode
         self._gate_rng = torch.Generator().manual_seed(seed + 777)
         # EchoMuon controller: measured-overfitting interpolation between pure Muon (0)
@@ -170,7 +170,7 @@ class HybridOptimizer:
                     scale = self.gate_mix_alpha * (1 - self.slow_beta) / (1 - self.momentum)
                     u = u + scale * self.buf2[name]
                 gate = self._gate.get(name)
-                if gate is not None and self.gate_stage == "pre":
+                if gate is not None and self.gate_stage == "pre" and gate[0] is not None:
                     U, g = gate
                     transposed = u.size(0) > u.size(1)
                     M = (u.T if transposed else u).float()
@@ -196,10 +196,15 @@ class HybridOptimizer:
                     U, g = gate
                     if self.gate_lambda < 1.0:
                         g = 1.0 - self.gate_lambda * (1.0 - g)
-                    transposed = d.size(0) > d.size(1)
-                    O = (d.T if transposed else d).float()
-                    O = O - U @ ((1.0 - g).unsqueeze(1) * (U.T @ O))
-                    d = (O.T if transposed else O).to(d.dtype)
+                    if U is None:
+                        # scalar-shrink control: EchoMuon's realized per-layer step
+                        # contraction with the directional content removed
+                        d = (d.float() * g).to(d.dtype)
+                    else:
+                        transposed = d.size(0) > d.size(1)
+                        O = (d.T if transposed else d).float()
+                        O = O - U @ ((1.0 - g).unsqueeze(1) * (U.T @ O))
+                        d = (O.T if transposed else O).to(d.dtype)
                 self._apply(name, p, d)
             return
         # shrunk: batch same-shape matrices -> one eigh per shape group, zero host syncs
@@ -291,6 +296,13 @@ class HybridOptimizer:
                 g = (med / c.clamp_min(1e-12)).clamp(self.gate_floor, 1.0)
             else:
                 g = (c / med).clamp(self.gate_floor, 1.0)
+            if self.gate_mode == "scalar":
+                # scalar-shrink control: keep the layer's realized Frobenius contraction
+                # sqrt(mean g^2) but apply it as a plain scalar — no direction is priced.
+                s = (g * g).mean().sqrt()
+                self._gate[name] = (None, s)
+                self.last_gate_mean[name] = float(s)
+                continue
             if self.gate_mode == "shuffled":  # break the direction<->gate assignment
                 perm = torch.randperm(g.numel(), generator=self._gate_rng)
                 g = g[perm.to(g.device)]

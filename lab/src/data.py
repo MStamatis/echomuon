@@ -296,9 +296,13 @@ def load_vision(data_dir: str, dataset: str):
     os.makedirs(d, exist_ok=True)
     if not os.path.exists(os.path.join(d, "train_x.npy")):
         {"cifar10": lambda p: _prepare_cifar10(p, 0.0),
+         "cifar10n10": lambda p: _prepare_cifar10(p, 0.10),
          "cifar10n20": lambda p: _prepare_cifar10(p, 0.20),
+         "cifar10n40": lambda p: _prepare_cifar10(p, 0.40),
          "cifar100": lambda p: _prepare_cifar100(p, 0.0),
+         "cifar100n10": lambda p: _prepare_cifar100(p, 0.10),
          "cifar100n20": lambda p: _prepare_cifar100(p, 0.20),
+         "cifar100n40": lambda p: _prepare_cifar100(p, 0.40),
          "tinyimagenet": lambda p: _prepare_tinyimagenet(p, 0.0),
          "tinyimagenetn20": lambda p: _prepare_tinyimagenet(p, 0.20)}[dataset](d)
     with open(os.path.join(d, "meta.json")) as f:

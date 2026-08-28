@@ -1176,6 +1176,385 @@ def stage_analyze():
         raise RuntimeError("analyze failed")
 
 
+# ================= v2 revision campaign (the paper's named experimental debt) =================
+# Each stage is independently resumable (final.json skip). Queue order puts the
+# Table-2 blocker first, then the framing-deciding and control experiments, then
+# the wider sweeps. GPU cost notes are per-stage docstrings.
+AU2 = {"optimizer": "tcg", "gate_mode": "normal", "auto_gate": True, "auto_version": 2}
+FA_CFG = {"arch": "llama", "dataset": "fineweb", "batch": 16, "block": 1024,
+          "n_layer": 12, "n_head": 12, "dim": 768}
+PS_DIMS = {"M": {"n_layer": 12, "n_head": 8, "dim": 512},
+           "L": {"n_layer": 16, "n_head": 12, "dim": 768}}
+PS_SEEDS = {"M": list(range(1, 17)), "L": list(range(1, 7))}
+
+
+def _pick_best_glob(prefix):
+    """Best lr over EVERY completed sweep run matching prefix (the settled grid)."""
+    runs = []
+    rd = os.path.join(RESULTS, "runs")
+    for d in os.listdir(rd):
+        if d.startswith(prefix):
+            try:
+                lr = float(d[len(prefix):])
+            except ValueError:
+                continue
+            p = os.path.join(rd, d, "final.json")
+            if os.path.exists(p):
+                with open(p) as f:
+                    runs.append((json.load(f)["final_val"], lr))
+    if not runs:
+        raise RuntimeError(f"no sweep results at {prefix}*")
+    runs.sort()
+    return runs[0][1]
+
+
+def stage_v2_byte_grid():
+    """Debt (1), BLOCKER for Table 2: the byte 38M/114M EchoMuon arms picked the TOP
+    of [5e-3,1e-2,2e-2] while Muon picked interior 0.01 — the concession rows are
+    edge-vs-interior. Widen upward (doubling, max twice) for any arm at the top edge;
+    if the settled best leaves the old grid, re-run finals as PscaleMw/PscaleLw
+    (n=16/6). ~40 min of sweeps; +3.7 GPU-h iff the EchoMuon pick moves."""
+    grid0 = [5e-3, 1e-2, 2e-2]
+    for size in ["M", "L"]:
+        dims = PS_DIMS[size]
+        for arm, extra in [("auto2", AU2), ("muoncos", {"optimizer": "muon"})]:
+            grid = list(grid0)
+            for _ in range(2):
+                best = _pick_best(f"sweep_Pscale{size}_{arm}_lr", grid)
+                if best != grid[-1]:
+                    break
+                hi = grid[-1] * 2
+                run_one(f"sweep_Pscale{size}_{arm}_lr{hi:g}", lr=hi, dataset="enwik8p10",
+                        batch=64, steps=2000, seed=1, lr_schedule="cosine",
+                        no_monitor=True, **dims, **extra)
+                grid = grid + [hi]
+            best = _pick_best(f"sweep_Pscale{size}_{arm}_lr", grid)
+            if best not in grid0:
+                print(f"V2: Pscale{size}/{arm} best lr moved to {best} -> finals as Pscale{size}w")
+                for seed in PS_SEEDS[size]:
+                    run_one(f"final_Pscale{size}w_{arm}_s{seed}", lr=best,
+                            dataset="enwik8p10", batch=64, steps=4000, seed=seed,
+                            lr_schedule="cosine", no_monitor=True, **dims, **extra)
+            else:
+                print(f"V2: Pscale{size}/{arm} best lr stays {best} — edge resolved in place")
+
+
+V2_VCELLS = {"VA": "cifar10", "VP": "cifar10n20", "TIA": "tinyimagenet",
+             "TIP": "tinyimagenetn20"}
+
+
+def stage_v2_horizon():
+    """Debt (4): the true-horizon ring — append once per probe so re-seen batches are
+    genuinely 400-700 steps old (the paper's original intent) instead of 4-7. Echo
+    arm only, same lr as the auto2 finals; pairs against existing auto2 and muoncos.
+    Decides whether v3 keeps the retention framing or upgrades it. ~4.5 GPU-h."""
+    for reg, ds in V2_VCELLS.items():
+        lr = _pick_best_glob(f"sweep_{reg}_auto2_lr")
+        for seed in CTL_SEEDS:
+            run_one(f"final_{reg}_auto2h_s{seed}", lr=lr, task="vision", dataset=ds,
+                    batch=128, steps=V_FINAL_STEPS, seed=seed, lr_schedule="cosine",
+                    no_monitor=True, ring_per_probe=True, **V_DIMS, **AU2)
+    lr = _pick_best_glob("sweep_FA_auto2_lr")
+    for seed in range(1, 7):
+        run_one(f"final_FA_auto2h_s{seed}", lr=lr, steps=3000, seed=seed,
+                lr_schedule="cosine", no_monitor=True, ring_per_probe=True,
+                **FA_CFG, **AU2)
+
+
+def stage_v2_controls():
+    """Debt (3): norm-matched controls on the HEADLINE cells (they exist only on the
+    two small always-on cells today). (a) shuffle with the full lambda controller on
+    TIA/TIP/FA; (b) scalar-shrink (same realized per-layer Frobenius contraction,
+    zero directional content) on VP/TIA/FA. ~5 GPU-h."""
+    for reg, ds in [("TIA", "tinyimagenet"), ("TIP", "tinyimagenetn20")]:
+        lr = _pick_best_glob(f"sweep_{reg}_auto2_lr")
+        for seed in CTL_SEEDS:
+            run_one(f"final_{reg}_shufauto_s{seed}", lr=lr, task="vision", dataset=ds,
+                    batch=128, steps=V_FINAL_STEPS, seed=seed, lr_schedule="cosine",
+                    no_monitor=True, optimizer="tcg", gate_mode="shuffled",
+                    auto_gate=True, auto_version=2, **V_DIMS)
+    lr = _pick_best_glob("sweep_FA_auto2_lr")
+    for seed in range(1, 7):
+        run_one(f"final_FA_shufauto_s{seed}", lr=lr, steps=3000, seed=seed,
+                lr_schedule="cosine", no_monitor=True, optimizer="tcg",
+                gate_mode="shuffled", auto_gate=True, auto_version=2, **FA_CFG)
+    for reg, ds in [("VP", "cifar10n20"), ("TIA", "tinyimagenet")]:
+        lr = _pick_best_glob(f"sweep_{reg}_auto2_lr")
+        for seed in CTL_SEEDS:
+            run_one(f"final_{reg}_sclshr_s{seed}", lr=lr, task="vision", dataset=ds,
+                    batch=128, steps=V_FINAL_STEPS, seed=seed, lr_schedule="cosine",
+                    no_monitor=True, optimizer="tcg", gate_mode="scalar",
+                    auto_gate=True, auto_version=2, **V_DIMS)
+    lr = _pick_best_glob("sweep_FA_auto2_lr")
+    for seed in range(1, 7):
+        run_one(f"final_FA_sclshr_s{seed}", lr=lr, steps=3000, seed=seed,
+                lr_schedule="cosine", no_monitor=True, optimizer="tcg",
+                gate_mode="scalar", auto_gate=True, auto_version=2, **FA_CFG)
+
+
+def stage_v2_clean38():
+    """Debt (2a): clean-vs-corrupted enwik8 at 38M — the missing contrast that turns
+    'vanishes on byte text' into a measured statement about corruption vs tokenization.
+    Own sweeps (widen on either edge, max twice), finals n=8 both arms. ~3 GPU-h."""
+    grid0 = [5e-3, 1e-2, 2e-2]
+    dims = PS_DIMS["M"]
+    for arm, extra in [("muoncos", {"optimizer": "muon"}), ("auto2", AU2)]:
+        grid = list(grid0)
+        for lr in grid0:
+            run_one(f"sweep_PcleanM_{arm}_lr{lr:g}", lr=lr, dataset="enwik8", batch=64,
+                    steps=2000, seed=1, lr_schedule="cosine", no_monitor=True,
+                    **dims, **extra)
+        for _ in range(2):
+            best = _pick_best(f"sweep_PcleanM_{arm}_lr", grid)
+            if best == grid[-1]:
+                new = grid[-1] * 2
+                grid = grid + [new]
+            elif best == grid[0]:
+                new = grid[0] / 2
+                grid = [new] + grid
+            else:
+                break
+            run_one(f"sweep_PcleanM_{arm}_lr{new:g}", lr=new, dataset="enwik8",
+                    batch=64, steps=2000, seed=1, lr_schedule="cosine",
+                    no_monitor=True, **dims, **extra)
+        best = _pick_best(f"sweep_PcleanM_{arm}_lr", grid)
+        for seed in range(1, 9):
+            run_one(f"final_PcleanM_{arm}_s{seed}", lr=best, dataset="enwik8",
+                    batch=64, steps=4000, seed=seed, lr_schedule="cosine",
+                    no_monitor=True, **dims, **extra)
+
+
+def stage_v2_noise_dose():
+    """Debt (5a): injected-noise dose response, 10%/40% on CIFAR-10 and CIFAR-100
+    (0%/20% exist). Grid starts one step below the old bottom edge and widens down.
+    ~4 GPU-h."""
+    cells = [("V10d10", "cifar10n10"), ("V10d40", "cifar10n40"),
+             ("V100d10", "cifar100n10"), ("V100d40", "cifar100n40")]
+    grid0 = [5e-3, 0.01, 0.02, 0.05]
+    for reg, ds in cells:
+        common = {"task": "vision", "dataset": ds, "batch": 128, **V_DIMS}
+        for arm, extra in [("muoncos", {"optimizer": "muon"}), ("auto2", AU2)]:
+            grid = list(grid0)
+            for lr in grid0:
+                run_one(f"sweep_{reg}_{arm}_lr{lr:g}", lr=lr, steps=V_SWEEP_STEPS,
+                        seed=1, lr_schedule="cosine", no_monitor=True, **common, **extra)
+            for _ in range(2):
+                best = _pick_best(f"sweep_{reg}_{arm}_lr", grid)
+                if best != grid[0]:
+                    break
+                lo = grid[0] / 2
+                run_one(f"sweep_{reg}_{arm}_lr{lo:g}", lr=lo, steps=V_SWEEP_STEPS,
+                        seed=1, lr_schedule="cosine", no_monitor=True, **common, **extra)
+                grid = [lo] + grid
+            best = _pick_best(f"sweep_{reg}_{arm}_lr", grid)
+            for seed in CTL_SEEDS:
+                run_one(f"final_{reg}_{arm}_s{seed}", lr=best, steps=V_FINAL_STEPS,
+                        seed=seed, lr_schedule="cosine", no_monitor=True,
+                        **common, **extra)
+
+
+def stage_v2_lambda_ladder():
+    """Never-worse quantification on the losing byte-38M cell: pin lambda at
+    0.25/0.5/0.75 (controller off) at the settled auto2 lr — how far is the
+    controller's ~0.93 from the lambda that would have avoided the loss? n=8 each.
+    ~3.5 GPU-h."""
+    lr = _pick_best_glob("sweep_PscaleM_auto2_lr")
+    for tag, lam in [("lam25", 0.25), ("lam50", 0.5), ("lam75", 0.75)]:
+        for seed in CTL_SEEDS:
+            run_one(f"final_PscaleM_{tag}_s{seed}", optimizer="tcg", gate_mode="normal",
+                    fixed_lambda=lam, lr=lr, dataset="enwik8p10", batch=64, steps=4000,
+                    seed=seed, lr_schedule="cosine", no_monitor=True, **PS_DIMS["M"])
+
+
+def stage_v2_valsplit():
+    """Debt (6): vision lr re-selection on a held-out 10% validation split, grid
+    widened below the old bottom edge; selection never touches the test set. Cells
+    whose val-selected pick differs from the shipped 0.01 get fresh test-reported
+    finals as {cell}v. ~1.5 GPU-h of sweeps; finals only if picks move."""
+    cells = {"VA": "cifar10", "VP": "cifar10n20", "V100A": "cifar100",
+             "V100P": "cifar100n20", "TIA": "tinyimagenet", "TIP": "tinyimagenetn20"}
+    grid0 = [2.5e-3, 5e-3, 0.01, 0.02, 0.05]
+    for reg, ds in cells.items():
+        common = {"task": "vision", "dataset": ds, "batch": 128, **V_DIMS}
+        for arm, extra in [("muoncos", {"optimizer": "muon"}), ("auto2", AU2)]:
+            grid = list(grid0)
+            for lr in grid0:
+                run_one(f"sweepv_{reg}_{arm}_lr{lr:g}", lr=lr, steps=V_SWEEP_STEPS,
+                        seed=1, lr_schedule="cosine", no_monitor=True, val_frac=0.1,
+                        **common, **extra)
+            for _ in range(2):
+                best = _pick_best(f"sweepv_{reg}_{arm}_lr", grid)
+                if best != grid[0]:
+                    break
+                lo = grid[0] / 2
+                run_one(f"sweepv_{reg}_{arm}_lr{lo:g}", lr=lo, steps=V_SWEEP_STEPS,
+                        seed=1, lr_schedule="cosine", no_monitor=True, val_frac=0.1,
+                        **common, **extra)
+                grid = [lo] + grid
+            best = _pick_best(f"sweepv_{reg}_{arm}_lr", grid)
+            if best != 0.01:
+                print(f"V2: {reg}/{arm} val-selected lr {best} != 0.01 -> finals as {reg}v")
+                for seed in CTL_SEEDS:
+                    run_one(f"final_{reg}v_{arm}_s{seed}", lr=best, steps=V_FINAL_STEPS,
+                            seed=seed, lr_schedule="cosine", no_monitor=True,
+                            **common, **extra)
+            else:
+                print(f"V2: {reg}/{arm} val-selected lr stays 0.01 — shipped finals stand")
+
+
+def stage_v2_budget_match():
+    """The missing strong-recipe control: LIGHT recipe at the strong budget (24000
+    steps) with the FAST profile — separates recipe from budget/profile in the §5
+    compression story. Own sweeps (6000 steps), finals n=8. ~7.5 GPU-h."""
+    fastp = {**AU2, "gate_every": 100, "probe_every": 200}
+    grid0 = [2.5e-3, 5e-3, 0.01, 0.02]
+    for reg, ds in [("B10", "cifar10"), ("B100", "cifar100")]:
+        common = {"task": "vision", "dataset": ds, "batch": 128, **V_DIMS}
+        for arm, extra in [("muoncos", {"optimizer": "muon"}), ("echomuonf", fastp)]:
+            grid = list(grid0)
+            for lr in grid0:
+                run_one(f"sweep_{reg}_{arm}_lr{lr:g}", lr=lr, steps=6000, seed=1,
+                        lr_schedule="cosine", no_monitor=True, **common, **extra)
+            for _ in range(2):
+                best = _pick_best(f"sweep_{reg}_{arm}_lr", grid)
+                if best != grid[0]:
+                    break
+                lo = grid[0] / 2
+                run_one(f"sweep_{reg}_{arm}_lr{lo:g}", lr=lo, steps=6000, seed=1,
+                        lr_schedule="cosine", no_monitor=True, **common, **extra)
+                grid = [lo] + grid
+            best = _pick_best(f"sweep_{reg}_{arm}_lr", grid)
+            for seed in CTL_SEEDS:
+                run_one(f"final_{reg}_{arm}_s{seed}", lr=best, steps=24000, seed=seed,
+                        lr_schedule="cosine", no_monitor=True, **common, **extra)
+
+
+def stage_v2_fa3x():
+    """Debt (8): token-budget ladder on the LLaMA cell — 3x the paper's budget
+    (9000 steps = 147M tokens, 0.91 tok/param), own sweeps at 3750 steps because the
+    cosine is budget-normalized. n=3 paired. ~5 GPU-h."""
+    grid = [1e-2, 2e-2, 4e-2]
+    for arm, extra in [("muoncos", {"optimizer": "muon"}), ("auto2", AU2)]:
+        for lr in grid:
+            run_one(f"sweep_FA3x_{arm}_lr{lr:g}", lr=lr, steps=3750, seed=1,
+                    lr_schedule="cosine", no_monitor=True, **FA_CFG, **extra)
+        best = _pick_best(f"sweep_FA3x_{arm}_lr", grid)
+        for seed in [1, 2, 3]:
+            run_one(f"final_FA3x_{arm}_s{seed}", lr=best, steps=9000, seed=seed,
+                    lr_schedule="cosine", no_monitor=True, **FA_CFG, **extra)
+
+
+def stage_v2_resweep_cifar():
+    """Protocol parity + robustness of the vision lr picks. The CIFAR sweepv runs
+    selected on a CONTIGUOUS train tail; Tiny ImageNet needed a shuffled split (its
+    on-disk order is class-sorted, so a contiguous tail was class-disjoint). Re-select
+    the four CIFAR cells under the shuffled split so one protocol covers every cell,
+    and test the one fragile pick (V100A/auto2 won by 0.0026 at n=1). New run-ids, so
+    the original sweeps survive as evidence that the split method does not move the
+    pick. Finals only for arm-cells whose pick actually moves. ~45 min + conditionals.
+    """
+    cells = {"VA": "cifar10", "VP": "cifar10n20",
+             "V100A": "cifar100", "V100P": "cifar100n20"}
+    grid = [2.5e-3, 5e-3, 0.01, 0.02, 0.05]
+    for reg, ds in cells.items():
+        common = {"task": "vision", "dataset": ds, "batch": 128, **V_DIMS}
+        for arm, extra in [("muoncos", {"optimizer": "muon"}), ("auto2", AU2)]:
+            for lr in grid:
+                run_one(f"sweepw_{reg}_{arm}_lr{lr:g}", lr=lr, steps=V_SWEEP_STEPS,
+                        seed=1, lr_schedule="cosine", no_monitor=True, val_frac=0.1,
+                        **common, **extra)
+            new = _pick_best(f"sweepw_{reg}_{arm}_lr", grid)
+            old = _pick_best(f"sweepv_{reg}_{arm}_lr", grid)
+            if new == old:
+                print(f"V2: {reg}/{arm} shuffled-split pick {new:g} == contiguous pick "
+                      f"{old:g} — selection is split-robust")
+            else:
+                print(f"V2: {reg}/{arm} shuffled-split pick {new:g} != contiguous pick "
+                      f"{old:g} -> RE-RUNNING finals as {reg}w")
+                for seed in CTL_SEEDS:
+                    run_one(f"final_{reg}w_{arm}_s{seed}", lr=new, steps=V_FINAL_STEPS,
+                            seed=seed, lr_schedule="cosine", no_monitor=True,
+                            **common, **extra)
+
+
+def _mean_val(run_ids):
+    """Mean final_val over a set of completed runs (missing runs are ignored)."""
+    vals = []
+    for rid in run_ids:
+        p = os.path.join(RESULTS, "runs", rid, "final.json")
+        if os.path.exists(p):
+            with open(p) as f:
+                vals.append(json.load(f)["final_val"])
+    return sum(vals) / len(vals) if vals else float("inf")
+
+
+def stage_v2_fa3x_widen():
+    """stage_v2_fa3x shipped the grid [0.01, 0.02, 0.04] with NO widening, and both
+    arms picked its bottom edge -- the same defect this campaign exists to measure,
+    and a shared too-high lr is known to flatter EchoMuon. Widen downward (max twice)
+    and re-run the n=3 finals as FA3xw for any arm whose pick leaves 0.01.
+    ~30 min if 0.01 survives; +3.7 GPU-h if it does not."""
+    for arm, extra in [("muoncos", {"optimizer": "muon"}), ("auto2", AU2)]:
+        grid = [1e-2, 2e-2, 4e-2]
+        for _ in range(2):
+            best = _pick_best(f"sweep_FA3x_{arm}_lr", grid)
+            if best != grid[0]:
+                break
+            lo = grid[0] / 2
+            run_one(f"sweep_FA3x_{arm}_lr{lo:g}", lr=lo, steps=3750, seed=1,
+                    lr_schedule="cosine", no_monitor=True, **FA_CFG, **extra)
+            grid = [lo] + grid
+        best = _pick_best(f"sweep_FA3x_{arm}_lr", grid)
+        if best == 1e-2:
+            print(f"V2: FA3x/{arm} widened pick stays 0.01 -- shipped 3x finals stand")
+        else:
+            print(f"V2: FA3x/{arm} widened pick {best:g} != 0.01 -> finals as FA3xw")
+            for seed in [1, 2, 3]:
+                run_one(f"final_FA3xw_{arm}_s{seed}", lr=best, steps=9000, seed=seed,
+                        lr_schedule="cosine", no_monitor=True, **FA_CFG, **extra)
+
+
+def stage_v2_multiseed_select():
+    """Debt (9). Every lr grid in this project is scored from ONE seed, and the
+    V100A/auto2 pick demonstrably flipped between two equally valid val splits with a
+    1.45pp test consequence -- selection noise ~3x the CIFAR effect size. Re-select
+    all four CIFAR cells from the MEAN val loss of 3 seeds; seed 1 is reused from the
+    sweepw runs, so only seeds 2-3 are new (80 sweeps, not 120). Finals as {cell}m
+    only where the 3-seed pick differs from the 1-seed pick. ~1.5 GPU-h + conditionals.
+    The val split itself is seeded at 1234 independently of --seed, so this isolates
+    training noise in the selection, holding the split fixed."""
+    cells = {"VA": "cifar10", "VP": "cifar10n20",
+             "V100A": "cifar100", "V100P": "cifar100n20"}
+    grid = [2.5e-3, 5e-3, 0.01, 0.02, 0.05]
+    seeds = [2, 3]
+    for reg, ds in cells.items():
+        common = {"task": "vision", "dataset": ds, "batch": 128, **V_DIMS}
+        for arm, extra in [("muoncos", {"optimizer": "muon"}), ("auto2", AU2)]:
+            for lr in grid:
+                for seed in seeds:
+                    run_one(f"sweepm_{reg}_{arm}_s{seed}_lr{lr:g}", lr=lr,
+                            steps=V_SWEEP_STEPS, seed=seed, lr_schedule="cosine",
+                            no_monitor=True, val_frac=0.1, **common, **extra)
+            scored = []
+            for lr in grid:
+                ids = [f"sweepw_{reg}_{arm}_lr{lr:g}"] +                       [f"sweepm_{reg}_{arm}_s{s}_lr{lr:g}" for s in seeds]
+                scored.append((_mean_val(ids), lr))
+            scored.sort()
+            best = scored[0][1]
+            single = _pick_best(f"sweepw_{reg}_{arm}_lr", grid)
+            gap = scored[1][0] - scored[0][0]
+            if best == single:
+                print(f"V2: {reg}/{arm} 3-seed pick {best:g} == 1-seed pick {single:g} "
+                      f"(gap {gap:+.4f}) -- selection stable")
+            else:
+                print(f"V2: {reg}/{arm} 3-seed pick {best:g} != 1-seed pick {single:g} "
+                      f"(gap {gap:+.4f}) -> finals as {reg}m")
+                for seed in CTL_SEEDS:
+                    run_one(f"final_{reg}m_{arm}_s{seed}", lr=best,
+                            steps=V_FINAL_STEPS, seed=seed, lr_schedule="cosine",
+                            no_monitor=True, **common, **extra)
+
+
 if __name__ == "__main__":
     stage = sys.argv[1] if len(sys.argv) > 1 else "smoke"
     stages = {"smoke": [stage_smoke], "sweep": [stage_sweep], "final": [stage_final],
@@ -1214,6 +1593,24 @@ if __name__ == "__main__":
               "vision-strong-ext2": [stage_vision_strong_ext2],
               "gate-ablation": [stage_gate_ablation],
               "gate-ablation-lm": [stage_gate_ablation_lm],
+              "v2-byte-grid": [stage_v2_byte_grid],
+              "v2-horizon": [stage_v2_horizon],
+              "v2-controls": [stage_v2_controls],
+              "v2-clean38": [stage_v2_clean38],
+              "v2-noise-dose": [stage_v2_noise_dose],
+              "v2-lambda-ladder": [stage_v2_lambda_ladder],
+              "v2-valsplit": [stage_v2_valsplit],
+              "v2-budget-match": [stage_v2_budget_match],
+              "v2-fa3x": [stage_v2_fa3x],
+              "v2-resweep-cifar": [stage_v2_resweep_cifar],
+              "v2-fa3x-widen": [stage_v2_fa3x_widen],
+              "v2-multiseed": [stage_v2_multiseed_select],
+              "v2-followup": [stage_v2_fa3x_widen, stage_v2_multiseed_select],
+              "v2-queue": [stage_v2_byte_grid, stage_v2_horizon, stage_v2_controls,
+                           stage_v2_clean38, stage_v2_noise_dose,
+                           stage_v2_lambda_ladder, stage_v2_valsplit,
+                           stage_v2_budget_match, stage_v2_fa3x,
+                           stage_v2_resweep_cifar],
               "noise-all": [stage_noise, stage_analyze],
               "vision-all": [stage_vision, stage_analyze],
               "analyze": [stage_analyze],

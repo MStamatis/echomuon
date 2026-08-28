@@ -143,7 +143,8 @@ def main():
     ap.add_argument("--gate-floor", type=float, default=0.1)
     ap.add_argument("--gate-mode",
                     choices=["normal", "inverse", "shuffled", "novelty", "coherence",
-                             "amplify", "magnitude", "cosgate", "cautious", "mix"],
+                             "amplify", "magnitude", "cosgate", "cautious", "mix",
+                             "scalar"],
                     default="normal")
     ap.add_argument("--gate-quantile", type=float, default=0.5)
     ap.add_argument("--gate-block", type=int, default=1)
@@ -165,6 +166,17 @@ def main():
     ap.add_argument("--auto-version", type=int, default=1,
                     help="1: held-out-probe vs train-EMA gap; 2: memorization gap "
                          "(fresh samples vs re-evaluated recently-seen batches)")
+    ap.add_argument("--ring-per-probe", action="store_true",
+                    help="auto2: append to the seen-batch ring once per probe interval "
+                         "instead of every step — retention horizon becomes 4-7 probe "
+                         "intervals (400-700 steps at probe_every=100) instead of 4-7 steps")
+    ap.add_argument("--fixed-lambda", type=float, default=-1.0,
+                    help=">=0: pin the gate strength lambda to this value for the whole "
+                         "run (no controller); the lambda-ladder ablation arm")
+    ap.add_argument("--val-frac", type=float, default=0.0,
+                    help="vision: hold out this fraction of the (possibly noisy) train "
+                         "set as a validation split; eval/selection metrics then use it "
+                         "instead of the test set (sweep-only protocol)")
     ap.add_argument("--lr", type=float, required=True)
     ap.add_argument("--aux-lr", type=float, default=2e-3)
     ap.add_argument("--muon-wd", type=float, default=0.0,
@@ -202,7 +214,8 @@ def main():
     ap.add_argument("--dataset",
                     choices=["shakespeare", "shakespeare_bytes", "enwik8", "enwik8p10",
                              "fineweb",
-                             "cifar10", "cifar10n20", "cifar100", "cifar100n20",
+                             "cifar10", "cifar10n10", "cifar10n20", "cifar10n40",
+                             "cifar100", "cifar100n10", "cifar100n20", "cifar100n40",
                              "tinyimagenet", "tinyimagenetn20"],
                     default="shakespeare")
     ap.add_argument("--extra-val", default="",
@@ -242,6 +255,17 @@ def main():
         args.vspec = (vimg,
                       np.array(vmeta["mean"], dtype=np.float32).reshape(3, 1, 1),
                       np.array(vmeta["std"], dtype=np.float32).reshape(3, 1, 1))
+        eval_x, eval_y = test_x, test_y
+        if args.val_frac > 0:  # sweep-only: select on a held-out train slice, not test
+            # Shuffle before slicing: Tiny-ImageNet is decoded in wnid order, so a
+            # contiguous tail is class-disjoint from the head (the val slice would
+            # hold only classes the train slice never shows). Fixed seed, independent
+            # of --seed, so every lr in a sweep selects on the identical split.
+            perm = np.random.default_rng(1234).permutation(len(train_y))
+            train_x, train_y = train_x[perm], train_y[perm]
+            cut = int(len(train_y) * (1 - args.val_frac))
+            eval_x, eval_y = train_x[cut:], train_y[cut:]
+            train_x, train_y = train_x[:cut], train_y[:cut]
         if args.auto_gate and args.auto_version == 1:  # v1: held-out TRAIN probe slice
             cut = int(len(train_y) * (1 - args.probe_frac))
             probe_x, probe_y = train_x[cut:], train_y[cut:]
@@ -270,6 +294,8 @@ def main():
                           seed=args.seed)
     opt.gate_block = args.gate_block
     opt.gate_stage = args.gate_stage
+    if args.fixed_lambda >= 0:
+        opt.gate_lambda = args.fixed_lambda
     opt.attach_names(model)
     g_train = torch.Generator().manual_seed(args.seed)
     noise_gen = torch.Generator(device=device).manual_seed(args.seed + 9999)
@@ -420,9 +446,10 @@ def main():
 
         train_loss = loss.item()
         if args.auto_gate and args.auto_version == 2:
-            seen_ring.append(last_batch_ref)
-            if len(seen_ring) > 8:
-                seen_ring.pop(0)
+            if (not args.ring_per_probe) or step % args.probe_every == 0:
+                seen_ring.append(last_batch_ref)
+                if len(seen_ring) > 8:
+                    seen_ring.pop(0)
             if step % args.probe_every == 0 and len(seen_ring) >= 8:
                 model.eval()
                 with torch.no_grad():
@@ -472,7 +499,7 @@ def main():
         if step % args.eval_every == 0 or step == args.steps:
             rec = {"step": step, "t": wall_prev + time.time() - t0}
             if args.task == "vision":
-                vl, acc = evaluate_vision(model, test_x, test_y, args, device)
+                vl, acc = evaluate_vision(model, eval_x, eval_y, args, device)
                 best_acc = max(best_acc, acc)
                 rec["acc"] = acc
                 msg_extra = f" acc {acc:.4f}"
@@ -494,7 +521,7 @@ def main():
 
     if vl is None:  # resumed exactly at the end without re-running the loop
         if args.task == "vision":
-            vl, acc = evaluate_vision(model, test_x, test_y, args, device)
+            vl, acc = evaluate_vision(model, eval_x, eval_y, args, device)
             best_acc = max(best_acc, acc)
         else:
             vl = evaluate(model, val_data, args, device)
@@ -523,6 +550,9 @@ def main():
                    "slow_beta": args.slow_beta,
                    "gate_every": args.gate_every, "probe_every": args.probe_every,
                    "auto_gate": args.auto_gate, "auto_version": args.auto_version,
+                   "ring_per_probe": args.ring_per_probe,
+                   "fixed_lambda": args.fixed_lambda if args.fixed_lambda >= 0 else None,
+                   "val_frac": args.val_frac,
                    "mean_lambda": float(np.mean(lam_hist)) if lam_hist else None,
                    "final_val": vl, "best_val": best_val, "retain_val": retain,
                    "final_acc": acc, "best_acc": best_acc if args.task == "vision" else None,
