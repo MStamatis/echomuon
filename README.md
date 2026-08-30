@@ -189,7 +189,7 @@ reuse the same harness:
 
 | Check | Stage | What it caught here |
 |---|---|---|
-| Norm-matched scalar control | `v2-controls` | Separates directional signal from step-size contraction (9% vs 91% on Tiny ImageNet) |
+| Norm-matched scalar control | `v2-controls` | Separates directional signal from step-size contraction (30% vs 70% on Tiny ImageNet) |
 | Widened lr grids | `v2-byte-grid`, `v2-valsplit` | 8/8 CIFAR arm-cells sat on a grid edge; correcting cut margins 42–80% |
 | Held-out-val lr selection | `v2-valsplit` | Selection had been touching the test set |
 | Split-robustness re-selection | `v2-resweep-cifar` | One pick flipped, with a 1.45 pp test consequence |
@@ -216,6 +216,16 @@ docker run --gpus all -v $PWD:/lab optlab <stage>   # stages listed in run_exper
 
 Runs are step-level resumable; sweeps, finals, controls and audits are separate
 stages with pre-registered predictions recorded in their docstrings.
+
+The installable package and the research code are now pinned to each other by
+`tests/test_parity.py`, which runs both on the same gradients and requires the updates to
+match bit for bit. They did not, up to 0.2.3: the package refreshed the gate basis after
+folding in the current gradient and `lab/src/optim.py` did so before, a one-step offset
+that nothing tested, since `lab/v2_bitcheck.py` compares the lab against an older copy of
+itself rather than against the package. On a controlled comparison the effect was smaller
+than seed-to-seed noise and not statistically distinguishable at n=8, so no published
+number changes, but a package that claims to reproduce a paper should reproduce it
+exactly. **0.3.0 moves the package onto the paper's order.**
 
 ## Citation
 

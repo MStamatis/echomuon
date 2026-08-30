@@ -29,3 +29,8 @@ version = { attr = "echomuon.__version__" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+# always test the working tree, never a stale copy in site-packages
+pythonpath = ["src"]
+testpaths = ["tests"]

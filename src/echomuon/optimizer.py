@@ -136,9 +136,9 @@ class EchoMuon(torch.optim.Optimizer):
             with torch.enable_grad():
                 loss = closure()
         self._t += 1
-        refresh = (self._t % self.param_groups[0]["gate_every"] == 0)
         for group in self.param_groups:
             beta = group["momentum"]
+            refresh = (self._t % group["gate_every"] == 0)
             for p in group["params"]:
                 if p.grad is None:
                     continue
@@ -146,11 +146,14 @@ class EchoMuon(torch.optim.Optimizer):
                 if "buf" not in st:
                     st["buf"] = torch.zeros_like(p)
                     st["buf2"] = torch.zeros_like(p)
+                # Refresh from the buffers as they stood at the end of the previous
+                # step, BEFORE this step's gradient is folded in. That is the order
+                # the paper's runs used; tests/test_parity.py pins the two together.
+                if refresh:
+                    self._refresh_gate(p, group)
                 buf, buf2 = st["buf"], st["buf2"]
                 buf.mul_(beta).add_(p.grad)
                 buf2.mul_(group["slow_beta"]).add_(p.grad)
-                if refresh:
-                    self._refresh_gate(p, group)
                 u = p.grad.add(buf, alpha=beta) if group["nesterov"] else buf
                 d = newton_schulz5(u, group["ns_steps"])
                 if "gate_U" in st and self.gate_lambda > 0.0:
