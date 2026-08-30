@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "echomuon"
-version = "0.2.2"
+dynamic = ["version"]
 description = "EchoMuon: experimental research optimizer - Muon with a per-direction cross-timescale trust gate. Narrow, audited regime of benefit; single-GPU only. See README before use."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -22,7 +22,10 @@ dependencies = ["torch>=2.0"]
 
 [project.urls]
 Homepage = "https://github.com/MStamatis/echomuon"
-Paper = "https://arxiv.org/abs/ARXIV-PLACEHOLDER"
+
+# single source of truth for the version: src/echomuon/__init__.py
+[tool.setuptools.dynamic]
+version = { attr = "echomuon.__version__" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
