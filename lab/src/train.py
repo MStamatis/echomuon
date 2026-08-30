@@ -144,7 +144,7 @@ def main():
     ap.add_argument("--gate-mode",
                     choices=["normal", "inverse", "shuffled", "novelty", "coherence",
                              "amplify", "magnitude", "cosgate", "cautious", "mix",
-                             "scalar"],
+                             "scalar", "abscal", "abscal_hi"],
                     default="normal")
     ap.add_argument("--gate-quantile", type=float, default=0.5)
     ap.add_argument("--gate-block", type=int, default=1)
@@ -165,11 +165,21 @@ def main():
     ap.add_argument("--probe-every", type=int, default=100)
     ap.add_argument("--auto-version", type=int, default=1,
                     help="1: held-out-probe vs train-EMA gap; 2: memorization gap "
-                         "(fresh samples vs re-evaluated recently-seen batches)")
+                         "(fresh samples vs re-evaluated recently-seen batches); "
+                         "3: gate-derived — the share of directions whose score sits "
+                         "nearer the fully-consistent endpoint than the pure-noise one")
+    ap.add_argument("--signal-target", type=float, default=0.25,
+                    help="auto3: share of directions with a real echo at which lambda "
+                         "saturates. 0.25 is the level measured on the two cells where "
+                         "EchoMuon wins; the cell where it loses measured 0.046.")
     ap.add_argument("--ring-per-probe", action="store_true",
                     help="auto2: append to the seen-batch ring once per probe interval "
                          "instead of every step — retention horizon becomes 4-7 probe "
                          "intervals (400-700 steps at probe_every=100) instead of 4-7 steps")
+    ap.add_argument("--gate-energy-frac", type=float, default=0.5,
+                    help="gate_mode=abscal_hi: share of directions, lowest singular "
+                         "energy first, left ungated because the score is a ratio with "
+                         "sigma^2 underneath and is not informative there")
     ap.add_argument("--fixed-lambda", type=float, default=-1.0,
                     help=">=0: pin the gate strength lambda to this value for the whole "
                          "run (no controller); the lambda-ladder ablation arm")
@@ -294,6 +304,7 @@ def main():
                           seed=args.seed)
     opt.gate_block = args.gate_block
     opt.gate_stage = args.gate_stage
+    opt.gate_energy_frac = args.gate_energy_frac
     if args.fixed_lambda >= 0:
         opt.gate_lambda = args.fixed_lambda
     opt.attach_names(model)
@@ -475,6 +486,23 @@ def main():
                 log.write(json.dumps({"step": step, "fresh_loss": float(np.mean(fresh)),
                                       "reseen_loss": float(np.mean(reseen)),
                                       "gap": gap, "gate_lambda": lam}) + "\n")
+        elif args.auto_gate and args.auto_version == 3:
+            # Gate-derived controller. The signal the retention gap was supposed to
+            # carry is already sitting inside the gate refresh: the share of directions
+            # whose cross-timescale score is nearer the fully-consistent endpoint than
+            # the pure-noise one. Measured 24.4% and 24.7% on the two cells where
+            # EchoMuon wins against 4.6% on the cell where it loses, a 5x separation,
+            # where the gap controller separated the same cells by 0.06 in lambda.
+            # Free: no probe batches, no extra forward passes.
+            if step % args.gate_every == 0:
+                frac = opt.mean_signal_frac()
+                if frac is not None:
+                    lam_raw = float(np.clip(frac / max(args.signal_target, 1e-6), 0.0, 1.0))
+                    lam = lam_raw if not lam_hist else 0.7 * lam_hist[-1] + 0.3 * lam_raw
+                    opt.gate_lambda = lam
+                    lam_hist.append(lam)
+                    log.write(json.dumps({"step": step, "signal_frac": frac,
+                                          "gate_lambda": lam}) + "\n")
         elif args.auto_gate:
             ema_train = train_loss if ema_train is None else 0.95 * ema_train + 0.05 * train_loss
             if step % args.probe_every == 0:
@@ -550,6 +578,8 @@ def main():
                    "slow_beta": args.slow_beta,
                    "gate_every": args.gate_every, "probe_every": args.probe_every,
                    "auto_gate": args.auto_gate, "auto_version": args.auto_version,
+                   "signal_target": args.signal_target,
+                   "gate_energy_frac": args.gate_energy_frac,
                    "ring_per_probe": args.ring_per_probe,
                    "fixed_lambda": args.fixed_lambda if args.fixed_lambda >= 0 else None,
                    "val_frac": args.val_frac,

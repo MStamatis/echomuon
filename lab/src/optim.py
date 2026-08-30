@@ -72,6 +72,15 @@ class HybridOptimizer:
         # touches half the directions; 0.2 damps only the most-inconsistent quintile —
         # avoids taxing the slow-emerging genuine features that dominate at larger scale.
         self.gate_quantile = gate_quantile
+        # gate_energy_frac: for gate_mode="abscal_hi", the share of directions (lowest
+        # singular energy first) left at exactly 1. c is a ratio with sigma^2 in the
+        # denominator, so it explodes where sigma is small: lab/c_probe.py measured
+        # c up to 1775 against a theoretical maximum of 5, all of it in the small
+        # directions. The safe default for an estimator that uncertain is not to act.
+        self.gate_energy_frac = 0.5
+        # share of directions scoring above the noise/signal midpoint, per layer. Only
+        # a diagnostic for gate_mode="normal"; auto_version=3 drives lambda from it.
+        self.last_signal_frac = {}
         # gate_block: aggregate consistency over eigenvalue-ordered blocks of this many
         # directions (energy-weighted) before gating — block means stay well-estimated
         # at any dimension, unlike single-direction scores (the H1 scale fix).
@@ -82,7 +91,8 @@ class HybridOptimizer:
         self.gate_stage = "post"
         assert mode in ("adamw", "muon", "shrunk", "tcg")
         assert gate_mode in ("normal", "inverse", "shuffled", "novelty", "coherence",
-                             "amplify", "magnitude", "cosgate", "cautious", "mix", "scalar")
+                             "amplify", "magnitude", "cosgate", "cautious", "mix", "scalar",
+                             "abscal", "abscal_hi")
         self.gate_mode = gate_mode
         self._gate_rng = torch.Generator().manual_seed(seed + 777)
         # EchoMuon controller: measured-overfitting interpolation between pure Muon (0)
@@ -240,6 +250,15 @@ class HybridOptimizer:
             evals = evals.clamp_min(1e-12)
             C = U.T @ (M2 @ M1.T) @ U
             c = C.diagonal() / evals
+            # Diagnostic only; nothing below reads it. With unnormalised EMA sums a
+            # pure-noise direction tends to (1-b1^2)/(1-b1*b2) and a perfectly
+            # consistent one to (1-b1)/(1-b2); this is the share sitting nearer the
+            # second than the first.
+            _b1, _b2 = self.momentum, self.slow_beta
+            _noise_c = (1 - _b1 * _b1) / (1 - _b1 * _b2)
+            _signal_c = (1 - _b1) / (1 - _b2)
+            self.last_signal_frac[name] = float(
+                (c > 0.5 * (_noise_c + _signal_c)).float().mean())
             if self.gate_mode == "magnitude":
                 # Soft-Muon/Pion-style ablation (jiakai.xyz 2026; arXiv:2605.19282):
                 # identical scaffolding (median-normalize, floor, cached projector,
@@ -294,6 +313,32 @@ class HybridOptimizer:
                 self._gate[name] = (U, g)
                 self.last_gate_mean[name] = float(g.mean())
                 continue
+            if self.gate_mode in ("abscal", "abscal_hi"):
+                # Reference the score to the two analytic endpoints of this EMA
+                # convention instead of to the layer median. The median is computed
+                # over a set contaminated by the small-sigma ratio explosion, so it
+                # lands well above the noise floor (measured 2.8 against 1.64 on
+                # CIFAR-10) and the shipped gate ends up damping the highest-energy
+                # directions while passing the unstable ones. A fixed reference is
+                # immune to that: clipping at signal_c maps c=1775 to 1 and stops.
+                r = ((c - _noise_c) / (_signal_c - _noise_c)).clamp(0.0, 1.0)
+                g = self.gate_floor + (1.0 - self.gate_floor) * r
+                if self.gate_mode == "abscal_hi":
+                    exempt = evals < torch.quantile(evals, self.gate_energy_frac)
+                    g = torch.where(exempt, torch.ones_like(g), g)
+                    sub = ~exempt
+                    if int(sub.sum()) > 0:
+                        g = g.clone()
+                        g[sub] = g[sub] / (g[sub] * g[sub]).mean().sqrt().clamp_min(1e-12)
+                else:
+                    g = g / (g * g).mean().sqrt().clamp_min(1e-12)
+                # Renormalised to unit mean square, so the gate REALLOCATES at constant
+                # Frobenius norm instead of contracting. Without this the absolute rule
+                # is a 2.6x to 5.7x step reduction (measured) and simply reintroduces
+                # the learning-rate confound that the median rule was meant to avoid.
+                self._gate[name] = (U, g)
+                self.last_gate_mean[name] = float(g.mean())
+                continue
             med = torch.quantile(c, self.gate_quantile).clamp_min(1e-12)
             if self.gate_mode == "inverse":  # damp CONSISTENT directions (must hurt)
                 g = (med / c.clamp_min(1e-12)).clamp(self.gate_floor, 1.0)
@@ -311,6 +356,19 @@ class HybridOptimizer:
                 g = g[perm.to(g.device)]
             self._gate[name] = (U, g)
             self.last_gate_mean[name] = float(g.mean())
+
+    def mean_signal_frac(self):
+        """Mean share of directions with a real echo, across layers.
+
+        Measured on four cells: 24.4% Tiny ImageNet and 24.7% CIFAR-10, where EchoMuon
+        wins, 13.8% FineWeb, and 4.6% on corrupted bytes, the cell where it loses. The
+        retention-gap controller separates the same four by 0.06 in lambda. Costs
+        nothing: it falls out of the gate refresh that already happened.
+        """
+        if not self.last_signal_frac:
+            return None
+        v = list(self.last_signal_frac.values())
+        return sum(v) / len(v)
 
     def _nesterov_update(self, name, p):
         buf = self.buf[name]

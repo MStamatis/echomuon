@@ -1514,6 +1514,97 @@ def stage_v2_fa3x_widen():
                         lr_schedule="cosine", no_monitor=True, **FA_CFG, **extra)
 
 
+V3_ARMS = [
+    ("a1abs", {"gate_mode": "abscal", "auto_gate": True, "auto_version": 2,
+               "probe_every": 100}),
+    ("a2abshi", {"gate_mode": "abscal_hi", "auto_gate": True, "auto_version": 2,
+                 "probe_every": 100}),
+    ("a3sig", {"gate_mode": "normal", "auto_gate": True, "auto_version": 3}),
+    ("a4both", {"gate_mode": "abscal", "auto_gate": True, "auto_version": 3}),
+]
+V3_SEEDS = [1, 2, 3]
+
+
+def _v3_sweep_pick(prefix, grid, run, max_widen=2):
+    """Sweep, then widen in whichever direction the pick lands on an edge.
+
+    The paper's central methodological finding is that a grid edge is not a
+    selection, so no arm here is allowed to be scored on one.
+    """
+    grid = sorted(grid)
+    for lr in grid:
+        run(lr)
+    for _ in range(max_widen * 2):
+        best = _pick_best(prefix, grid)
+        if best == grid[0]:
+            lo = grid[0] / 2
+            run(lo)
+            grid = [lo] + grid
+        elif best == grid[-1]:
+            hi = grid[-1] * 2
+            run(hi)
+            grid = grid + [hi]
+        else:
+            break
+    best = _pick_best(prefix, grid)
+    print(f"V3: {prefix} -> lr {best:g} "
+          f"({'INTERIOR' if grid[0] < best < grid[-1] else 'STILL ON AN EDGE'})",
+          flush=True)
+    return best
+
+
+def stage_v3_screen():
+    """Screen the v3 gate arms on the two cells that define the hypothesis.
+
+    Measured with lab/c_probe.py over 3,456 layer-observations: the consistency score
+    c has a real absolute scale (its 10th percentile sits on the analytic pure-noise
+    floor of 1.639 on all four cells measured), and the share of directions above the
+    noise/signal midpoint separates the cells by outcome 5 to 1 -- 24.4% on Tiny
+    ImageNet where EchoMuon wins against 4.6% on corrupted bytes where it loses. The
+    median-relative rule throws that scale away, and because the median is computed
+    over a set contaminated by the small-sigma ratio explosion (measured c up to 1775
+    against a theoretical 5) it lands above the noise floor, so the shipped gate damps
+    the highest-energy directions and passes the unstable ones.
+
+    Arms:
+      a1abs    absolute reference, renormalised to constant Frobenius norm
+      a2abshi  the same, but the low-energy half is left ungated
+      a3sig    shipped gate, lambda driven by the measured signal fraction
+      a4both   both changes
+
+    Pre-registered predictions, recorded before the runs:
+      1. a1abs and a2abshi keep most of the Tiny ImageNet margin. If the absolute rule
+         is right about which directions carry echo, damping the rest should not cost.
+      2. a3sig turns the corrupted-byte loss into a tie or better, because the signal
+         fraction there is 4.6% and lambda should fall accordingly.
+      3. a4both is the best of the four on both cells, or the two changes interfere.
+      4. a1abs and a2abshi select a learning rate near the baseline's, since the
+         renormalisation is norm-preserving by construction. A large shift means the
+         renormalisation is not doing what it claims.
+    """
+    cells = [
+        ("TIA", {"task": "vision", "dataset": "tinyimagenet", "batch": 128, **V_DIMS},
+         [2.5e-3, 5e-3, 0.01, 0.02, 0.05], V_SWEEP_STEPS, V_FINAL_STEPS,
+         {"val_frac": 0.1}),
+        ("PscaleM", {"task": "lm", "dataset": "enwik8p10", "batch": 64,
+                     "n_layer": 12, "n_head": 8, "dim": 512, "block": 256},
+         [5e-3, 0.01, 0.02, 0.04], 2000, 4000, {}),
+    ]
+    for cell, common, grid, sweep_steps, final_steps, sel in cells:
+        for arm, extra in V3_ARMS:
+            base = dict(optimizer="tcg", lr_schedule="cosine", no_monitor=True,
+                        **common, **extra)
+            prefix = f"sweep3_{cell}_{arm}_lr"
+
+            def run(lr, _b=base, _p=prefix, _s=sweep_steps, _sel=sel):
+                run_one(f"{_p}{lr:g}", lr=lr, steps=_s, seed=1, **_sel, **_b)
+
+            best = _v3_sweep_pick(prefix, grid, run)
+            for seed in V3_SEEDS:
+                run_one(f"final3_{cell}_{arm}_s{seed}", lr=best, steps=final_steps,
+                        seed=seed, **base)
+
+
 def stage_v2_multiseed_select():
     """Debt (9). Every lr grid in this project is scored from ONE seed, and the
     V100A/auto2 pick demonstrably flipped between two equally valid val splits with a
@@ -1606,6 +1697,7 @@ if __name__ == "__main__":
               "v2-fa3x-widen": [stage_v2_fa3x_widen],
               "v2-multiseed": [stage_v2_multiseed_select],
               "v2-followup": [stage_v2_fa3x_widen, stage_v2_multiseed_select],
+              "v3-screen": [stage_v3_screen],
               "v2-queue": [stage_v2_byte_grid, stage_v2_horizon, stage_v2_controls,
                            stage_v2_clean38, stage_v2_noise_dose,
                            stage_v2_lambda_ladder, stage_v2_valsplit,
