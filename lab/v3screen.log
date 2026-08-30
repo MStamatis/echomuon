@@ -1,0 +1,1016 @@
+================================================================================
+RUN: sweep3_TIA_a1abs_lr0.0025
+[sweep3_TIA_a1abs_lr0.0025] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a1abs_lr0.0025] step 250/2000 train 4.7721 val 4.9368 acc 0.0375
+[sweep3_TIA_a1abs_lr0.0025] step 500/2000 train 4.5057 val 4.5049 acc 0.0840
+[sweep3_TIA_a1abs_lr0.0025] step 750/2000 train 4.2301 val 4.1722 acc 0.1223
+[sweep3_TIA_a1abs_lr0.0025] step 1000/2000 train 3.5728 val 3.9155 acc 0.1602
+[sweep3_TIA_a1abs_lr0.0025] step 1250/2000 train 3.9471 val 3.7288 acc 0.1887
+[sweep3_TIA_a1abs_lr0.0025] step 1500/2000 train 3.6160 val 3.6147 acc 0.1996
+[sweep3_TIA_a1abs_lr0.0025] step 1750/2000 train 3.2517 val 3.5399 acc 0.2219
+[sweep3_TIA_a1abs_lr0.0025] step 2000/2000 train 3.3317 val 3.5255 acc 0.2293
+[sweep3_TIA_a1abs_lr0.0025] DONE final_val=3.5255 best_val=3.5255 wall=124s
+================================================================================
+RUN: sweep3_TIA_a1abs_lr0.005
+[sweep3_TIA_a1abs_lr0.005] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a1abs_lr0.005] step 250/2000 train 4.6035 val 4.7403 acc 0.0527
+[sweep3_TIA_a1abs_lr0.005] step 500/2000 train 4.2492 val 4.1946 acc 0.1156
+[sweep3_TIA_a1abs_lr0.005] step 750/2000 train 3.8544 val 3.7956 acc 0.1754
+[sweep3_TIA_a1abs_lr0.005] step 1000/2000 train 3.0948 val 3.4998 acc 0.2277
+[sweep3_TIA_a1abs_lr0.005] step 1250/2000 train 3.5398 val 3.3099 acc 0.2559
+[sweep3_TIA_a1abs_lr0.005] step 1500/2000 train 3.2237 val 3.1998 acc 0.2695
+[sweep3_TIA_a1abs_lr0.005] step 1750/2000 train 2.6636 val 3.1034 acc 0.2926
+[sweep3_TIA_a1abs_lr0.005] step 2000/2000 train 2.8806 val 3.0911 acc 0.2988
+[sweep3_TIA_a1abs_lr0.005] DONE final_val=3.0911 best_val=3.0911 wall=121s
+================================================================================
+RUN: sweep3_TIA_a1abs_lr0.01
+[sweep3_TIA_a1abs_lr0.01] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a1abs_lr0.01] step 250/2000 train 4.3151 val 4.5187 acc 0.0691
+[sweep3_TIA_a1abs_lr0.01] step 500/2000 train 3.9521 val 3.8476 acc 0.1609
+[sweep3_TIA_a1abs_lr0.01] step 750/2000 train 3.7206 val 3.5495 acc 0.2113
+[sweep3_TIA_a1abs_lr0.01] step 1000/2000 train 2.8465 val 3.2924 acc 0.2594
+[sweep3_TIA_a1abs_lr0.01] step 1250/2000 train 3.2436 val 3.0883 acc 0.2945
+[sweep3_TIA_a1abs_lr0.01] step 1500/2000 train 2.9522 val 2.9781 acc 0.3121
+[sweep3_TIA_a1abs_lr0.01] step 1750/2000 train 2.3963 val 2.8935 acc 0.3328
+[sweep3_TIA_a1abs_lr0.01] step 2000/2000 train 2.5952 val 2.8583 acc 0.3445
+[sweep3_TIA_a1abs_lr0.01] DONE final_val=2.8583 best_val=2.8583 wall=110s
+================================================================================
+RUN: sweep3_TIA_a1abs_lr0.02
+[sweep3_TIA_a1abs_lr0.02] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a1abs_lr0.02] step 250/2000 train 4.2219 val 4.4369 acc 0.0883
+[sweep3_TIA_a1abs_lr0.02] step 500/2000 train 3.9190 val 3.9524 acc 0.1488
+[sweep3_TIA_a1abs_lr0.02] step 750/2000 train 3.7248 val 3.6971 acc 0.1918
+[sweep3_TIA_a1abs_lr0.02] step 1000/2000 train 3.0690 val 3.4684 acc 0.2324
+[sweep3_TIA_a1abs_lr0.02] step 1250/2000 train 3.3297 val 3.2638 acc 0.2605
+[sweep3_TIA_a1abs_lr0.02] step 1500/2000 train 3.1386 val 3.1876 acc 0.2770
+[sweep3_TIA_a1abs_lr0.02] step 1750/2000 train 2.5350 val 3.0299 acc 0.3063
+[sweep3_TIA_a1abs_lr0.02] step 2000/2000 train 2.7491 val 2.9837 acc 0.3137
+[sweep3_TIA_a1abs_lr0.02] DONE final_val=2.9837 best_val=2.9837 wall=118s
+================================================================================
+RUN: sweep3_TIA_a1abs_lr0.05
+[sweep3_TIA_a1abs_lr0.05] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a1abs_lr0.05] step 250/2000 train 4.4288 val 4.6038 acc 0.0684
+[sweep3_TIA_a1abs_lr0.05] step 500/2000 train 4.4009 val 4.4152 acc 0.0902
+[sweep3_TIA_a1abs_lr0.05] step 750/2000 train 4.3652 val 4.3467 acc 0.1012
+[sweep3_TIA_a1abs_lr0.05] step 1000/2000 train 3.9270 val 4.2059 acc 0.1191
+[sweep3_TIA_a1abs_lr0.05] step 1250/2000 train 4.2035 val 4.1505 acc 0.1187
+[sweep3_TIA_a1abs_lr0.05] step 1500/2000 train 3.9868 val 4.0660 acc 0.1375
+[sweep3_TIA_a1abs_lr0.05] step 1750/2000 train 3.7826 val 3.9788 acc 0.1488
+[sweep3_TIA_a1abs_lr0.05] step 2000/2000 train 3.7905 val 3.9297 acc 0.1590
+[sweep3_TIA_a1abs_lr0.05] DONE final_val=3.9297 best_val=3.9297 wall=114s
+V3: sweep3_TIA_a1abs_lr -> lr 0.01 (INTERIOR)
+================================================================================
+RUN: final3_TIA_a1abs_s1
+[final3_TIA_a1abs_s1] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a1abs_s1] step 250/6000 train 4.6870 val 4.4532 acc 0.0781
+[final3_TIA_a1abs_s1] step 500/6000 train 3.9287 val 3.9177 acc 0.1422
+[final3_TIA_a1abs_s1] step 750/6000 train 3.6298 val 3.5697 acc 0.2016
+[final3_TIA_a1abs_s1] step 1000/6000 train 3.3995 val 3.4545 acc 0.2207
+[final3_TIA_a1abs_s1] step 1250/6000 train 3.0488 val 3.3144 acc 0.2340
+[final3_TIA_a1abs_s1] step 1500/6000 train 2.9748 val 3.2035 acc 0.2707
+[final3_TIA_a1abs_s1] step 1750/6000 train 2.9884 val 3.1007 acc 0.2848
+[final3_TIA_a1abs_s1] step 2000/6000 train 2.8691 val 3.0049 acc 0.2988
+[final3_TIA_a1abs_s1] step 2250/6000 train 2.5295 val 2.9305 acc 0.3102
+[final3_TIA_a1abs_s1] step 2500/6000 train 2.4265 val 2.8575 acc 0.3254
+[final3_TIA_a1abs_s1] step 2750/6000 train 2.5093 val 2.7737 acc 0.3406
+[final3_TIA_a1abs_s1] step 3000/6000 train 2.4620 val 2.7543 acc 0.3547
+[final3_TIA_a1abs_s1] step 3250/6000 train 2.5401 val 2.6804 acc 0.3660
+[final3_TIA_a1abs_s1] step 3500/6000 train 2.3399 val 2.6267 acc 0.3750
+[final3_TIA_a1abs_s1] step 3750/6000 train 1.9615 val 2.6116 acc 0.3902
+[final3_TIA_a1abs_s1] step 4000/6000 train 2.3531 val 2.5926 acc 0.4066
+[final3_TIA_a1abs_s1] step 4250/6000 train 1.7223 val 2.5352 acc 0.4094
+[final3_TIA_a1abs_s1] step 4500/6000 train 1.9857 val 2.5260 acc 0.4180
+[final3_TIA_a1abs_s1] step 4750/6000 train 1.6785 val 2.5068 acc 0.4141
+[final3_TIA_a1abs_s1] step 5000/6000 train 1.6542 val 2.5111 acc 0.4250
+[final3_TIA_a1abs_s1] step 5250/6000 train 1.6723 val 2.5149 acc 0.4188
+[final3_TIA_a1abs_s1] step 5500/6000 train 1.7620 val 2.4823 acc 0.4254
+[final3_TIA_a1abs_s1] step 5750/6000 train 1.7448 val 2.4899 acc 0.4273
+[final3_TIA_a1abs_s1] step 6000/6000 train 1.4851 val 2.4940 acc 0.4297
+[final3_TIA_a1abs_s1] DONE final_val=2.4940 best_val=2.4823 wall=377s
+================================================================================
+RUN: final3_TIA_a1abs_s2
+[final3_TIA_a1abs_s2] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a1abs_s2] step 250/6000 train 4.4956 val 4.5331 acc 0.0688
+[final3_TIA_a1abs_s2] step 500/6000 train 3.7628 val 3.9027 acc 0.1555
+[final3_TIA_a1abs_s2] step 750/6000 train 3.4208 val 3.6391 acc 0.1871
+[final3_TIA_a1abs_s2] step 1000/6000 train 3.1938 val 3.3942 acc 0.2375
+[final3_TIA_a1abs_s2] step 1250/6000 train 3.2239 val 3.3163 acc 0.2508
+[final3_TIA_a1abs_s2] step 1500/6000 train 2.9975 val 3.1736 acc 0.2680
+[final3_TIA_a1abs_s2] step 1750/6000 train 2.8268 val 3.1046 acc 0.2836
+[final3_TIA_a1abs_s2] step 2000/6000 train 2.7404 val 2.9710 acc 0.3090
+[final3_TIA_a1abs_s2] step 2250/6000 train 2.7471 val 2.9222 acc 0.3102
+[final3_TIA_a1abs_s2] step 2500/6000 train 2.5191 val 2.8326 acc 0.3320
+[final3_TIA_a1abs_s2] step 2750/6000 train 2.2831 val 2.8310 acc 0.3352
+[final3_TIA_a1abs_s2] step 3000/6000 train 2.5637 val 2.7647 acc 0.3469
+[final3_TIA_a1abs_s2] step 3250/6000 train 2.2234 val 2.6997 acc 0.3621
+[final3_TIA_a1abs_s2] step 3500/6000 train 2.2152 val 2.6576 acc 0.3777
+[final3_TIA_a1abs_s2] step 3750/6000 train 2.3274 val 2.6193 acc 0.3836
+[final3_TIA_a1abs_s2] step 4000/6000 train 2.0093 val 2.6059 acc 0.3859
+[final3_TIA_a1abs_s2] step 4250/6000 train 2.0093 val 2.5482 acc 0.3922
+[final3_TIA_a1abs_s2] step 4500/6000 train 1.9274 val 2.5329 acc 0.4086
+[final3_TIA_a1abs_s2] step 4750/6000 train 1.9555 val 2.5207 acc 0.4051
+[final3_TIA_a1abs_s2] step 5000/6000 train 1.9324 val 2.4671 acc 0.4207
+[final3_TIA_a1abs_s2] step 5250/6000 train 1.9046 val 2.4661 acc 0.4277
+[final3_TIA_a1abs_s2] step 5500/6000 train 1.5141 val 2.5025 acc 0.4152
+[final3_TIA_a1abs_s2] step 5750/6000 train 1.9856 val 2.4873 acc 0.4219
+[final3_TIA_a1abs_s2] step 6000/6000 train 1.9921 val 2.4930 acc 0.4211
+[final3_TIA_a1abs_s2] DONE final_val=2.4930 best_val=2.4661 wall=376s
+================================================================================
+RUN: final3_TIA_a1abs_s3
+[final3_TIA_a1abs_s3] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a1abs_s3] step 250/6000 train 4.4308 val 4.5125 acc 0.0828
+[final3_TIA_a1abs_s3] step 500/6000 train 3.9236 val 3.9126 acc 0.1367
+[final3_TIA_a1abs_s3] step 750/6000 train 3.5385 val 3.6544 acc 0.1832
+[final3_TIA_a1abs_s3] step 1000/6000 train 3.4284 val 3.4222 acc 0.2145
+[final3_TIA_a1abs_s3] step 1250/6000 train 3.2604 val 3.2881 acc 0.2527
+[final3_TIA_a1abs_s3] step 1500/6000 train 2.9215 val 3.1840 acc 0.2699
+[final3_TIA_a1abs_s3] step 1750/6000 train 2.9546 val 3.1451 acc 0.2648
+[final3_TIA_a1abs_s3] step 2000/6000 train 2.8445 val 2.9967 acc 0.3043
+[final3_TIA_a1abs_s3] step 2250/6000 train 2.8353 val 2.9025 acc 0.3277
+[final3_TIA_a1abs_s3] step 2500/6000 train 2.6428 val 2.8764 acc 0.3238
+[final3_TIA_a1abs_s3] step 2750/6000 train 2.6151 val 2.7937 acc 0.3410
+[final3_TIA_a1abs_s3] step 3000/6000 train 2.3736 val 2.7479 acc 0.3453
+[final3_TIA_a1abs_s3] step 3250/6000 train 2.3287 val 2.6732 acc 0.3578
+[final3_TIA_a1abs_s3] step 3500/6000 train 2.2212 val 2.6256 acc 0.3766
+[final3_TIA_a1abs_s3] step 3750/6000 train 2.2019 val 2.5885 acc 0.3852
+[final3_TIA_a1abs_s3] step 4000/6000 train 2.2360 val 2.5950 acc 0.3875
+[final3_TIA_a1abs_s3] step 4250/6000 train 2.2211 val 2.5586 acc 0.4023
+[final3_TIA_a1abs_s3] step 4500/6000 train 1.7830 val 2.5237 acc 0.4098
+[final3_TIA_a1abs_s3] step 4750/6000 train 1.8366 val 2.5047 acc 0.4152
+[final3_TIA_a1abs_s3] step 5000/6000 train 1.9482 val 2.5026 acc 0.4156
+[final3_TIA_a1abs_s3] step 5250/6000 train 1.5897 val 2.4657 acc 0.4254
+[final3_TIA_a1abs_s3] step 5500/6000 train 1.7849 val 2.4709 acc 0.4254
+[final3_TIA_a1abs_s3] step 5750/6000 train 1.5421 val 2.4742 acc 0.4211
+[final3_TIA_a1abs_s3] step 6000/6000 train 2.1620 val 2.4660 acc 0.4328
+[final3_TIA_a1abs_s3] DONE final_val=2.4660 best_val=2.4657 wall=399s
+================================================================================
+RUN: sweep3_TIA_a2abshi_lr0.0025
+[sweep3_TIA_a2abshi_lr0.0025] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a2abshi_lr0.0025] step 250/2000 train 4.7594 val 4.9264 acc 0.0391
+[sweep3_TIA_a2abshi_lr0.0025] step 500/2000 train 4.4645 val 4.4553 acc 0.0883
+[sweep3_TIA_a2abshi_lr0.0025] step 750/2000 train 4.1944 val 4.1055 acc 0.1281
+[sweep3_TIA_a2abshi_lr0.0025] step 1000/2000 train 3.4712 val 3.8283 acc 0.1816
+[sweep3_TIA_a2abshi_lr0.0025] step 1250/2000 train 3.8703 val 3.6553 acc 0.1984
+[sweep3_TIA_a2abshi_lr0.0025] step 1500/2000 train 3.5294 val 3.5329 acc 0.2238
+[sweep3_TIA_a2abshi_lr0.0025] step 1750/2000 train 3.1368 val 3.4705 acc 0.2266
+[sweep3_TIA_a2abshi_lr0.0025] step 2000/2000 train 3.2260 val 3.4356 acc 0.2391
+[sweep3_TIA_a2abshi_lr0.0025] DONE final_val=3.4356 best_val=3.4356 wall=123s
+================================================================================
+RUN: sweep3_TIA_a2abshi_lr0.005
+[sweep3_TIA_a2abshi_lr0.005] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a2abshi_lr0.005] step 250/2000 train 4.5776 val 4.7111 acc 0.0574
+[sweep3_TIA_a2abshi_lr0.005] step 500/2000 train 4.2174 val 4.1281 acc 0.1215
+[sweep3_TIA_a2abshi_lr0.005] step 750/2000 train 3.7937 val 3.7573 acc 0.1789
+[sweep3_TIA_a2abshi_lr0.005] step 1000/2000 train 3.0239 val 3.4393 acc 0.2402
+[sweep3_TIA_a2abshi_lr0.005] step 1250/2000 train 3.3865 val 3.2392 acc 0.2566
+[sweep3_TIA_a2abshi_lr0.005] step 1500/2000 train 3.1964 val 3.1446 acc 0.2824
+[sweep3_TIA_a2abshi_lr0.005] step 1750/2000 train 2.6236 val 3.0488 acc 0.3035
+[sweep3_TIA_a2abshi_lr0.005] step 2000/2000 train 2.8221 val 3.0302 acc 0.3109
+[sweep3_TIA_a2abshi_lr0.005] DONE final_val=3.0302 best_val=3.0302 wall=125s
+================================================================================
+RUN: sweep3_TIA_a2abshi_lr0.01
+[sweep3_TIA_a2abshi_lr0.01] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a2abshi_lr0.01] step 250/2000 train 4.3019 val 4.4868 acc 0.0766
+[sweep3_TIA_a2abshi_lr0.01] step 500/2000 train 3.8495 val 3.8423 acc 0.1574
+[sweep3_TIA_a2abshi_lr0.01] step 750/2000 train 3.6127 val 3.5760 acc 0.2070
+[sweep3_TIA_a2abshi_lr0.01] step 1000/2000 train 2.9154 val 3.3196 acc 0.2598
+[sweep3_TIA_a2abshi_lr0.01] step 1250/2000 train 3.2065 val 3.1092 acc 0.2852
+[sweep3_TIA_a2abshi_lr0.01] step 1500/2000 train 3.0267 val 3.0134 acc 0.3020
+[sweep3_TIA_a2abshi_lr0.01] step 1750/2000 train 2.4513 val 2.9000 acc 0.3344
+[sweep3_TIA_a2abshi_lr0.01] step 2000/2000 train 2.5551 val 2.8663 acc 0.3480
+[sweep3_TIA_a2abshi_lr0.01] DONE final_val=2.8663 best_val=2.8663 wall=121s
+================================================================================
+RUN: sweep3_TIA_a2abshi_lr0.02
+[sweep3_TIA_a2abshi_lr0.02] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a2abshi_lr0.02] step 250/2000 train 4.2112 val 4.4434 acc 0.0859
+[sweep3_TIA_a2abshi_lr0.02] step 500/2000 train 3.9725 val 3.9836 acc 0.1410
+[sweep3_TIA_a2abshi_lr0.02] step 750/2000 train 3.8318 val 3.7852 acc 0.1672
+[sweep3_TIA_a2abshi_lr0.02] step 1000/2000 train 3.1022 val 3.5161 acc 0.2160
+[sweep3_TIA_a2abshi_lr0.02] step 1250/2000 train 3.3991 val 3.3291 acc 0.2543
+[sweep3_TIA_a2abshi_lr0.02] step 1500/2000 train 3.2075 val 3.2259 acc 0.2758
+[sweep3_TIA_a2abshi_lr0.02] step 1750/2000 train 2.6741 val 3.0935 acc 0.2867
+[sweep3_TIA_a2abshi_lr0.02] step 2000/2000 train 2.8359 val 3.0668 acc 0.3000
+[sweep3_TIA_a2abshi_lr0.02] DONE final_val=3.0668 best_val=3.0668 wall=118s
+================================================================================
+RUN: sweep3_TIA_a2abshi_lr0.05
+[sweep3_TIA_a2abshi_lr0.05] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a2abshi_lr0.05] step 250/2000 train 4.5237 val 4.6941 acc 0.0570
+[sweep3_TIA_a2abshi_lr0.05] step 500/2000 train 4.5949 val 4.5971 acc 0.0684
+[sweep3_TIA_a2abshi_lr0.05] step 750/2000 train 4.4944 val 4.5199 acc 0.0813
+[sweep3_TIA_a2abshi_lr0.05] step 1000/2000 train 4.3351 val 4.4398 acc 0.0926
+[sweep3_TIA_a2abshi_lr0.05] step 1250/2000 train 4.4485 val 4.3313 acc 0.1004
+[sweep3_TIA_a2abshi_lr0.05] step 1500/2000 train 4.2645 val 4.2697 acc 0.1199
+[sweep3_TIA_a2abshi_lr0.05] step 1750/2000 train 3.9297 val 4.1865 acc 0.1211
+[sweep3_TIA_a2abshi_lr0.05] step 2000/2000 train 4.0239 val 4.1334 acc 0.1371
+[sweep3_TIA_a2abshi_lr0.05] DONE final_val=4.1334 best_val=4.1334 wall=116s
+V3: sweep3_TIA_a2abshi_lr -> lr 0.01 (INTERIOR)
+================================================================================
+RUN: final3_TIA_a2abshi_s1
+[final3_TIA_a2abshi_s1] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a2abshi_s1] step 250/6000 train 4.6541 val 4.4329 acc 0.0832
+[final3_TIA_a2abshi_s1] step 500/6000 train 3.9297 val 3.8954 acc 0.1441
+[final3_TIA_a2abshi_s1] step 750/6000 train 3.5767 val 3.6083 acc 0.1988
+[final3_TIA_a2abshi_s1] step 1000/6000 train 3.3290 val 3.4322 acc 0.2184
+[final3_TIA_a2abshi_s1] step 1250/6000 train 3.1945 val 3.3092 acc 0.2387
+[final3_TIA_a2abshi_s1] step 1500/6000 train 2.9738 val 3.2152 acc 0.2637
+[final3_TIA_a2abshi_s1] step 1750/6000 train 3.0158 val 3.1552 acc 0.2781
+[final3_TIA_a2abshi_s1] step 2000/6000 train 2.8297 val 2.9992 acc 0.2996
+[final3_TIA_a2abshi_s1] step 2250/6000 train 2.6247 val 2.9842 acc 0.3047
+[final3_TIA_a2abshi_s1] step 2500/6000 train 2.4328 val 2.9188 acc 0.3195
+[final3_TIA_a2abshi_s1] step 2750/6000 train 2.5962 val 2.7994 acc 0.3371
+[final3_TIA_a2abshi_s1] step 3000/6000 train 2.4556 val 2.7614 acc 0.3527
+[final3_TIA_a2abshi_s1] step 3250/6000 train 2.4736 val 2.7147 acc 0.3578
+[final3_TIA_a2abshi_s1] step 3500/6000 train 2.3383 val 2.6279 acc 0.3777
+[final3_TIA_a2abshi_s1] step 3750/6000 train 1.8907 val 2.6159 acc 0.3828
+[final3_TIA_a2abshi_s1] step 4000/6000 train 2.4353 val 2.5919 acc 0.3957
+[final3_TIA_a2abshi_s1] step 4250/6000 train 1.8291 val 2.5663 acc 0.3996
+[final3_TIA_a2abshi_s1] step 4500/6000 train 2.0319 val 2.5785 acc 0.4043
+[final3_TIA_a2abshi_s1] step 4750/6000 train 1.6777 val 2.5091 acc 0.4129
+[final3_TIA_a2abshi_s1] step 5000/6000 train 1.6569 val 2.5060 acc 0.4156
+[final3_TIA_a2abshi_s1] step 5250/6000 train 1.6792 val 2.5420 acc 0.4230
+[final3_TIA_a2abshi_s1] step 5500/6000 train 1.6192 val 2.4808 acc 0.4199
+[final3_TIA_a2abshi_s1] step 5750/6000 train 1.7691 val 2.4747 acc 0.4195
+[final3_TIA_a2abshi_s1] step 6000/6000 train 1.5418 val 2.5115 acc 0.4137
+[final3_TIA_a2abshi_s1] DONE final_val=2.5115 best_val=2.4747 wall=371s
+================================================================================
+RUN: final3_TIA_a2abshi_s2
+[final3_TIA_a2abshi_s2] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a2abshi_s2] step 250/6000 train 4.4888 val 4.5035 acc 0.0715
+[final3_TIA_a2abshi_s2] step 500/6000 train 3.7429 val 3.8910 acc 0.1625
+[final3_TIA_a2abshi_s2] step 750/6000 train 3.4412 val 3.6255 acc 0.1871
+[final3_TIA_a2abshi_s2] step 1000/6000 train 3.0746 val 3.4546 acc 0.2156
+[final3_TIA_a2abshi_s2] step 1250/6000 train 3.2550 val 3.3318 acc 0.2500
+[final3_TIA_a2abshi_s2] step 1500/6000 train 2.9634 val 3.1815 acc 0.2734
+[final3_TIA_a2abshi_s2] step 1750/6000 train 2.8466 val 3.1135 acc 0.2816
+[final3_TIA_a2abshi_s2] step 2000/6000 train 2.7658 val 3.0039 acc 0.3113
+[final3_TIA_a2abshi_s2] step 2250/6000 train 2.7651 val 2.9076 acc 0.3223
+[final3_TIA_a2abshi_s2] step 2500/6000 train 2.5778 val 2.8545 acc 0.3289
+[final3_TIA_a2abshi_s2] step 2750/6000 train 2.3796 val 2.8010 acc 0.3434
+[final3_TIA_a2abshi_s2] step 3000/6000 train 2.6931 val 2.7351 acc 0.3574
+[final3_TIA_a2abshi_s2] step 3250/6000 train 2.1788 val 2.6820 acc 0.3645
+[final3_TIA_a2abshi_s2] step 3500/6000 train 2.3079 val 2.6407 acc 0.3762
+[final3_TIA_a2abshi_s2] step 3750/6000 train 2.3358 val 2.6133 acc 0.3879
+[final3_TIA_a2abshi_s2] step 4000/6000 train 2.0042 val 2.6054 acc 0.3949
+[final3_TIA_a2abshi_s2] step 4250/6000 train 2.0576 val 2.5442 acc 0.4020
+[final3_TIA_a2abshi_s2] step 4500/6000 train 1.8804 val 2.5095 acc 0.4039
+[final3_TIA_a2abshi_s2] step 4750/6000 train 2.0678 val 2.4875 acc 0.4086
+[final3_TIA_a2abshi_s2] step 5000/6000 train 1.9101 val 2.4539 acc 0.4273
+[final3_TIA_a2abshi_s2] step 5250/6000 train 1.9504 val 2.4671 acc 0.4125
+[final3_TIA_a2abshi_s2] step 5500/6000 train 1.6195 val 2.4741 acc 0.4211
+[final3_TIA_a2abshi_s2] step 5750/6000 train 1.9617 val 2.4461 acc 0.4234
+[final3_TIA_a2abshi_s2] step 6000/6000 train 1.9677 val 2.4689 acc 0.4230
+[final3_TIA_a2abshi_s2] DONE final_val=2.4689 best_val=2.4461 wall=372s
+================================================================================
+RUN: final3_TIA_a2abshi_s3
+[final3_TIA_a2abshi_s3] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a2abshi_s3] step 250/6000 train 4.4174 val 4.4763 acc 0.0805
+[final3_TIA_a2abshi_s3] step 500/6000 train 3.9742 val 3.9266 acc 0.1391
+[final3_TIA_a2abshi_s3] step 750/6000 train 3.5830 val 3.6367 acc 0.1844
+[final3_TIA_a2abshi_s3] step 1000/6000 train 3.4432 val 3.4687 acc 0.2121
+[final3_TIA_a2abshi_s3] step 1250/6000 train 3.2414 val 3.3191 acc 0.2449
+[final3_TIA_a2abshi_s3] step 1500/6000 train 2.9531 val 3.2239 acc 0.2582
+[final3_TIA_a2abshi_s3] step 1750/6000 train 3.0761 val 3.0823 acc 0.2738
+[final3_TIA_a2abshi_s3] step 2000/6000 train 2.9785 val 3.0153 acc 0.2938
+[final3_TIA_a2abshi_s3] step 2250/6000 train 2.7653 val 2.9435 acc 0.3063
+[final3_TIA_a2abshi_s3] step 2500/6000 train 2.6687 val 2.8440 acc 0.3254
+[final3_TIA_a2abshi_s3] step 2750/6000 train 2.5849 val 2.7900 acc 0.3488
+[final3_TIA_a2abshi_s3] step 3000/6000 train 2.2932 val 2.7580 acc 0.3496
+[final3_TIA_a2abshi_s3] step 3250/6000 train 2.2464 val 2.6910 acc 0.3699
+[final3_TIA_a2abshi_s3] step 3500/6000 train 2.2273 val 2.6517 acc 0.3781
+[final3_TIA_a2abshi_s3] step 3750/6000 train 2.2674 val 2.5964 acc 0.3840
+[final3_TIA_a2abshi_s3] step 4000/6000 train 2.3284 val 2.6258 acc 0.3836
+[final3_TIA_a2abshi_s3] step 4250/6000 train 2.3060 val 2.5557 acc 0.4055
+[final3_TIA_a2abshi_s3] step 4500/6000 train 1.9108 val 2.5469 acc 0.4023
+[final3_TIA_a2abshi_s3] step 4750/6000 train 1.8592 val 2.5052 acc 0.4137
+[final3_TIA_a2abshi_s3] step 5000/6000 train 1.8871 val 2.4894 acc 0.4180
+[final3_TIA_a2abshi_s3] step 5250/6000 train 1.6186 val 2.5039 acc 0.4156
+[final3_TIA_a2abshi_s3] step 5500/6000 train 1.7895 val 2.4795 acc 0.4293
+[final3_TIA_a2abshi_s3] step 5750/6000 train 1.6432 val 2.4867 acc 0.4195
+[final3_TIA_a2abshi_s3] step 6000/6000 train 2.0562 val 2.4813 acc 0.4289
+[final3_TIA_a2abshi_s3] DONE final_val=2.4813 best_val=2.4795 wall=379s
+================================================================================
+RUN: sweep3_TIA_a3sig_lr0.0025
+[sweep3_TIA_a3sig_lr0.0025] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a3sig_lr0.0025] step 250/2000 train 4.7546 val 4.9081 acc 0.0387
+[sweep3_TIA_a3sig_lr0.0025] step 500/2000 train 4.4669 val 4.4845 acc 0.0855
+[sweep3_TIA_a3sig_lr0.0025] step 750/2000 train 4.1837 val 4.1309 acc 0.1207
+[sweep3_TIA_a3sig_lr0.0025] step 1000/2000 train 3.3763 val 3.8130 acc 0.1777
+[sweep3_TIA_a3sig_lr0.0025] step 1250/2000 train 3.8496 val 3.6310 acc 0.1973
+[sweep3_TIA_a3sig_lr0.0025] step 1500/2000 train 3.5705 val 3.5253 acc 0.2188
+[sweep3_TIA_a3sig_lr0.0025] step 1750/2000 train 3.0959 val 3.4349 acc 0.2301
+[sweep3_TIA_a3sig_lr0.0025] step 2000/2000 train 3.2559 val 3.4286 acc 0.2375
+[sweep3_TIA_a3sig_lr0.0025] DONE final_val=3.4286 best_val=3.4286 wall=134s
+================================================================================
+RUN: sweep3_TIA_a3sig_lr0.005
+[sweep3_TIA_a3sig_lr0.005] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a3sig_lr0.005] step 250/2000 train 4.5735 val 4.7120 acc 0.0613
+[sweep3_TIA_a3sig_lr0.005] step 500/2000 train 4.1831 val 4.1587 acc 0.1160
+[sweep3_TIA_a3sig_lr0.005] step 750/2000 train 3.8773 val 3.7737 acc 0.1805
+[sweep3_TIA_a3sig_lr0.005] step 1000/2000 train 3.0680 val 3.4729 acc 0.2230
+[sweep3_TIA_a3sig_lr0.005] step 1250/2000 train 3.4141 val 3.2602 acc 0.2625
+[sweep3_TIA_a3sig_lr0.005] step 1500/2000 train 3.2530 val 3.1842 acc 0.2719
+[sweep3_TIA_a3sig_lr0.005] step 1750/2000 train 2.6462 val 3.0735 acc 0.3066
+[sweep3_TIA_a3sig_lr0.005] step 2000/2000 train 2.8610 val 3.0777 acc 0.3059
+[sweep3_TIA_a3sig_lr0.005] DONE final_val=3.0777 best_val=3.0735 wall=129s
+================================================================================
+RUN: sweep3_TIA_a3sig_lr0.01
+[sweep3_TIA_a3sig_lr0.01] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a3sig_lr0.01] step 250/2000 train 4.3462 val 4.5147 acc 0.0758
+[sweep3_TIA_a3sig_lr0.01] step 500/2000 train 4.0080 val 3.9833 acc 0.1410
+[sweep3_TIA_a3sig_lr0.01] step 750/2000 train 3.7297 val 3.7009 acc 0.1926
+[sweep3_TIA_a3sig_lr0.01] step 1000/2000 train 2.9872 val 3.3966 acc 0.2348
+[sweep3_TIA_a3sig_lr0.01] step 1250/2000 train 3.2369 val 3.2145 acc 0.2629
+[sweep3_TIA_a3sig_lr0.01] step 1500/2000 train 3.1884 val 3.1555 acc 0.2844
+[sweep3_TIA_a3sig_lr0.01] step 1750/2000 train 2.5783 val 3.0242 acc 0.3090
+[sweep3_TIA_a3sig_lr0.01] step 2000/2000 train 2.7643 val 2.9835 acc 0.3195
+[sweep3_TIA_a3sig_lr0.01] DONE final_val=2.9835 best_val=2.9835 wall=135s
+================================================================================
+RUN: sweep3_TIA_a3sig_lr0.02
+[sweep3_TIA_a3sig_lr0.02] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a3sig_lr0.02] step 250/2000 train 4.3417 val 4.5070 acc 0.0824
+[sweep3_TIA_a3sig_lr0.02] step 500/2000 train 4.1764 val 4.1850 acc 0.1156
+[sweep3_TIA_a3sig_lr0.02] step 750/2000 train 4.0980 val 4.0021 acc 0.1437
+[sweep3_TIA_a3sig_lr0.02] step 1000/2000 train 3.3275 val 3.7670 acc 0.1898
+[sweep3_TIA_a3sig_lr0.02] step 1250/2000 train 3.7138 val 3.5663 acc 0.2109
+[sweep3_TIA_a3sig_lr0.02] step 1500/2000 train 3.5132 val 3.4621 acc 0.2277
+[sweep3_TIA_a3sig_lr0.02] step 1750/2000 train 2.8876 val 3.3346 acc 0.2547
+[sweep3_TIA_a3sig_lr0.02] step 2000/2000 train 3.0358 val 3.2850 acc 0.2590
+[sweep3_TIA_a3sig_lr0.02] DONE final_val=3.2850 best_val=3.2850 wall=132s
+================================================================================
+RUN: sweep3_TIA_a3sig_lr0.05
+[sweep3_TIA_a3sig_lr0.05] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a3sig_lr0.05] step 250/2000 train 4.5723 val 4.7775 acc 0.0461
+[sweep3_TIA_a3sig_lr0.05] step 500/2000 train 4.6773 val 4.7208 acc 0.0574
+[sweep3_TIA_a3sig_lr0.05] step 750/2000 train 4.6586 val 4.7134 acc 0.0563
+[sweep3_TIA_a3sig_lr0.05] step 1000/2000 train 4.5085 val 4.5903 acc 0.0672
+[sweep3_TIA_a3sig_lr0.05] step 1250/2000 train 4.7041 val 4.4944 acc 0.0793
+[sweep3_TIA_a3sig_lr0.05] step 1500/2000 train 4.4947 val 4.4482 acc 0.1008
+[sweep3_TIA_a3sig_lr0.05] step 1750/2000 train 4.1692 val 4.3662 acc 0.0941
+[sweep3_TIA_a3sig_lr0.05] step 2000/2000 train 4.2948 val 4.3497 acc 0.1031
+[sweep3_TIA_a3sig_lr0.05] DONE final_val=4.3497 best_val=4.3497 wall=119s
+V3: sweep3_TIA_a3sig_lr -> lr 0.01 (INTERIOR)
+================================================================================
+RUN: final3_TIA_a3sig_s1
+[final3_TIA_a3sig_s1] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a3sig_s1] step 250/6000 train 4.7285 val 4.4605 acc 0.0879
+[final3_TIA_a3sig_s1] step 500/6000 train 4.0704 val 4.0361 acc 0.1344
+[final3_TIA_a3sig_s1] step 750/6000 train 3.7135 val 3.7266 acc 0.1715
+[final3_TIA_a3sig_s1] step 1000/6000 train 3.4188 val 3.6229 acc 0.2020
+[final3_TIA_a3sig_s1] step 1250/6000 train 3.1800 val 3.4128 acc 0.2262
+[final3_TIA_a3sig_s1] step 1500/6000 train 3.1166 val 3.3305 acc 0.2473
+[final3_TIA_a3sig_s1] step 1750/6000 train 3.1486 val 3.2215 acc 0.2672
+[final3_TIA_a3sig_s1] step 2000/6000 train 2.9371 val 3.1232 acc 0.2730
+[final3_TIA_a3sig_s1] step 2250/6000 train 2.6006 val 3.0410 acc 0.2969
+[final3_TIA_a3sig_s1] step 2500/6000 train 2.5415 val 2.9414 acc 0.3121
+[final3_TIA_a3sig_s1] step 2750/6000 train 2.5028 val 2.8559 acc 0.3234
+[final3_TIA_a3sig_s1] step 3000/6000 train 2.6095 val 2.7809 acc 0.3422
+[final3_TIA_a3sig_s1] step 3250/6000 train 2.5824 val 2.7199 acc 0.3469
+[final3_TIA_a3sig_s1] step 3500/6000 train 2.5676 val 2.7036 acc 0.3711
+[final3_TIA_a3sig_s1] step 3750/6000 train 2.0791 val 2.6527 acc 0.3797
+[final3_TIA_a3sig_s1] step 4000/6000 train 2.5386 val 2.6611 acc 0.3746
+[final3_TIA_a3sig_s1] step 4250/6000 train 1.8777 val 2.5610 acc 0.4102
+[final3_TIA_a3sig_s1] step 4500/6000 train 1.9170 val 2.5971 acc 0.3996
+[final3_TIA_a3sig_s1] step 4750/6000 train 1.7424 val 2.5602 acc 0.4062
+[final3_TIA_a3sig_s1] step 5000/6000 train 1.7304 val 2.5500 acc 0.4137
+[final3_TIA_a3sig_s1] step 5250/6000 train 1.7820 val 2.5252 acc 0.4109
+[final3_TIA_a3sig_s1] step 5500/6000 train 1.8654 val 2.5363 acc 0.4102
+[final3_TIA_a3sig_s1] step 5750/6000 train 1.7038 val 2.4860 acc 0.4168
+[final3_TIA_a3sig_s1] step 6000/6000 train 1.6211 val 2.4981 acc 0.4164
+[final3_TIA_a3sig_s1] DONE final_val=2.4981 best_val=2.4860 wall=398s
+================================================================================
+RUN: final3_TIA_a3sig_s2
+[final3_TIA_a3sig_s2] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a3sig_s2] step 250/6000 train 4.5304 val 4.5195 acc 0.0781
+[final3_TIA_a3sig_s2] step 500/6000 train 3.8683 val 4.0008 acc 0.1426
+[final3_TIA_a3sig_s2] step 750/6000 train 3.5107 val 3.7159 acc 0.1688
+[final3_TIA_a3sig_s2] step 1000/6000 train 3.2152 val 3.5627 acc 0.2012
+[final3_TIA_a3sig_s2] step 1250/6000 train 3.2714 val 3.4253 acc 0.2266
+[final3_TIA_a3sig_s2] step 1500/6000 train 3.0840 val 3.2745 acc 0.2473
+[final3_TIA_a3sig_s2] step 1750/6000 train 2.9787 val 3.1727 acc 0.2652
+[final3_TIA_a3sig_s2] step 2000/6000 train 2.8393 val 3.0783 acc 0.2980
+[final3_TIA_a3sig_s2] step 2250/6000 train 2.8159 val 2.9869 acc 0.3078
+[final3_TIA_a3sig_s2] step 2500/6000 train 2.7114 val 2.9317 acc 0.3098
+[final3_TIA_a3sig_s2] step 2750/6000 train 2.3780 val 2.8478 acc 0.3266
+[final3_TIA_a3sig_s2] step 3000/6000 train 2.7098 val 2.7952 acc 0.3492
+[final3_TIA_a3sig_s2] step 3250/6000 train 2.3210 val 2.7559 acc 0.3473
+[final3_TIA_a3sig_s2] step 3500/6000 train 2.3784 val 2.7006 acc 0.3754
+[final3_TIA_a3sig_s2] step 3750/6000 train 2.4110 val 2.6745 acc 0.3758
+[final3_TIA_a3sig_s2] step 4000/6000 train 2.1353 val 2.6430 acc 0.3812
+[final3_TIA_a3sig_s2] step 4250/6000 train 2.2672 val 2.5902 acc 0.4023
+[final3_TIA_a3sig_s2] step 4500/6000 train 2.0571 val 2.5444 acc 0.4074
+[final3_TIA_a3sig_s2] step 4750/6000 train 1.9799 val 2.5347 acc 0.4047
+[final3_TIA_a3sig_s2] step 5000/6000 train 1.9734 val 2.5347 acc 0.4219
+[final3_TIA_a3sig_s2] step 5250/6000 train 2.0337 val 2.5245 acc 0.4129
+[final3_TIA_a3sig_s2] step 5500/6000 train 1.7896 val 2.5397 acc 0.4020
+[final3_TIA_a3sig_s2] step 5750/6000 train 2.0672 val 2.4867 acc 0.4188
+[final3_TIA_a3sig_s2] step 6000/6000 train 2.0141 val 2.5148 acc 0.4176
+[final3_TIA_a3sig_s2] DONE final_val=2.5148 best_val=2.4867 wall=403s
+================================================================================
+RUN: final3_TIA_a3sig_s3
+[final3_TIA_a3sig_s3] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a3sig_s3] step 250/6000 train 4.4474 val 4.4849 acc 0.0848
+[final3_TIA_a3sig_s3] step 500/6000 train 3.9508 val 4.0205 acc 0.1285
+[final3_TIA_a3sig_s3] step 750/6000 train 3.7536 val 3.7820 acc 0.1602
+[final3_TIA_a3sig_s3] step 1000/6000 train 3.5447 val 3.5615 acc 0.1941
+[final3_TIA_a3sig_s3] step 1250/6000 train 3.4311 val 3.4254 acc 0.2227
+[final3_TIA_a3sig_s3] step 1500/6000 train 2.9516 val 3.3323 acc 0.2402
+[final3_TIA_a3sig_s3] step 1750/6000 train 3.1717 val 3.1907 acc 0.2727
+[final3_TIA_a3sig_s3] step 2000/6000 train 3.0501 val 3.0965 acc 0.2906
+[final3_TIA_a3sig_s3] step 2250/6000 train 2.8412 val 3.0213 acc 0.2957
+[final3_TIA_a3sig_s3] step 2500/6000 train 2.7771 val 2.9227 acc 0.3145
+[final3_TIA_a3sig_s3] step 2750/6000 train 2.5896 val 2.8642 acc 0.3199
+[final3_TIA_a3sig_s3] step 3000/6000 train 2.4384 val 2.8513 acc 0.3395
+[final3_TIA_a3sig_s3] step 3250/6000 train 2.3356 val 2.7532 acc 0.3590
+[final3_TIA_a3sig_s3] step 3500/6000 train 2.3955 val 2.7070 acc 0.3664
+[final3_TIA_a3sig_s3] step 3750/6000 train 2.2279 val 2.6916 acc 0.3742
+[final3_TIA_a3sig_s3] step 4000/6000 train 2.4080 val 2.6720 acc 0.3836
+[final3_TIA_a3sig_s3] step 4250/6000 train 2.4128 val 2.6367 acc 0.3805
+[final3_TIA_a3sig_s3] step 4500/6000 train 1.9756 val 2.6053 acc 0.3883
+[final3_TIA_a3sig_s3] step 4750/6000 train 1.9162 val 2.5639 acc 0.4004
+[final3_TIA_a3sig_s3] step 5000/6000 train 2.0187 val 2.5520 acc 0.4039
+[final3_TIA_a3sig_s3] step 5250/6000 train 1.7472 val 2.5228 acc 0.4156
+[final3_TIA_a3sig_s3] step 5500/6000 train 1.9421 val 2.5567 acc 0.4145
+[final3_TIA_a3sig_s3] step 5750/6000 train 1.5693 val 2.5429 acc 0.4145
+[final3_TIA_a3sig_s3] step 6000/6000 train 2.1637 val 2.5384 acc 0.4141
+[final3_TIA_a3sig_s3] DONE final_val=2.5384 best_val=2.5228 wall=409s
+================================================================================
+RUN: sweep3_TIA_a4both_lr0.0025
+[sweep3_TIA_a4both_lr0.0025] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a4both_lr0.0025] step 250/2000 train 4.7587 val 4.9210 acc 0.0391
+[sweep3_TIA_a4both_lr0.0025] step 500/2000 train 4.4845 val 4.5024 acc 0.0867
+[sweep3_TIA_a4both_lr0.0025] step 750/2000 train 4.2209 val 4.1688 acc 0.1254
+[sweep3_TIA_a4both_lr0.0025] step 1000/2000 train 3.4681 val 3.8765 acc 0.1691
+[sweep3_TIA_a4both_lr0.0025] step 1250/2000 train 3.8578 val 3.6757 acc 0.2031
+[sweep3_TIA_a4both_lr0.0025] step 1500/2000 train 3.6052 val 3.5629 acc 0.2141
+[sweep3_TIA_a4both_lr0.0025] step 1750/2000 train 3.1577 val 3.4898 acc 0.2246
+[sweep3_TIA_a4both_lr0.0025] step 2000/2000 train 3.2946 val 3.4577 acc 0.2344
+[sweep3_TIA_a4both_lr0.0025] DONE final_val=3.4577 best_val=3.4577 wall=149s
+================================================================================
+RUN: sweep3_TIA_a4both_lr0.005
+[sweep3_TIA_a4both_lr0.005] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a4both_lr0.005] step 250/2000 train 4.5704 val 4.7154 acc 0.0590
+[sweep3_TIA_a4both_lr0.005] step 500/2000 train 4.2291 val 4.1826 acc 0.1168
+[sweep3_TIA_a4both_lr0.005] step 750/2000 train 3.8966 val 3.8159 acc 0.1809
+[sweep3_TIA_a4both_lr0.005] step 1000/2000 train 3.0962 val 3.4929 acc 0.2230
+[sweep3_TIA_a4both_lr0.005] step 1250/2000 train 3.4287 val 3.2576 acc 0.2613
+[sweep3_TIA_a4both_lr0.005] step 1500/2000 train 3.1337 val 3.1562 acc 0.2867
+[sweep3_TIA_a4both_lr0.005] step 1750/2000 train 2.6128 val 3.0576 acc 0.3051
+[sweep3_TIA_a4both_lr0.005] step 2000/2000 train 2.8550 val 3.0434 acc 0.3145
+[sweep3_TIA_a4both_lr0.005] DONE final_val=3.0434 best_val=3.0434 wall=121s
+================================================================================
+RUN: sweep3_TIA_a4both_lr0.01
+[sweep3_TIA_a4both_lr0.01] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a4both_lr0.01] step 250/2000 train 4.3196 val 4.5254 acc 0.0758
+[sweep3_TIA_a4both_lr0.01] step 500/2000 train 3.9885 val 3.9664 acc 0.1469
+[sweep3_TIA_a4both_lr0.01] step 750/2000 train 3.7197 val 3.6582 acc 0.1938
+[sweep3_TIA_a4both_lr0.01] step 1000/2000 train 2.9805 val 3.3733 acc 0.2426
+[sweep3_TIA_a4both_lr0.01] step 1250/2000 train 3.2101 val 3.1660 acc 0.2750
+[sweep3_TIA_a4both_lr0.01] step 1500/2000 train 3.0473 val 3.0579 acc 0.3000
+[sweep3_TIA_a4both_lr0.01] step 1750/2000 train 2.4472 val 2.9357 acc 0.3145
+[sweep3_TIA_a4both_lr0.01] step 2000/2000 train 2.6693 val 2.9241 acc 0.3348
+[sweep3_TIA_a4both_lr0.01] DONE final_val=2.9241 best_val=2.9241 wall=148s
+================================================================================
+RUN: sweep3_TIA_a4both_lr0.02
+[sweep3_TIA_a4both_lr0.02] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a4both_lr0.02] step 250/2000 train 4.2545 val 4.4914 acc 0.0824
+[sweep3_TIA_a4both_lr0.02] step 500/2000 train 4.1496 val 4.1502 acc 0.1180
+[sweep3_TIA_a4both_lr0.02] step 750/2000 train 4.0413 val 3.9068 acc 0.1641
+[sweep3_TIA_a4both_lr0.02] step 1000/2000 train 3.2744 val 3.6784 acc 0.1898
+[sweep3_TIA_a4both_lr0.02] step 1250/2000 train 3.6268 val 3.4719 acc 0.2273
+[sweep3_TIA_a4both_lr0.02] step 1500/2000 train 3.4241 val 3.3671 acc 0.2418
+[sweep3_TIA_a4both_lr0.02] step 1750/2000 train 2.8439 val 3.2634 acc 0.2652
+[sweep3_TIA_a4both_lr0.02] step 2000/2000 train 2.9533 val 3.1890 acc 0.2777
+[sweep3_TIA_a4both_lr0.02] DONE final_val=3.1890 best_val=3.1890 wall=148s
+================================================================================
+RUN: sweep3_TIA_a4both_lr0.05
+[sweep3_TIA_a4both_lr0.05] device: NVIDIA GeForce RTX 5090
+[sweep3_TIA_a4both_lr0.05] step 250/2000 train 4.5276 val 4.7291 acc 0.0531
+[sweep3_TIA_a4both_lr0.05] step 500/2000 train 4.6238 val 4.6550 acc 0.0672
+[sweep3_TIA_a4both_lr0.05] step 750/2000 train 4.6478 val 4.7000 acc 0.0586
+[sweep3_TIA_a4both_lr0.05] step 1000/2000 train 4.2857 val 4.5121 acc 0.0836
+[sweep3_TIA_a4both_lr0.05] step 1250/2000 train 4.6323 val 4.4452 acc 0.0828
+[sweep3_TIA_a4both_lr0.05] step 1500/2000 train 4.3839 val 4.3754 acc 0.1070
+[sweep3_TIA_a4both_lr0.05] step 1750/2000 train 4.1367 val 4.2731 acc 0.1035
+[sweep3_TIA_a4both_lr0.05] step 2000/2000 train 4.2228 val 4.2513 acc 0.1145
+[sweep3_TIA_a4both_lr0.05] DONE final_val=4.2513 best_val=4.2513 wall=161s
+V3: sweep3_TIA_a4both_lr -> lr 0.01 (INTERIOR)
+================================================================================
+RUN: final3_TIA_a4both_s1
+[final3_TIA_a4both_s1] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a4both_s1] step 250/6000 train 4.7453 val 4.4726 acc 0.0875
+[final3_TIA_a4both_s1] step 500/6000 train 4.0688 val 4.0020 acc 0.1355
+[final3_TIA_a4both_s1] step 750/6000 train 3.7432 val 3.6812 acc 0.1785
+[final3_TIA_a4both_s1] step 1000/6000 train 3.3955 val 3.5613 acc 0.1988
+[final3_TIA_a4both_s1] step 1250/6000 train 3.1648 val 3.3827 acc 0.2246
+[final3_TIA_a4both_s1] step 1500/6000 train 3.0857 val 3.2828 acc 0.2504
+[final3_TIA_a4both_s1] step 1750/6000 train 3.1091 val 3.1975 acc 0.2613
+[final3_TIA_a4both_s1] step 2000/6000 train 3.0086 val 3.0599 acc 0.2949
+[final3_TIA_a4both_s1] step 2250/6000 train 2.6064 val 3.0291 acc 0.2984
+[final3_TIA_a4both_s1] step 2500/6000 train 2.5082 val 2.9083 acc 0.3199
+[final3_TIA_a4both_s1] step 2750/6000 train 2.5364 val 2.8430 acc 0.3359
+[final3_TIA_a4both_s1] step 3000/6000 train 2.5551 val 2.8088 acc 0.3473
+[final3_TIA_a4both_s1] step 3250/6000 train 2.6527 val 2.7114 acc 0.3598
+[final3_TIA_a4both_s1] step 3500/6000 train 2.4774 val 2.6962 acc 0.3656
+[final3_TIA_a4both_s1] step 3750/6000 train 1.9773 val 2.6297 acc 0.3902
+[final3_TIA_a4both_s1] step 4000/6000 train 2.5130 val 2.6125 acc 0.3914
+[final3_TIA_a4both_s1] step 4250/6000 train 1.7952 val 2.5639 acc 0.3930
+[final3_TIA_a4both_s1] step 4500/6000 train 2.0027 val 2.5636 acc 0.4016
+[final3_TIA_a4both_s1] step 4750/6000 train 1.7333 val 2.4915 acc 0.4211
+[final3_TIA_a4both_s1] step 5000/6000 train 1.7159 val 2.5184 acc 0.4090
+[final3_TIA_a4both_s1] step 5250/6000 train 1.7134 val 2.5087 acc 0.4168
+[final3_TIA_a4both_s1] step 5500/6000 train 1.7867 val 2.4996 acc 0.4211
+[final3_TIA_a4both_s1] step 5750/6000 train 1.8096 val 2.4594 acc 0.4328
+[final3_TIA_a4both_s1] step 6000/6000 train 1.6263 val 2.4830 acc 0.4223
+[final3_TIA_a4both_s1] DONE final_val=2.4830 best_val=2.4594 wall=432s
+================================================================================
+RUN: final3_TIA_a4both_s2
+[final3_TIA_a4both_s2] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a4both_s2] step 250/6000 train 4.5127 val 4.5191 acc 0.0770
+[final3_TIA_a4both_s2] step 500/6000 train 3.7991 val 3.9711 acc 0.1469
+[final3_TIA_a4both_s2] step 750/6000 train 3.4990 val 3.7220 acc 0.1758
+[final3_TIA_a4both_s2] step 1000/6000 train 3.3408 val 3.5469 acc 0.2066
+[final3_TIA_a4both_s2] step 1250/6000 train 3.3722 val 3.4165 acc 0.2316
+[final3_TIA_a4both_s2] step 1500/6000 train 3.0127 val 3.2549 acc 0.2535
+[final3_TIA_a4both_s2] step 1750/6000 train 2.9367 val 3.1504 acc 0.2605
+[final3_TIA_a4both_s2] step 2000/6000 train 2.8205 val 3.0183 acc 0.2895
+[final3_TIA_a4both_s2] step 2250/6000 train 2.8554 val 2.9677 acc 0.3004
+[final3_TIA_a4both_s2] step 2500/6000 train 2.7532 val 2.9255 acc 0.3125
+[final3_TIA_a4both_s2] step 2750/6000 train 2.3336 val 2.8174 acc 0.3324
+[final3_TIA_a4both_s2] step 3000/6000 train 2.5989 val 2.7770 acc 0.3430
+[final3_TIA_a4both_s2] step 3250/6000 train 2.2588 val 2.7410 acc 0.3469
+[final3_TIA_a4both_s2] step 3500/6000 train 2.2530 val 2.6970 acc 0.3641
+[final3_TIA_a4both_s2] step 3750/6000 train 2.3467 val 2.6524 acc 0.3758
+[final3_TIA_a4both_s2] step 4000/6000 train 2.0814 val 2.6322 acc 0.3883
+[final3_TIA_a4both_s2] step 4250/6000 train 2.0863 val 2.5718 acc 0.4086
+[final3_TIA_a4both_s2] step 4500/6000 train 2.0603 val 2.5459 acc 0.3996
+[final3_TIA_a4both_s2] step 4750/6000 train 1.9127 val 2.5466 acc 0.3984
+[final3_TIA_a4both_s2] step 5000/6000 train 1.9201 val 2.5053 acc 0.4172
+[final3_TIA_a4both_s2] step 5250/6000 train 2.0986 val 2.4952 acc 0.4207
+[final3_TIA_a4both_s2] step 5500/6000 train 1.6669 val 2.5316 acc 0.4113
+[final3_TIA_a4both_s2] step 5750/6000 train 2.0121 val 2.4640 acc 0.4324
+[final3_TIA_a4both_s2] step 6000/6000 train 1.9942 val 2.4983 acc 0.4230
+[final3_TIA_a4both_s2] DONE final_val=2.4983 best_val=2.4640 wall=391s
+================================================================================
+RUN: final3_TIA_a4both_s3
+[final3_TIA_a4both_s3] device: NVIDIA GeForce RTX 5090
+[final3_TIA_a4both_s3] step 250/6000 train 4.4462 val 4.4975 acc 0.0859
+[final3_TIA_a4both_s3] step 500/6000 train 3.9974 val 3.9810 acc 0.1273
+[final3_TIA_a4both_s3] step 750/6000 train 3.6304 val 3.7918 acc 0.1613
+[final3_TIA_a4both_s3] step 1000/6000 train 3.5134 val 3.5681 acc 0.1922
+[final3_TIA_a4both_s3] step 1250/6000 train 3.3102 val 3.3533 acc 0.2336
+[final3_TIA_a4both_s3] step 1500/6000 train 2.9389 val 3.2815 acc 0.2355
+[final3_TIA_a4both_s3] step 1750/6000 train 3.0427 val 3.1927 acc 0.2695
+[final3_TIA_a4both_s3] step 2000/6000 train 2.9091 val 3.0655 acc 0.2871
+[final3_TIA_a4both_s3] step 2250/6000 train 2.8431 val 2.9832 acc 0.3012
+[final3_TIA_a4both_s3] step 2500/6000 train 2.7211 val 2.9288 acc 0.3109
+[final3_TIA_a4both_s3] step 2750/6000 train 2.6205 val 2.8104 acc 0.3355
+[final3_TIA_a4both_s3] step 3000/6000 train 2.4360 val 2.7872 acc 0.3398
+[final3_TIA_a4both_s3] step 3250/6000 train 2.3043 val 2.7343 acc 0.3578
+[final3_TIA_a4both_s3] step 3500/6000 train 2.3333 val 2.6476 acc 0.3762
+[final3_TIA_a4both_s3] step 3750/6000 train 2.1261 val 2.6212 acc 0.3844
+[final3_TIA_a4both_s3] step 4000/6000 train 2.4068 val 2.6214 acc 0.3926
+[final3_TIA_a4both_s3] step 4250/6000 train 2.2635 val 2.5663 acc 0.4000
+[final3_TIA_a4both_s3] step 4500/6000 train 1.8008 val 2.5480 acc 0.4145
+[final3_TIA_a4both_s3] step 4750/6000 train 1.9112 val 2.5101 acc 0.4172
+[final3_TIA_a4both_s3] step 5000/6000 train 2.0533 val 2.4983 acc 0.4145
+[final3_TIA_a4both_s3] step 5250/6000 train 1.8066 val 2.4749 acc 0.4273
+[final3_TIA_a4both_s3] step 5500/6000 train 1.8149 val 2.4678 acc 0.4191
+[final3_TIA_a4both_s3] step 5750/6000 train 1.5279 val 2.4620 acc 0.4199
+[final3_TIA_a4both_s3] step 6000/6000 train 2.1610 val 2.4921 acc 0.4191
+[final3_TIA_a4both_s3] DONE final_val=2.4921 best_val=2.4620 wall=387s
+================================================================================
+RUN: sweep3_PscaleM_a1abs_lr0.005
+[sweep3_PscaleM_a1abs_lr0.005] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a1abs_lr0.005] step 250/2000 train 2.7438 val 2.0261
+[sweep3_PscaleM_a1abs_lr0.005] step 500/2000 train 2.4984 val 1.6450
+[sweep3_PscaleM_a1abs_lr0.005] step 750/2000 train 2.2993 val 1.5095
+[sweep3_PscaleM_a1abs_lr0.005] step 1000/2000 train 2.2531 val 1.3911
+[sweep3_PscaleM_a1abs_lr0.005] step 1250/2000 train 2.1261 val 1.3317
+[sweep3_PscaleM_a1abs_lr0.005] step 1500/2000 train 2.1255 val 1.2956
+[sweep3_PscaleM_a1abs_lr0.005] step 1750/2000 train 2.1515 val 1.2776
+[sweep3_PscaleM_a1abs_lr0.005] step 2000/2000 train 2.1012 val 1.2695
+[sweep3_PscaleM_a1abs_lr0.005] DONE final_val=1.2695 best_val=1.2695 wall=260s
+================================================================================
+RUN: sweep3_PscaleM_a1abs_lr0.01
+[sweep3_PscaleM_a1abs_lr0.01] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a1abs_lr0.01] step 250/2000 train 2.6042 val 1.8512
+[sweep3_PscaleM_a1abs_lr0.01] step 500/2000 train 2.4044 val 1.5599
+[sweep3_PscaleM_a1abs_lr0.01] step 750/2000 train 2.2100 val 1.4110
+[sweep3_PscaleM_a1abs_lr0.01] step 1000/2000 train 2.1980 val 1.3382
+[sweep3_PscaleM_a1abs_lr0.01] step 1250/2000 train 2.0843 val 1.2903
+[sweep3_PscaleM_a1abs_lr0.01] step 1500/2000 train 2.0687 val 1.2571
+[sweep3_PscaleM_a1abs_lr0.01] step 1750/2000 train 2.1067 val 1.2396
+[sweep3_PscaleM_a1abs_lr0.01] step 2000/2000 train 2.0544 val 1.2307
+[sweep3_PscaleM_a1abs_lr0.01] DONE final_val=1.2307 best_val=1.2307 wall=254s
+================================================================================
+RUN: sweep3_PscaleM_a1abs_lr0.02
+[sweep3_PscaleM_a1abs_lr0.02] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a1abs_lr0.02] step 250/2000 train 2.5167 val 1.7408
+[sweep3_PscaleM_a1abs_lr0.02] step 500/2000 train 2.3371 val 1.4890
+[sweep3_PscaleM_a1abs_lr0.02] step 750/2000 train 2.1841 val 1.3861
+[sweep3_PscaleM_a1abs_lr0.02] step 1000/2000 train 2.1798 val 1.3223
+[sweep3_PscaleM_a1abs_lr0.02] step 1250/2000 train 2.0707 val 1.2780
+[sweep3_PscaleM_a1abs_lr0.02] step 1500/2000 train 2.0575 val 1.2477
+[sweep3_PscaleM_a1abs_lr0.02] step 1750/2000 train 2.1007 val 1.2307
+[sweep3_PscaleM_a1abs_lr0.02] step 2000/2000 train 2.0419 val 1.2225
+[sweep3_PscaleM_a1abs_lr0.02] DONE final_val=1.2225 best_val=1.2225 wall=277s
+================================================================================
+RUN: sweep3_PscaleM_a1abs_lr0.04
+[sweep3_PscaleM_a1abs_lr0.04] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a1abs_lr0.04] step 250/2000 train 2.5701 val 1.7877
+[sweep3_PscaleM_a1abs_lr0.04] step 500/2000 train 2.4792 val 1.6246
+[sweep3_PscaleM_a1abs_lr0.04] step 750/2000 train 2.3353 val 1.5377
+[sweep3_PscaleM_a1abs_lr0.04] step 1000/2000 train 2.3100 val 1.4604
+[sweep3_PscaleM_a1abs_lr0.04] step 1250/2000 train 2.1959 val 1.3955
+[sweep3_PscaleM_a1abs_lr0.04] step 1500/2000 train 2.1827 val 1.3512
+[sweep3_PscaleM_a1abs_lr0.04] step 1750/2000 train 2.2101 val 1.3261
+[sweep3_PscaleM_a1abs_lr0.04] step 2000/2000 train 2.1483 val 1.3157
+[sweep3_PscaleM_a1abs_lr0.04] DONE final_val=1.3157 best_val=1.3157 wall=287s
+V3: sweep3_PscaleM_a1abs_lr -> lr 0.02 (INTERIOR)
+================================================================================
+RUN: final3_PscaleM_a1abs_s1
+[final3_PscaleM_a1abs_s1] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a1abs_s1] step 250/4000 train 2.5094 val 1.7323
+[final3_PscaleM_a1abs_s1] step 500/4000 train 2.3473 val 1.4961
+[final3_PscaleM_a1abs_s1] step 750/4000 train 2.2038 val 1.3989
+[final3_PscaleM_a1abs_s1] step 1000/4000 train 2.2071 val 1.3465
+[final3_PscaleM_a1abs_s1] step 1250/4000 train 2.1088 val 1.3118
+[final3_PscaleM_a1abs_s1] step 1500/4000 train 2.0963 val 1.2827
+[final3_PscaleM_a1abs_s1] step 1750/4000 train 2.1309 val 1.2598
+[final3_PscaleM_a1abs_s1] step 2000/4000 train 2.0636 val 1.2346
+[final3_PscaleM_a1abs_s1] step 2250/4000 train 2.0894 val 1.2156
+[final3_PscaleM_a1abs_s1] step 2500/4000 train 2.0507 val 1.1966
+[final3_PscaleM_a1abs_s1] step 2750/4000 train 2.0064 val 1.1846
+[final3_PscaleM_a1abs_s1] step 3000/4000 train 2.0122 val 1.1752
+[final3_PscaleM_a1abs_s1] step 3250/4000 train 2.0007 val 1.1644
+[final3_PscaleM_a1abs_s1] step 3500/4000 train 2.0342 val 1.1581
+[final3_PscaleM_a1abs_s1] step 3750/4000 train 1.9751 val 1.1587
+[final3_PscaleM_a1abs_s1] step 4000/4000 train 1.9188 val 1.1549
+[final3_PscaleM_a1abs_s1] DONE final_val=1.1549 best_val=1.1549 wall=534s
+================================================================================
+RUN: final3_PscaleM_a1abs_s2
+[final3_PscaleM_a1abs_s2] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a1abs_s2] step 250/4000 train 2.5184 val 1.7407
+[final3_PscaleM_a1abs_s2] step 500/4000 train 2.2826 val 1.4904
+[final3_PscaleM_a1abs_s2] step 750/4000 train 2.1880 val 1.4018
+[final3_PscaleM_a1abs_s2] step 1000/4000 train 2.1378 val 1.3479
+[final3_PscaleM_a1abs_s2] step 1250/4000 train 2.1817 val 1.3091
+[final3_PscaleM_a1abs_s2] step 1500/4000 train 2.0926 val 1.2812
+[final3_PscaleM_a1abs_s2] step 1750/4000 train 2.1025 val 1.2570
+[final3_PscaleM_a1abs_s2] step 2000/4000 train 2.0746 val 1.2356
+[final3_PscaleM_a1abs_s2] step 2250/4000 train 2.0332 val 1.2130
+[final3_PscaleM_a1abs_s2] step 2500/4000 train 2.0058 val 1.2022
+[final3_PscaleM_a1abs_s2] step 2750/4000 train 1.9666 val 1.1874
+[final3_PscaleM_a1abs_s2] step 3000/4000 train 1.9991 val 1.1734
+[final3_PscaleM_a1abs_s2] step 3250/4000 train 2.0361 val 1.1630
+[final3_PscaleM_a1abs_s2] step 3500/4000 train 1.9982 val 1.1575
+[final3_PscaleM_a1abs_s2] step 3750/4000 train 1.9408 val 1.1558
+[final3_PscaleM_a1abs_s2] step 4000/4000 train 1.9665 val 1.1542
+[final3_PscaleM_a1abs_s2] DONE final_val=1.1542 best_val=1.1542 wall=490s
+================================================================================
+RUN: final3_PscaleM_a1abs_s3
+[final3_PscaleM_a1abs_s3] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a1abs_s3] step 250/4000 train 2.4683 val 1.7516
+[final3_PscaleM_a1abs_s3] step 500/4000 train 2.3282 val 1.4860
+[final3_PscaleM_a1abs_s3] step 750/4000 train 2.2592 val 1.3950
+[final3_PscaleM_a1abs_s3] step 1000/4000 train 2.2502 val 1.3426
+[final3_PscaleM_a1abs_s3] step 1250/4000 train 2.1373 val 1.3061
+[final3_PscaleM_a1abs_s3] step 1500/4000 train 2.1215 val 1.2779
+[final3_PscaleM_a1abs_s3] step 1750/4000 train 2.1033 val 1.2589
+[final3_PscaleM_a1abs_s3] step 2000/4000 train 2.0436 val 1.2343
+[final3_PscaleM_a1abs_s3] step 2250/4000 train 2.0105 val 1.2146
+[final3_PscaleM_a1abs_s3] step 2500/4000 train 2.0269 val 1.1968
+[final3_PscaleM_a1abs_s3] step 2750/4000 train 2.0000 val 1.1835
+[final3_PscaleM_a1abs_s3] step 3000/4000 train 1.9823 val 1.1717
+[final3_PscaleM_a1abs_s3] step 3250/4000 train 1.9148 val 1.1639
+[final3_PscaleM_a1abs_s3] step 3500/4000 train 2.0123 val 1.1578
+[final3_PscaleM_a1abs_s3] step 3750/4000 train 1.9296 val 1.1569
+[final3_PscaleM_a1abs_s3] step 4000/4000 train 1.9419 val 1.1568
+[final3_PscaleM_a1abs_s3] DONE final_val=1.1568 best_val=1.1568 wall=503s
+================================================================================
+RUN: sweep3_PscaleM_a2abshi_lr0.005
+[sweep3_PscaleM_a2abshi_lr0.005] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a2abshi_lr0.005] step 250/2000 train 2.6985 val 1.9726
+[sweep3_PscaleM_a2abshi_lr0.005] step 500/2000 train 2.4747 val 1.6189
+[sweep3_PscaleM_a2abshi_lr0.005] step 750/2000 train 2.2771 val 1.4815
+[sweep3_PscaleM_a2abshi_lr0.005] step 1000/2000 train 2.2345 val 1.3739
+[sweep3_PscaleM_a2abshi_lr0.005] step 1250/2000 train 2.1118 val 1.3185
+[sweep3_PscaleM_a2abshi_lr0.005] step 1500/2000 train 2.1077 val 1.2863
+[sweep3_PscaleM_a2abshi_lr0.005] step 1750/2000 train 2.1428 val 1.2686
+[sweep3_PscaleM_a2abshi_lr0.005] step 2000/2000 train 2.0891 val 1.2599
+[sweep3_PscaleM_a2abshi_lr0.005] DONE final_val=1.2599 best_val=1.2599 wall=263s
+================================================================================
+RUN: sweep3_PscaleM_a2abshi_lr0.01
+[sweep3_PscaleM_a2abshi_lr0.01] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a2abshi_lr0.01] step 250/2000 train 2.5862 val 1.8314
+[sweep3_PscaleM_a2abshi_lr0.01] step 500/2000 train 2.3896 val 1.5452
+[sweep3_PscaleM_a2abshi_lr0.01] step 750/2000 train 2.1987 val 1.4023
+[sweep3_PscaleM_a2abshi_lr0.01] step 1000/2000 train 2.1877 val 1.3321
+[sweep3_PscaleM_a2abshi_lr0.01] step 1250/2000 train 2.0716 val 1.2849
+[sweep3_PscaleM_a2abshi_lr0.01] step 1500/2000 train 2.0679 val 1.2513
+[sweep3_PscaleM_a2abshi_lr0.01] step 1750/2000 train 2.1108 val 1.2352
+[sweep3_PscaleM_a2abshi_lr0.01] step 2000/2000 train 2.0503 val 1.2266
+[sweep3_PscaleM_a2abshi_lr0.01] DONE final_val=1.2266 best_val=1.2266 wall=258s
+================================================================================
+RUN: sweep3_PscaleM_a2abshi_lr0.02
+[sweep3_PscaleM_a2abshi_lr0.02] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a2abshi_lr0.02] step 250/2000 train 2.5155 val 1.7352
+[sweep3_PscaleM_a2abshi_lr0.02] step 500/2000 train 2.3404 val 1.4819
+[sweep3_PscaleM_a2abshi_lr0.02] step 750/2000 train 2.1876 val 1.3827
+[sweep3_PscaleM_a2abshi_lr0.02] step 1000/2000 train 2.1778 val 1.3230
+[sweep3_PscaleM_a2abshi_lr0.02] step 1250/2000 train 2.0687 val 1.2765
+[sweep3_PscaleM_a2abshi_lr0.02] step 1500/2000 train 2.0600 val 1.2456
+[sweep3_PscaleM_a2abshi_lr0.02] step 1750/2000 train 2.1010 val 1.2298
+[sweep3_PscaleM_a2abshi_lr0.02] step 2000/2000 train 2.0441 val 1.2215
+[sweep3_PscaleM_a2abshi_lr0.02] DONE final_val=1.2215 best_val=1.2215 wall=261s
+================================================================================
+RUN: sweep3_PscaleM_a2abshi_lr0.04
+[sweep3_PscaleM_a2abshi_lr0.04] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a2abshi_lr0.04] step 250/2000 train 2.5942 val 1.8109
+[sweep3_PscaleM_a2abshi_lr0.04] step 500/2000 train 2.5179 val 1.6743
+[sweep3_PscaleM_a2abshi_lr0.04] step 750/2000 train 2.3863 val 1.6005
+[sweep3_PscaleM_a2abshi_lr0.04] step 1000/2000 train 2.3737 val 1.5288
+[sweep3_PscaleM_a2abshi_lr0.04] step 1250/2000 train 2.2404 val 1.4556
+[sweep3_PscaleM_a2abshi_lr0.04] step 1500/2000 train 2.2278 val 1.4035
+[sweep3_PscaleM_a2abshi_lr0.04] step 1750/2000 train 2.2515 val 1.3730
+[sweep3_PscaleM_a2abshi_lr0.04] step 2000/2000 train 2.1964 val 1.3609
+[sweep3_PscaleM_a2abshi_lr0.04] DONE final_val=1.3609 best_val=1.3609 wall=256s
+V3: sweep3_PscaleM_a2abshi_lr -> lr 0.02 (INTERIOR)
+================================================================================
+RUN: final3_PscaleM_a2abshi_s1
+[final3_PscaleM_a2abshi_s1] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a2abshi_s1] step 250/4000 train 2.5169 val 1.7278
+[final3_PscaleM_a2abshi_s1] step 500/4000 train 2.3453 val 1.4921
+[final3_PscaleM_a2abshi_s1] step 750/4000 train 2.2016 val 1.3963
+[final3_PscaleM_a2abshi_s1] step 1000/4000 train 2.2105 val 1.3477
+[final3_PscaleM_a2abshi_s1] step 1250/4000 train 2.1101 val 1.3077
+[final3_PscaleM_a2abshi_s1] step 1500/4000 train 2.1000 val 1.2826
+[final3_PscaleM_a2abshi_s1] step 1750/4000 train 2.1306 val 1.2583
+[final3_PscaleM_a2abshi_s1] step 2000/4000 train 2.0674 val 1.2361
+[final3_PscaleM_a2abshi_s1] step 2250/4000 train 2.0886 val 1.2171
+[final3_PscaleM_a2abshi_s1] step 2500/4000 train 2.0560 val 1.1946
+[final3_PscaleM_a2abshi_s1] step 2750/4000 train 2.0083 val 1.1849
+[final3_PscaleM_a2abshi_s1] step 3000/4000 train 2.0151 val 1.1752
+[final3_PscaleM_a2abshi_s1] step 3250/4000 train 2.0078 val 1.1656
+[final3_PscaleM_a2abshi_s1] step 3500/4000 train 2.0274 val 1.1589
+[final3_PscaleM_a2abshi_s1] step 3750/4000 train 1.9756 val 1.1592
+[final3_PscaleM_a2abshi_s1] step 4000/4000 train 1.9237 val 1.1568
+[final3_PscaleM_a2abshi_s1] DONE final_val=1.1568 best_val=1.1568 wall=508s
+================================================================================
+RUN: final3_PscaleM_a2abshi_s2
+[final3_PscaleM_a2abshi_s2] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a2abshi_s2] step 250/4000 train 2.5162 val 1.7372
+[final3_PscaleM_a2abshi_s2] step 500/4000 train 2.2865 val 1.4888
+[final3_PscaleM_a2abshi_s2] step 750/4000 train 2.1884 val 1.3953
+[final3_PscaleM_a2abshi_s2] step 1000/4000 train 2.1392 val 1.3470
+[final3_PscaleM_a2abshi_s2] step 1250/4000 train 2.1743 val 1.3070
+[final3_PscaleM_a2abshi_s2] step 1500/4000 train 2.0851 val 1.2788
+[final3_PscaleM_a2abshi_s2] step 1750/4000 train 2.1009 val 1.2540
+[final3_PscaleM_a2abshi_s2] step 2000/4000 train 2.0779 val 1.2350
+[final3_PscaleM_a2abshi_s2] step 2250/4000 train 2.0421 val 1.2125
+[final3_PscaleM_a2abshi_s2] step 2500/4000 train 2.0021 val 1.2002
+[final3_PscaleM_a2abshi_s2] step 2750/4000 train 1.9631 val 1.1851
+[final3_PscaleM_a2abshi_s2] step 3000/4000 train 1.9954 val 1.1718
+[final3_PscaleM_a2abshi_s2] step 3250/4000 train 2.0380 val 1.1619
+[final3_PscaleM_a2abshi_s2] step 3500/4000 train 2.0010 val 1.1567
+[final3_PscaleM_a2abshi_s2] step 3750/4000 train 1.9390 val 1.1569
+[final3_PscaleM_a2abshi_s2] step 4000/4000 train 1.9669 val 1.1543
+[final3_PscaleM_a2abshi_s2] DONE final_val=1.1543 best_val=1.1543 wall=511s
+================================================================================
+RUN: final3_PscaleM_a2abshi_s3
+[final3_PscaleM_a2abshi_s3] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a2abshi_s3] step 250/4000 train 2.4647 val 1.7411
+[final3_PscaleM_a2abshi_s3] step 500/4000 train 2.3253 val 1.4852
+[final3_PscaleM_a2abshi_s3] step 750/4000 train 2.2542 val 1.3937
+[final3_PscaleM_a2abshi_s3] step 1000/4000 train 2.2490 val 1.3403
+[final3_PscaleM_a2abshi_s3] step 1250/4000 train 2.1357 val 1.3087
+[final3_PscaleM_a2abshi_s3] step 1500/4000 train 2.1254 val 1.2788
+[final3_PscaleM_a2abshi_s3] step 1750/4000 train 2.1043 val 1.2588
+[final3_PscaleM_a2abshi_s3] step 2000/4000 train 2.0442 val 1.2340
+[final3_PscaleM_a2abshi_s3] step 2250/4000 train 2.0112 val 1.2137
+[final3_PscaleM_a2abshi_s3] step 2500/4000 train 2.0267 val 1.1961
+[final3_PscaleM_a2abshi_s3] step 2750/4000 train 2.0031 val 1.1815
+[final3_PscaleM_a2abshi_s3] step 3000/4000 train 1.9812 val 1.1730
+[final3_PscaleM_a2abshi_s3] step 3250/4000 train 1.9153 val 1.1637
+[final3_PscaleM_a2abshi_s3] step 3500/4000 train 2.0090 val 1.1570
+[final3_PscaleM_a2abshi_s3] step 3750/4000 train 1.9295 val 1.1569
+[final3_PscaleM_a2abshi_s3] step 4000/4000 train 1.9426 val 1.1557
+[final3_PscaleM_a2abshi_s3] DONE final_val=1.1557 best_val=1.1557 wall=512s
+================================================================================
+RUN: sweep3_PscaleM_a3sig_lr0.005
+[sweep3_PscaleM_a3sig_lr0.005] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a3sig_lr0.005] step 250/2000 train 2.6990 val 1.9752
+[sweep3_PscaleM_a3sig_lr0.005] step 500/2000 train 2.4551 val 1.6043
+[sweep3_PscaleM_a3sig_lr0.005] step 750/2000 train 2.2320 val 1.4359
+[sweep3_PscaleM_a3sig_lr0.005] step 1000/2000 train 2.2106 val 1.3528
+[sweep3_PscaleM_a3sig_lr0.005] step 1250/2000 train 2.0975 val 1.3047
+[sweep3_PscaleM_a3sig_lr0.005] step 1500/2000 train 2.0911 val 1.2727
+[sweep3_PscaleM_a3sig_lr0.005] step 1750/2000 train 2.1297 val 1.2554
+[sweep3_PscaleM_a3sig_lr0.005] step 2000/2000 train 2.0756 val 1.2471
+[sweep3_PscaleM_a3sig_lr0.005] DONE final_val=1.2471 best_val=1.2471 wall=291s
+================================================================================
+RUN: sweep3_PscaleM_a3sig_lr0.01
+[sweep3_PscaleM_a3sig_lr0.01] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a3sig_lr0.01] step 250/2000 train 2.5751 val 1.8217
+[sweep3_PscaleM_a3sig_lr0.01] step 500/2000 train 2.3640 val 1.5172
+[sweep3_PscaleM_a3sig_lr0.01] step 750/2000 train 2.1889 val 1.3881
+[sweep3_PscaleM_a3sig_lr0.01] step 1000/2000 train 2.1794 val 1.3185
+[sweep3_PscaleM_a3sig_lr0.01] step 1250/2000 train 2.0662 val 1.2753
+[sweep3_PscaleM_a3sig_lr0.01] step 1500/2000 train 2.0589 val 1.2427
+[sweep3_PscaleM_a3sig_lr0.01] step 1750/2000 train 2.0963 val 1.2295
+[sweep3_PscaleM_a3sig_lr0.01] step 2000/2000 train 2.0419 val 1.2202
+[sweep3_PscaleM_a3sig_lr0.01] DONE final_val=1.2202 best_val=1.2202 wall=254s
+================================================================================
+RUN: sweep3_PscaleM_a3sig_lr0.02
+[sweep3_PscaleM_a3sig_lr0.02] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a3sig_lr0.02] step 250/2000 train 2.5060 val 1.7271
+[sweep3_PscaleM_a3sig_lr0.02] step 500/2000 train 2.3211 val 1.4723
+[sweep3_PscaleM_a3sig_lr0.02] step 750/2000 train 2.1796 val 1.3784
+[sweep3_PscaleM_a3sig_lr0.02] step 1000/2000 train 2.1769 val 1.3175
+[sweep3_PscaleM_a3sig_lr0.02] step 1250/2000 train 2.0654 val 1.2743
+[sweep3_PscaleM_a3sig_lr0.02] step 1500/2000 train 2.0542 val 1.2453
+[sweep3_PscaleM_a3sig_lr0.02] step 1750/2000 train 2.0892 val 1.2286
+[sweep3_PscaleM_a3sig_lr0.02] step 2000/2000 train 2.0408 val 1.2204
+[sweep3_PscaleM_a3sig_lr0.02] DONE final_val=1.2204 best_val=1.2204 wall=248s
+================================================================================
+RUN: sweep3_PscaleM_a3sig_lr0.04
+[sweep3_PscaleM_a3sig_lr0.04] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a3sig_lr0.04] step 250/2000 train 2.5833 val 1.8147
+[sweep3_PscaleM_a3sig_lr0.04] step 500/2000 train 2.5271 val 1.6873
+[sweep3_PscaleM_a3sig_lr0.04] step 750/2000 train 2.4065 val 1.6290
+[sweep3_PscaleM_a3sig_lr0.04] step 1000/2000 train 2.3910 val 1.5605
+[sweep3_PscaleM_a3sig_lr0.04] step 1250/2000 train 2.2670 val 1.4857
+[sweep3_PscaleM_a3sig_lr0.04] step 1500/2000 train 2.2531 val 1.4250
+[sweep3_PscaleM_a3sig_lr0.04] step 1750/2000 train 2.2740 val 1.3935
+[sweep3_PscaleM_a3sig_lr0.04] step 2000/2000 train 2.2150 val 1.3807
+[sweep3_PscaleM_a3sig_lr0.04] DONE final_val=1.3807 best_val=1.3807 wall=252s
+V3: sweep3_PscaleM_a3sig_lr -> lr 0.01 (INTERIOR)
+================================================================================
+RUN: final3_PscaleM_a3sig_s1
+[final3_PscaleM_a3sig_s1] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a3sig_s1] step 250/4000 train 2.5754 val 1.8212
+[final3_PscaleM_a3sig_s1] step 500/4000 train 2.3646 val 1.5144
+[final3_PscaleM_a3sig_s1] step 750/4000 train 2.2034 val 1.3976
+[final3_PscaleM_a3sig_s1] step 1000/4000 train 2.2020 val 1.3403
+[final3_PscaleM_a3sig_s1] step 1250/4000 train 2.0944 val 1.3038
+[final3_PscaleM_a3sig_s1] step 1500/4000 train 2.0886 val 1.2751
+[final3_PscaleM_a3sig_s1] step 1750/4000 train 2.1185 val 1.2503
+[final3_PscaleM_a3sig_s1] step 2000/4000 train 2.0558 val 1.2277
+[final3_PscaleM_a3sig_s1] step 2250/4000 train 2.0772 val 1.2084
+[final3_PscaleM_a3sig_s1] step 2500/4000 train 2.0465 val 1.1888
+[final3_PscaleM_a3sig_s1] step 2750/4000 train 1.9943 val 1.1777
+[final3_PscaleM_a3sig_s1] step 3000/4000 train 2.0141 val 1.1694
+[final3_PscaleM_a3sig_s1] step 3250/4000 train 1.9990 val 1.1586
+[final3_PscaleM_a3sig_s1] step 3500/4000 train 2.0250 val 1.1521
+[final3_PscaleM_a3sig_s1] step 3750/4000 train 1.9700 val 1.1522
+[final3_PscaleM_a3sig_s1] step 4000/4000 train 1.9204 val 1.1494
+[final3_PscaleM_a3sig_s1] DONE final_val=1.1494 best_val=1.1494 wall=511s
+================================================================================
+RUN: final3_PscaleM_a3sig_s2
+[final3_PscaleM_a3sig_s2] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a3sig_s2] step 250/4000 train 2.5748 val 1.8202
+[final3_PscaleM_a3sig_s2] step 500/4000 train 2.2984 val 1.5034
+[final3_PscaleM_a3sig_s2] step 750/4000 train 2.1831 val 1.3934
+[final3_PscaleM_a3sig_s2] step 1000/4000 train 2.1311 val 1.3361
+[final3_PscaleM_a3sig_s2] step 1250/4000 train 2.1730 val 1.2975
+[final3_PscaleM_a3sig_s2] step 1500/4000 train 2.0813 val 1.2702
+[final3_PscaleM_a3sig_s2] step 1750/4000 train 2.0917 val 1.2457
+[final3_PscaleM_a3sig_s2] step 2000/4000 train 2.0711 val 1.2290
+[final3_PscaleM_a3sig_s2] step 2250/4000 train 2.0280 val 1.2057
+[final3_PscaleM_a3sig_s2] step 2500/4000 train 1.9957 val 1.1960
+[final3_PscaleM_a3sig_s2] step 2750/4000 train 1.9554 val 1.1825
+[final3_PscaleM_a3sig_s2] step 3000/4000 train 1.9962 val 1.1693
+[final3_PscaleM_a3sig_s2] step 3250/4000 train 2.0330 val 1.1587
+[final3_PscaleM_a3sig_s2] step 3500/4000 train 1.9971 val 1.1532
+[final3_PscaleM_a3sig_s2] step 3750/4000 train 1.9361 val 1.1537
+[final3_PscaleM_a3sig_s2] step 4000/4000 train 1.9609 val 1.1515
+[final3_PscaleM_a3sig_s2] DONE final_val=1.1515 best_val=1.1515 wall=494s
+================================================================================
+RUN: final3_PscaleM_a3sig_s3
+[final3_PscaleM_a3sig_s3] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a3sig_s3] step 250/4000 train 2.5098 val 1.8012
+[final3_PscaleM_a3sig_s3] step 500/4000 train 2.3426 val 1.5176
+[final3_PscaleM_a3sig_s3] step 750/4000 train 2.2548 val 1.3914
+[final3_PscaleM_a3sig_s3] step 1000/4000 train 2.2322 val 1.3316
+[final3_PscaleM_a3sig_s3] step 1250/4000 train 2.1253 val 1.3000
+[final3_PscaleM_a3sig_s3] step 1500/4000 train 2.1077 val 1.2701
+[final3_PscaleM_a3sig_s3] step 1750/4000 train 2.0928 val 1.2505
+[final3_PscaleM_a3sig_s3] step 2000/4000 train 2.0363 val 1.2283
+[final3_PscaleM_a3sig_s3] step 2250/4000 train 2.0062 val 1.2083
+[final3_PscaleM_a3sig_s3] step 2500/4000 train 2.0205 val 1.1913
+[final3_PscaleM_a3sig_s3] step 2750/4000 train 1.9944 val 1.1763
+[final3_PscaleM_a3sig_s3] step 3000/4000 train 1.9687 val 1.1687
+[final3_PscaleM_a3sig_s3] step 3250/4000 train 1.9076 val 1.1595
+[final3_PscaleM_a3sig_s3] step 3500/4000 train 2.0032 val 1.1533
+[final3_PscaleM_a3sig_s3] step 3750/4000 train 1.9236 val 1.1538
+[final3_PscaleM_a3sig_s3] step 4000/4000 train 1.9354 val 1.1527
+[final3_PscaleM_a3sig_s3] DONE final_val=1.1527 best_val=1.1527 wall=482s
+================================================================================
+RUN: sweep3_PscaleM_a4both_lr0.005
+[sweep3_PscaleM_a4both_lr0.005] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a4both_lr0.005] step 250/2000 train 2.7169 val 1.9992
+[sweep3_PscaleM_a4both_lr0.005] step 500/2000 train 2.4705 val 1.6172
+[sweep3_PscaleM_a4both_lr0.005] step 750/2000 train 2.2486 val 1.4506
+[sweep3_PscaleM_a4both_lr0.005] step 1000/2000 train 2.2153 val 1.3578
+[sweep3_PscaleM_a4both_lr0.005] step 1250/2000 train 2.1013 val 1.3054
+[sweep3_PscaleM_a4both_lr0.005] step 1500/2000 train 2.0966 val 1.2740
+[sweep3_PscaleM_a4both_lr0.005] step 1750/2000 train 2.1287 val 1.2578
+[sweep3_PscaleM_a4both_lr0.005] step 2000/2000 train 2.0808 val 1.2489
+[sweep3_PscaleM_a4both_lr0.005] DONE final_val=1.2489 best_val=1.2489 wall=251s
+================================================================================
+RUN: sweep3_PscaleM_a4both_lr0.01
+[sweep3_PscaleM_a4both_lr0.01] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a4both_lr0.01] step 250/2000 train 2.5846 val 1.8304
+[sweep3_PscaleM_a4both_lr0.01] step 500/2000 train 2.3728 val 1.5211
+[sweep3_PscaleM_a4both_lr0.01] step 750/2000 train 2.1881 val 1.3922
+[sweep3_PscaleM_a4both_lr0.01] step 1000/2000 train 2.1804 val 1.3232
+[sweep3_PscaleM_a4both_lr0.01] step 1250/2000 train 2.0667 val 1.2761
+[sweep3_PscaleM_a4both_lr0.01] step 1500/2000 train 2.0555 val 1.2460
+[sweep3_PscaleM_a4both_lr0.01] step 1750/2000 train 2.0993 val 1.2298
+[sweep3_PscaleM_a4both_lr0.01] step 2000/2000 train 2.0421 val 1.2209
+[sweep3_PscaleM_a4both_lr0.01] DONE final_val=1.2209 best_val=1.2209 wall=252s
+================================================================================
+RUN: sweep3_PscaleM_a4both_lr0.02
+[sweep3_PscaleM_a4both_lr0.02] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a4both_lr0.02] step 250/2000 train 2.5129 val 1.7309
+[sweep3_PscaleM_a4both_lr0.02] step 500/2000 train 2.3253 val 1.4763
+[sweep3_PscaleM_a4both_lr0.02] step 750/2000 train 2.1837 val 1.3802
+[sweep3_PscaleM_a4both_lr0.02] step 1000/2000 train 2.1845 val 1.3180
+[sweep3_PscaleM_a4both_lr0.02] step 1250/2000 train 2.0688 val 1.2747
+[sweep3_PscaleM_a4both_lr0.02] step 1500/2000 train 2.0575 val 1.2428
+[sweep3_PscaleM_a4both_lr0.02] step 1750/2000 train 2.0945 val 1.2275
+[sweep3_PscaleM_a4both_lr0.02] step 2000/2000 train 2.0371 val 1.2186
+[sweep3_PscaleM_a4both_lr0.02] DONE final_val=1.2186 best_val=1.2186 wall=252s
+================================================================================
+RUN: sweep3_PscaleM_a4both_lr0.04
+[sweep3_PscaleM_a4both_lr0.04] device: NVIDIA GeForce RTX 5090
+[sweep3_PscaleM_a4both_lr0.04] step 250/2000 train 2.5847 val 1.8102
+[sweep3_PscaleM_a4both_lr0.04] step 500/2000 train 2.5225 val 1.6772
+[sweep3_PscaleM_a4both_lr0.04] step 750/2000 train 2.3998 val 1.6125
+[sweep3_PscaleM_a4both_lr0.04] step 1000/2000 train 2.3696 val 1.5386
+[sweep3_PscaleM_a4both_lr0.04] step 1250/2000 train 2.2586 val 1.4640
+[sweep3_PscaleM_a4both_lr0.04] step 1500/2000 train 2.2307 val 1.4031
+[sweep3_PscaleM_a4both_lr0.04] step 1750/2000 train 2.2569 val 1.3724
+[sweep3_PscaleM_a4both_lr0.04] step 2000/2000 train 2.1907 val 1.3597
+[sweep3_PscaleM_a4both_lr0.04] DONE final_val=1.3597 best_val=1.3597 wall=249s
+V3: sweep3_PscaleM_a4both_lr -> lr 0.02 (INTERIOR)
+================================================================================
+RUN: final3_PscaleM_a4both_s1
+[final3_PscaleM_a4both_s1] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a4both_s1] step 250/4000 train 2.5046 val 1.7274
+[final3_PscaleM_a4both_s1] step 500/4000 train 2.3376 val 1.4878
+[final3_PscaleM_a4both_s1] step 750/4000 train 2.1990 val 1.3963
+[final3_PscaleM_a4both_s1] step 1000/4000 train 2.2071 val 1.3433
+[final3_PscaleM_a4both_s1] step 1250/4000 train 2.1058 val 1.3058
+[final3_PscaleM_a4both_s1] step 1500/4000 train 2.1005 val 1.2799
+[final3_PscaleM_a4both_s1] step 1750/4000 train 2.1327 val 1.2569
+[final3_PscaleM_a4both_s1] step 2000/4000 train 2.0586 val 1.2318
+[final3_PscaleM_a4both_s1] step 2250/4000 train 2.0803 val 1.2137
+[final3_PscaleM_a4both_s1] step 2500/4000 train 2.0546 val 1.1929
+[final3_PscaleM_a4both_s1] step 2750/4000 train 2.0003 val 1.1821
+[final3_PscaleM_a4both_s1] step 3000/4000 train 2.0134 val 1.1726
+[final3_PscaleM_a4both_s1] step 3250/4000 train 2.0032 val 1.1630
+[final3_PscaleM_a4both_s1] step 3500/4000 train 2.0302 val 1.1550
+[final3_PscaleM_a4both_s1] step 3750/4000 train 1.9773 val 1.1556
+[final3_PscaleM_a4both_s1] step 4000/4000 train 1.9231 val 1.1530
+[final3_PscaleM_a4both_s1] DONE final_val=1.1530 best_val=1.1530 wall=499s
+================================================================================
+RUN: final3_PscaleM_a4both_s2
+[final3_PscaleM_a4both_s2] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a4both_s2] step 250/4000 train 2.5078 val 1.7330
+[final3_PscaleM_a4both_s2] step 500/4000 train 2.2762 val 1.4832
+[final3_PscaleM_a4both_s2] step 750/4000 train 2.1929 val 1.3956
+[final3_PscaleM_a4both_s2] step 1000/4000 train 2.1384 val 1.3441
+[final3_PscaleM_a4both_s2] step 1250/4000 train 2.1813 val 1.3075
+[final3_PscaleM_a4both_s2] step 1500/4000 train 2.0895 val 1.2791
+[final3_PscaleM_a4both_s2] step 1750/4000 train 2.0980 val 1.2558
+[final3_PscaleM_a4both_s2] step 2000/4000 train 2.0764 val 1.2347
+[final3_PscaleM_a4both_s2] step 2250/4000 train 2.0333 val 1.2139
+[final3_PscaleM_a4both_s2] step 2500/4000 train 1.9955 val 1.1995
+[final3_PscaleM_a4both_s2] step 2750/4000 train 1.9567 val 1.1868
+[final3_PscaleM_a4both_s2] step 3000/4000 train 1.9990 val 1.1729
+[final3_PscaleM_a4both_s2] step 3250/4000 train 2.0377 val 1.1622
+[final3_PscaleM_a4both_s2] step 3500/4000 train 1.9973 val 1.1565
+[final3_PscaleM_a4both_s2] step 3750/4000 train 1.9367 val 1.1563
+[final3_PscaleM_a4both_s2] step 4000/4000 train 1.9623 val 1.1533
+[final3_PscaleM_a4both_s2] DONE final_val=1.1533 best_val=1.1533 wall=503s
+================================================================================
+RUN: final3_PscaleM_a4both_s3
+[final3_PscaleM_a4both_s3] device: NVIDIA GeForce RTX 5090
+[final3_PscaleM_a4both_s3] step 250/4000 train 2.4600 val 1.7377
+[final3_PscaleM_a4both_s3] step 500/4000 train 2.3221 val 1.4822
+[final3_PscaleM_a4both_s3] step 750/4000 train 2.2596 val 1.3937
+[final3_PscaleM_a4both_s3] step 1000/4000 train 2.2437 val 1.3394
+[final3_PscaleM_a4both_s3] step 1250/4000 train 2.1299 val 1.3051
+[final3_PscaleM_a4both_s3] step 1500/4000 train 2.1131 val 1.2794
+[final3_PscaleM_a4both_s3] step 1750/4000 train 2.1003 val 1.2578
+[final3_PscaleM_a4both_s3] step 2000/4000 train 2.0448 val 1.2330
+[final3_PscaleM_a4both_s3] step 2250/4000 train 2.0130 val 1.2118
+[final3_PscaleM_a4both_s3] step 2500/4000 train 2.0243 val 1.1952
+[final3_PscaleM_a4both_s3] step 2750/4000 train 1.9974 val 1.1822
+[final3_PscaleM_a4both_s3] step 3000/4000 train 1.9809 val 1.1708
+[final3_PscaleM_a4both_s3] step 3250/4000 train 1.9129 val 1.1631
+[final3_PscaleM_a4both_s3] step 3500/4000 train 2.0092 val 1.1570
+[final3_PscaleM_a4both_s3] step 3750/4000 train 1.9277 val 1.1561
+[final3_PscaleM_a4both_s3] step 4000/4000 train 1.9382 val 1.1553
+[final3_PscaleM_a4both_s3] DONE final_val=1.1553 best_val=1.1553 wall=500s
