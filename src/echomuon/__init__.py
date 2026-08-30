@@ -6,5 +6,5 @@ several claims made by earlier versions of this package have since been
 withdrawn. Read the README before using it."""
 from .optimizer import EchoMuon, MemorizationGapController, newton_schulz5
 
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 __all__ = ["EchoMuon", "MemorizationGapController", "newton_schulz5", "__version__"]
