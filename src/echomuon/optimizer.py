@@ -5,15 +5,21 @@ Muon (Jordan et al., 2024) orthogonalizes the momentum of 2-D hidden weight
 matrices, giving every singular direction of the update equal trust. EchoMuon
 prices that trust by each direction's *echo*: its support in a second, slower
 momentum buffer. Directions whose fast/slow buffers agree keep their step;
-directions with no echo are damped. Gates are median-normalized per layer
-(mean ~1), so trust is reallocated across directions at constant total step --
-the gate cannot act as a disguised learning-rate schedule -- and a floor keeps
-every direction alive. A scalar ``gate_lambda`` in [0, 1] interpolates the gate
-between OFF (exactly plain Muon) and fully ON; the MemorizationGapController
-sets it from a measured old-vs-fresh loss gap.
+directions with no echo are damped. Scores are referenced to the layer median
+and clipped to [0.1, 1.0], so the multiplier never exceeds 1: the gate is a
+CONTRACTION of the step, not a reallocation at constant norm. The measured mean
+is 0.957, with 0 of 5,760 logged layer-steps at or above 1.0. It therefore does
+interact with the learning rate, and EchoMuon has to be swept on its own grid
+instead of sharing Muon's; the README gives the measured sensitivity. A floor
+keeps every direction alive. A scalar ``gate_lambda`` in [0, 1] interpolates the
+gate between OFF (exactly plain Muon) and fully ON; the
+MemorizationGapController sets it from a measured old-vs-fresh loss gap.
 
-Reference: S. Mastromichalakis, "EchoMuon: Better Than Scheduled Muon Wherever
-Data Are Imperfect", 2026.
+Status: experimental. The README states the scope of the evidence and lists the
+claims withdrawn since the first release.
+
+Reference: S. Mastromichalakis, "EchoMuon: Cross-Timescale Gating in Muon, and
+the Learning-Rate Confound in Gated Optimizers", 2026.
 """
 from __future__ import annotations
 
@@ -105,8 +111,9 @@ class EchoMuon(torch.optim.Optimizer):
         For each singular direction u_i of the fast buffer M1 (via the Gram
         eigendecomposition on the small side), consistency
         c_i = (u_i^T M2 M1^T u_i) / sigma_i^2 is the slow buffer's relative
-        support along that direction. Gates are median-normalized per layer so
-        they redistribute (mean ~1) rather than rescale.
+        support along that direction. Scores are referenced to the layer median
+        and clipped to [gate_floor, 1.0], so the multiplier is a contraction: it
+        damps low-echo directions and leaves the rest at 1.
         """
         st = self.state[p]
         M1 = st["buf"].float()

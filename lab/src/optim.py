@@ -55,9 +55,11 @@ class HybridOptimizer:
     memorization gap. Temporal-Consistency Gating: keeps Muon's update but damps singular
     directions of the fast momentum that have no support in a slow momentum buffer.
     Persistent learning signal lives in both buffers; inconsistent supervision (label
-    noise, corrupted data) flickers in the fast buffer only. Gates are median-normalized
-    per layer, so they REALLOCATE trust across directions (mean ~1) instead of scaling
-    the overall lr — structurally orthogonal to lr scheduling. The gate basis is
+    noise, corrupted data) flickers in the fast buffer only. Gates are referenced to the
+    layer median and clipped to [gate_floor, 1.0], so the multiplier never exceeds 1:
+    the gate CONTRACTS the step instead of reallocating at constant norm (measured mean
+    0.957), and it is therefore NOT orthogonal to lr scheduling. Sweep EchoMuon's lr on
+    its own grid, not on Muon's. The gate basis is
     refreshed every gate_every steps (amortized eigh); the per-step path is matmul-only
     via a cached damping projector."""
 
@@ -222,9 +224,10 @@ class HybridOptimizer:
     @torch.no_grad()
     def _refresh_gates(self):
         """Recompute the temporal-consistency gate basis: for each singular direction
-        u_i of the fast buffer M1, consistency c_i = (u_i^T M2 M1^T u_i) / sigma_i^2 —
-        the slow buffer's relative support along that direction. Gates are median-
-        normalized per layer so they redistribute rather than rescale."""
+        u_i of the fast buffer M1, consistency c_i = (u_i^T M2 M1^T u_i) / sigma_i^2,
+        the slow buffer's relative support along that direction. Scores are referenced
+        to the layer median and clipped to [gate_floor, 1.0], so the multiplier is a
+        contraction: it damps low-echo directions and leaves the rest at 1."""
         if self.gate_mode in ("cosgate", "cautious", "mix"):
             return  # these ablation arms use no cached singular-basis gate
         for name, p in self.matrix_params:
