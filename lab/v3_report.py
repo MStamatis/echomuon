@@ -1,11 +1,11 @@
-"""Read out the v3 screening campaign (stage v3-screen) against its predictions.
+"""Read out the v3 campaign (stages v3-screen and v3-confirm) against its predictions.
 
-Every comparison is restricted to the seeds the new arms actually ran, 1 to 3. The
-published baselines have n=8 on Tiny ImageNet and n=16 on corrupted bytes, and scoring a
-3-seed arm against an 8- or 16-seed baseline compares different seed sets: on seeds 1-3
-the shipped method's corrupted-byte margin is +0.0004 (t=0.28), not the published +0.0010
-(t=2.2). Reporting the two side by side would have manufactured an improvement out of
-seed noise.
+Every row is scored on ONE seed set: the seeds that row's arm actually ran. The shipped
+baseline is printed twice, at its own full n and re-scored on the arm's seeds, because
+those are not the same number and treating them as one manufactures effects. On seeds
+1-3 the shipped method's corrupted-byte margin is +0.0004 (t=0.28); at its full n=16 it
+is +0.0010 (t=2.2). A 3-seed arm compared against the second of those looks like an
+improvement it has not earned.
 """
 import glob
 import json
@@ -13,7 +13,6 @@ import math
 import os
 
 RUNS = os.path.join("results", "runs")
-SEEDS = {"1", "2", "3"}
 
 
 def _betacf(a, b, x):
@@ -60,10 +59,12 @@ def seeds_of(prefix):
     return out
 
 
-def paired(pa, pb, metric, scale, restrict=SEEDS):
+def paired(pa, pb, metric, scale, restrict=None):
     a, b = seeds_of(pa), seeds_of(pb)
-    ks = sorted((set(a) & set(b)) & restrict) if restrict else sorted(set(a) & set(b))
-    ds = [(a[k][metric] - b[k][metric]) * scale for k in ks
+    ks = set(a) & set(b)
+    if restrict is not None:
+        ks &= restrict
+    ds = [(a[k][metric] - b[k][metric]) * scale for k in sorted(ks)
           if a[k].get(metric) is not None and b[k].get(metric) is not None]
     if len(ds) < 2:
         return None
@@ -74,13 +75,13 @@ def paired(pa, pb, metric, scale, restrict=SEEDS):
     return dict(delta=mu, t=mu / se, n=n, p=t_p(mu / se, n - 1), sd=sd)
 
 
-def lam(prefix):
+def lam(prefix, restrict=None):
     ls, sg = [], []
     for d in sorted(glob.glob(os.path.join(RUNS, prefix + "_s*"))):
+        if restrict is not None and os.path.basename(d).rsplit("_s", 1)[1] not in restrict:
+            continue
         p = os.path.join(d, "log.jsonl")
         if not os.path.exists(p):
-            continue
-        if os.path.basename(d).rsplit("_s", 1)[1] not in SEEDS:
             continue
         with open(p) as f:
             for line in f:
@@ -96,57 +97,66 @@ def lam(prefix):
             max(ls) if ls else None, sum(sg) / len(sg) if sg else None)
 
 
-ARMS = [("auto2", "EchoMuon (shipped)"), ("a1abs", "abscal + gap ctl"),
-        ("a2abshi", "abscal_hi + gap ctl"), ("a3sig", "normal + SIGNAL ctl"),
-        ("a4both", "abscal + signal ctl")]
+ARMS = [("a1abs", "abscal + gap ctl"), ("a2abshi", "abscal_hi + gap ctl"),
+        ("a3sig", "normal + SIGNAL ctl"), ("a4both", "abscal + signal ctl")]
 CELLS = [("TIA", "Tiny ImageNet clean", "final_acc", 100.0, "pp", "higher"),
          ("PscaleM", "corrupted bytes 38M", "final_val", 1.0, "nats", "lower")]
 
 tests = []
 for cell, label, metric, scale, unit, better in CELLS:
-    print("=" * 78)
+    muon, ship = f"final_{cell}_muoncos", f"final_{cell}_auto2"
+    full = paired(ship, muon, metric, scale)
+    print("=" * 92)
     print("%s   (%s, %s is better)" % (label, unit, better))
-    print("=" * 78)
-    print("%-22s %11s %8s %8s   %11s %8s" % ("arm", "vs Muon", "t", "p",
-                                             "vs shipped", "t"))
-    print("-" * 78)
+    print("=" * 92)
+    if full:
+        print("shipped EchoMuon at its own full n=%d:  %+.4f  t=%.2f  p=%.4f"
+              % (full["n"], full["delta"], full["t"], full["p"]))
+    print("-" * 92)
+    print("%-22s %3s %11s %7s %8s | %13s | %12s %6s"
+          % ("arm", "n", "vs Muon", "t", "p", "shipped, same", "vs shipped", "t"))
+    print("-" * 92)
     for arm, name in ARMS:
-        pre = f"final_{cell}_auto2" if arm == "auto2" else f"final3_{cell}_{arm}"
-        vm = paired(pre, f"final_{cell}_muoncos", metric, scale)
-        ve = paired(pre, f"final_{cell}_auto2", metric, scale) if arm != "auto2" else None
-        if not vm:
-            print("%-22s (missing)" % name)
+        pre = f"final3_{cell}_{arm}"
+        ks = set(seeds_of(pre))
+        if not ks:
             continue
-        if arm != "auto2":
-            tests.append((f"{cell}/{arm}", vm["p"]))
-        print("%-22s %+11.4f %8.2f %8.4f   %11s %8s" % (
-            name, vm["delta"], vm["t"], vm["p"],
-            "%+.4f" % ve["delta"] if ve else "-",
-            "%.2f" % ve["t"] if ve else "-"))
-    print("\n  controller")
+        vm = paired(pre, muon, metric, scale, ks)
+        sm = paired(ship, muon, metric, scale, ks)     # shipped on the SAME seeds
+        ve = paired(pre, ship, metric, scale, ks)
+        if not vm:
+            continue
+        tests.append((f"{cell}/{arm}", vm["p"], vm["n"]))
+        print("%-22s %3d %+11.4f %7.2f %8.4f | %+13.4f | %+12.4f %6.2f"
+              % (name, vm["n"], vm["delta"], vm["t"], vm["p"],
+                 sm["delta"] if sm else float("nan"),
+                 ve["delta"] if ve else float("nan"),
+                 ve["t"] if ve else float("nan")))
+    print("\n  controller, on each arm's own seeds")
     for arm, name in ARMS:
-        pre = f"final_{cell}_auto2" if arm == "auto2" else f"final3_{cell}_{arm}"
-        mu, lo, hi, sg = lam(pre)
+        pre = f"final3_{cell}_{arm}"
+        ks = set(seeds_of(pre))
+        if not ks:
+            continue
+        mu, lo, hi, sg = lam(pre, ks)
         if mu is None:
             continue
-        print("    %-22s lambda %.3f  range %.3f-%.3f%s" % (
-            name, mu, lo, hi, "   signal_frac %.4f" % sg if sg is not None else ""))
+        print("    %-22s lambda %.3f  range %.3f-%.3f%s"
+              % (name, mu, lo, hi, "   signal_frac %.4f" % sg if sg is not None else ""))
+    mu, lo, hi, _ = lam(ship)
+    if mu is not None:
+        print("    %-22s lambda %.3f  range %.3f-%.3f   <- shipped, full n"
+              % ("EchoMuon (gap ctl)", mu, lo, hi))
+    if full:
+        need = max(2, math.ceil((2.0 * full["sd"] / abs(full["delta"])) ** 2)) if full["delta"] else 0
+        print("\n  power: the shipped effect here is %+.4f with sd %.4f; |t|=2 needs about n=%d"
+              % (full["delta"], full["sd"], need))
     print()
 
 tests.sort(key=lambda x: x[1])
-print("Holm over the %d screening tests against Muon" % len(tests))
+print("Holm across the %d arm-cell tests against Muon" % len(tests))
 mx = 0.0
-for i, (k, p) in enumerate(tests):
+for i, (k, p, n) in enumerate(tests):
     mx = max(mx, min(1.0, p * (len(tests) - i)))
-    print("   %-18s p=%.4f  p_holm=%.4f  %s"
-          % (k, p, mx, "survives" if mx < 0.05 else ""))
-
-# what n would have been needed on the byte cell
-full = paired("final_PscaleM_auto2", "final_PscaleM_muoncos", "final_val", 1.0,
-              restrict=None)
-if full:
-    need = (2.0 * full["sd"] / abs(full["delta"])) ** 2
-    print("\nPower note: the published corrupted-byte effect is %+.4f nats with sd %.4f "
-          "over n=%d.\nReaching |t|=2 on it needs about n=%d. This screen ran n=3, so an "
-          "absence of\neffect on that cell is not evidence of a tie."
-          % (full["delta"], full["sd"], full["n"], math.ceil(need)))
+    print("   %-18s n=%-3d p=%.4f  p_holm=%.4f  %s"
+          % (k, n, p, mx, "survives" if mx < 0.05 else ""))

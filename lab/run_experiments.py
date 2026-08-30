@@ -1605,6 +1605,43 @@ def stage_v3_screen():
                         seed=seed, **base)
 
 
+def stage_v3_confirm():
+    """Confirmatory n for the one arm the screen left standing: the gate-derived
+    controller on the shipped gate (a3sig).
+
+    The screen ran n=3, which cannot resolve the corrupted-byte cell: the published
+    effect there is +0.0010 nats with sd 0.0019 over n=16, so |t|=2 needs about n=13.
+    This fills a3sig out to the baselines' own seed counts, 8 on Tiny ImageNet and 16 on
+    corrupted bytes, reusing the learning rates the screen already selected. abscal is
+    not carried forward: it showed no gain on Tiny ImageNet and a measured harm on
+    corrupted bytes of roughly four times the loss the shipped method already had.
+
+    Two questions, both pre-registered:
+      1. Does a3sig match the shipped method on Tiny ImageNet? The screen put it at
+         -0.74 pp with t=-1.63, which is neither a match nor a difference at n=3.
+      2. Does it remove the corrupted-byte loss? Unanswerable at n=3 and the reason
+         this stage exists. lambda averaged 0.039 there against the shipped 0.927, so
+         a3sig should behave close to plain Muon and the loss should go.
+    """
+    a3 = {"gate_mode": "normal", "auto_gate": True, "auto_version": 3}
+    cells = [
+        ("TIA", {"task": "vision", "dataset": "tinyimagenet", "batch": 128, **V_DIMS},
+         [2.5e-3, 5e-3, 0.01, 0.02, 0.05], V_FINAL_STEPS, range(1, 9)),
+        ("PscaleM", {"task": "lm", "dataset": "enwik8p10", "batch": 64,
+                     "n_layer": 12, "n_head": 8, "dim": 512, "block": 256},
+         [5e-3, 0.01, 0.02, 0.04], 4000, range(1, 17)),
+    ]
+    for cell, common, grid, steps, seeds in cells:
+        lr = _pick_best(f"sweep3_{cell}_a3sig_lr", grid)
+        print(f"V3-CONFIRM: {cell}/a3sig reusing lr {lr:g} from the screen", flush=True)
+        for seed in seeds:
+            rid = f"final3_{cell}_a3sig_s{seed}"
+            if os.path.exists(os.path.join(RESULTS, "runs", rid, "final.json")):
+                continue                       # the screen already ran seeds 1-3
+            run_one(rid, optimizer="tcg", lr=lr, steps=steps, seed=seed,
+                    lr_schedule="cosine", no_monitor=True, **common, **a3)
+
+
 def stage_v2_multiseed_select():
     """Debt (9). Every lr grid in this project is scored from ONE seed, and the
     V100A/auto2 pick demonstrably flipped between two equally valid val splits with a
@@ -1698,6 +1735,7 @@ if __name__ == "__main__":
               "v2-multiseed": [stage_v2_multiseed_select],
               "v2-followup": [stage_v2_fa3x_widen, stage_v2_multiseed_select],
               "v3-screen": [stage_v3_screen],
+              "v3-confirm": [stage_v3_confirm],
               "v2-queue": [stage_v2_byte_grid, stage_v2_horizon, stage_v2_controls,
                            stage_v2_clean38, stage_v2_noise_dose,
                            stage_v2_lambda_ladder, stage_v2_valsplit,
