@@ -1,6 +1,6 @@
 # EchoMuon
 
-**Muon with a per-direction cross-timescale trust gate.**
+**Code, runs and audit for the preprint [*EchoMuon: Cross-Timescale Gating in Muon, and the Learning-Rate Confound in Gated Optimizers*](https://doi.org/10.20944/preprints202608.2150.v1)** (Preprints.org, 2026).
 
 > ## Experimental status — read this first
 >
@@ -155,22 +155,41 @@ learning rate — separately from Muon's.
   per-shard gates with different semantics. Untested.
 - **Memory:** 9–12 B per 2-D parameter (M₁, M₂, cached basis U, gate g, all fp32),
   versus 4 B for Muon and 8 B for AdamW.
-- **Wall-clock:** +21–27% at LM scale. The vision overhead figures are unreliable —
+- **Wall-clock:** +19–22% per step at LM scale with the standard profile (median
+  +21%), +13% with the fast profile. The vision overhead figures are unreliable:
   those models are small enough to be CPU-launch-bound rather than GPU-bound.
 - **No head-to-head comparison** against other gated-Muon variants (DynMuon, Pion,
   MGUP, MAGMA, Bi-Maxwell). Everything here is measured against Muon and AdamW only.
   Any claim of superiority over those methods would be unsupported.
-- **Learning-rate selection here is single-seed.** We demonstrated one case where
-  that flipped a pick with a 1.45 pp consequence on the test metric. Report your own
-  selection margins.
+- **Learning-rate selection is single-seed on most cells.** Three-seed selection was
+  used only where one seed proved insufficient; we demonstrated one case where a
+  single-seed pick flipped with a 1.45 pp consequence on the test metric. Report your
+  own selection margins.
 - **Largest model tested: 162M parameters.** Nothing here has been tested at
   production scale.
 
 ## Paper
 
-Not currently on arXiv. The paper's figures and tables are generated directly from
-the run logs in this repository by [`lab/make_figures.py`](lab/make_figures.py) and
-the report scripts under `lab/`.
+S. Mastromichalakis, *EchoMuon: Cross-Timescale Gating in Muon, and the Learning-Rate
+Confound in Gated Optimizers*, Preprints.org, 2026.
+doi:[10.20944/preprints202608.2150.v1](https://doi.org/10.20944/preprints202608.2150.v1)
+
+The paper's figures and tables are generated directly from the run logs in this
+repository by [`lab/make_figures.py`](lab/make_figures.py) and the report scripts
+under `lab/`.
+
+**Added after preprint v1, not in the paper.** A follow-up tested two proposed
+repairs of the gate: an absolute noise-floor reference in place of the layer median,
+and a controller driven by the gate's own signal fraction in place of the retention
+gap. The diagnosis behind both held up; neither repair pays. The signal-fraction
+controller gives up 0.57 pp of the Tiny ImageNet margin against the shipped gate
+(t=−2.99, n=8) and still loses to Muon on corrupted bytes (t=+2.89, n=16). The
+absolute reference shows no detectable gain on Tiny ImageNet (+0.44 pp, t=+0.70,
+n=3) and widens the corrupted-byte loss by a further 0.0039 nats (t=+5.29, n=3).
+Code and logs: [`lab/c_probe.py`](lab/c_probe.py),
+[`lab/v3_report.py`](lab/v3_report.py), `lab/v3screen.log`, `lab/v3confirm.log`.
+(`lab/v3_numbers.py`, `v3_tables.py` and `v3_figure.py` are unrelated despite the
+name: they build the preprint's own tables.)
 
 ## Repository layout
 
@@ -219,7 +238,7 @@ stages with pre-registered predictions recorded in their docstrings.
 
 The installable package and the research code are now pinned to each other by
 `tests/test_parity.py`, which runs both on the same gradients and requires the updates to
-match bit for bit. They did not, up to 0.2.3: the package refreshed the gate basis after
+match bit for bit. They did not before 0.3.0: the package refreshed the gate basis after
 folding in the current gradient and `lab/src/optim.py` did so before, a one-step offset
 that nothing tested, since `lab/v2_bitcheck.py` compares the lab against an older copy of
 itself rather than against the package. On a controlled comparison the effect was smaller
@@ -231,10 +250,14 @@ exactly. **0.3.0 moves the package onto the paper's order.**
 
 ```bibtex
 @misc{mastromichalakis2026echomuon,
-  title  = {EchoMuon: Cross-Timescale Gating of Muon's Singular Directions},
-  author = {Mastromichalakis, Stamatis},
-  year   = {2026},
-  note   = {Preprint; experimental research code}
+  title     = {EchoMuon: Cross-Timescale Gating in Muon, and the Learning-Rate
+               Confound in Gated Optimizers},
+  author    = {Mastromichalakis, Stamatis},
+  year      = {2026},
+  publisher = {Preprints.org},
+  doi       = {10.20944/preprints202608.2150.v1},
+  url       = {https://doi.org/10.20944/preprints202608.2150.v1},
+  note      = {Preprint}
 }
 ```
 

@@ -1,4 +1,4 @@
-"""EchoMuon: Muon with a per-direction temporal trust gate and an optional
+"""EchoMuon: Muon with a per-direction cross-timescale trust gate and an optional
 memorization-gap controller.
 
 Muon (Jordan et al., 2024) orthogonalizes the momentum of 2-D hidden weight
@@ -19,7 +19,8 @@ Status: experimental. The README states the scope of the evidence and lists the
 claims withdrawn since the first release.
 
 Reference: S. Mastromichalakis, "EchoMuon: Cross-Timescale Gating in Muon, and
-the Learning-Rate Confound in Gated Optimizers", 2026.
+the Learning-Rate Confound in Gated Optimizers", Preprints.org, 2026.
+doi:10.20944/preprints202608.2150.v1
 """
 from __future__ import annotations
 

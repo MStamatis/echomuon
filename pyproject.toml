@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "echomuon"
 dynamic = ["version"]
-description = "EchoMuon: experimental research optimizer - Muon with a per-direction cross-timescale trust gate. Narrow, audited regime of benefit; single-GPU only. See README before use."
+description = "Reference implementation of the preprint 'EchoMuon: Cross-Timescale Gating in Muon, and the Learning-Rate Confound in Gated Optimizers'. Experimental research optimizer; narrow, audited regime of benefit; single-GPU only."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
@@ -22,6 +22,7 @@ dependencies = ["torch>=2.0"]
 
 [project.urls]
 Homepage = "https://github.com/MStamatis/echomuon"
+Paper = "https://doi.org/10.20944/preprints202608.2150.v1"
 
 # single source of truth for the version: src/echomuon/__init__.py
 [tool.setuptools.dynamic]
